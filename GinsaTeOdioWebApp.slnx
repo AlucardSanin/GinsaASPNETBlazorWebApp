@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GinsaTeOdioWebApp/GinsaTeOdioWebApp.Client/GinsaTeOdioWebApp.Client.csproj" />
+  <Project Path="GinsaTeOdioWebApp/GinsaTeOdioWebApp/GinsaTeOdioWebApp.csproj" />
+</Solution>
