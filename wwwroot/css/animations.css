@@ -1,0 +1,193 @@
+/* ==========================================================================
+   ARRIETA — Capa de animaciones y transiciones
+   Se aplica sobre arrieta.css. Todo se desactiva con prefers-reduced-motion.
+   ========================================================================== */
+
+:root {
+    --ease-out: cubic-bezier(.22, .61, .36, 1);
+    --ease-back: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+html { scroll-behavior: smooth; }
+/* deja aire bajo el nav fijo al saltar a anclas */
+:target { scroll-margin-top: calc(var(--nav-h) + 20px); }
+section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
+
+/* ==========================================================================
+   SCROLL REVEAL
+   ========================================================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .75s var(--ease-out), transform .75s var(--ease-out);
+    will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+.reveal--left  { transform: translateX(-46px); }
+.reveal--right { transform: translateX(46px); }
+.reveal--scale { transform: scale(.9); }
+.reveal--left.is-visible,
+.reveal--right.is-visible,
+.reveal--scale.is-visible { transform: none; }
+
+/* retardos de escalonado */
+.reveal.d1 { transition-delay: .08s; }
+.reveal.d2 { transition-delay: .16s; }
+.reveal.d3 { transition-delay: .24s; }
+.reveal.d4 { transition-delay: .32s; }
+.reveal.d5 { transition-delay: .40s; }
+
+/* ==========================================================================
+   NAVBAR (fija + estado al hacer scroll)
+   ========================================================================== */
+.site-nav {
+    position: fixed;
+    transition: background .35s ease, box-shadow .35s ease, height .35s ease, backdrop-filter .35s ease;
+}
+.site-nav.is-scrolled {
+    height: calc(var(--nav-h) - 12px);
+    background: rgba(8, 5, 24, .9);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .38);
+    backdrop-filter: blur(12px);
+}
+.nav-links a { position: relative; }
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 100%;
+    bottom: -6px;
+    height: 2px;
+    background: var(--c-yellow);
+    transition: right .28s var(--ease-out);
+}
+.nav-links a:hover::after { right: 0; }
+.btn-cta { transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(247, 197, 27, .4); filter: brightness(1.05); }
+.btn-cta:active { transform: translateY(0); }
+
+/* ==========================================================================
+   HERO — entrada al cargar + decoraciones flotando
+   ========================================================================== */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes popIn  { from { opacity: 0; transform: scale(.5) translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes floaty      { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes floatyFlip  { 0%, 100% { transform: scaleX(-1) translateY(0); } 50% { transform: scaleX(-1) translateY(-12px); } }
+@keyframes drift       { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(12px, -12px); } }
+@keyframes driftRev    { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-12px, 10px); } }
+@keyframes pulse       { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+@keyframes glowPulse   { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+.hero__mark     { animation: popIn .85s .1s both var(--ease-back); }
+/* La intro (webp) corre ~2.4s una sola vez; luego crossfade al smile estático */
+@keyframes introOut { to { opacity: 0; visibility: hidden; } }
+@keyframes smileIn  { to { opacity: 1; } }
+.hero__intro { animation: introOut .6s 2.5s both var(--ease-out); }
+.hero__smile { animation: smileIn .7s 2.5s both var(--ease-out); }
+.hero__headline { animation: fadeUp .8s .35s both var(--ease-out); }
+.hero__cta      { animation: fadeUp .8s .55s both var(--ease-out); }
+
+/* Decoraciones del hero: entrada única (sin loop), solo opacidad
+   para no pisar transform en comillas invertidas. */
+@keyframes decorIn { from { opacity: 0; } to { opacity: 1; } }
+.hero .decor--curl-l       { animation: decorIn 1s .15s both var(--ease-out); }
+.hero .decor--hexagon      { animation: decorIn .9s .35s both var(--ease-out); }
+.hero .decor--periwinkle-a { animation: decorIn .9s .45s both var(--ease-out); }
+.hero .decor--periwinkle-b { animation: decorIn .9s .5s both var(--ease-out); }
+.hero .decor--quote        { animation: decorIn .9s .55s both var(--ease-out); }
+.hero .decor--button-up    { animation: decorIn .9s .6s both var(--ease-out); transition: transform .2s ease; }
+.hero .decor--button-up:hover { transform: scale(1.12) rotate(6deg); }
+
+/* ==========================================================================
+   ¡HOLA! — decoraciones
+   ========================================================================== */
+.hola__people .hola__curl  { animation: drift 11s ease-in-out infinite; }
+.hola__people .hola__wave  { animation: floaty 8s ease-in-out infinite; }
+.hola__people .hola__burst { animation: pulse 3.2s ease-in-out infinite; transform-origin: center; }
+
+/* ==========================================================================
+   SERVICIOS — botón
+   ========================================================================== */
+.btn-portfolio { transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.btn-portfolio:hover .arrow { transform: translateX(4px); }
+.btn-portfolio .arrow { transition: transform .2s ease; }
+
+/* ==========================================================================
+   ¿CÓMO LO HACEMOS? — hover de tarjetas
+   ========================================================================== */
+.step-card { transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
+.step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 26px 44px -14px rgba(0, 0, 0, .5);
+}
+.step-card__art img { transition: transform .4s var(--ease-back); }
+.step-card:hover .step-card__art img { transform: scale(1.08) rotate(-4deg); }
+
+/* ==========================================================================
+   MARCAS — pausa marquee en hover + hover logos
+   ========================================================================== */
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__track img { transition: transform .25s ease, filter .25s ease; }
+.marquee__track img:hover { transform: scale(1.12); filter: brightness(1.12); }
+
+/* ==========================================================================
+   NÚMEROS — reparto de baraja al entrar + hover de tarjetas
+   ========================================================================== */
+.numeros__gallery.reveal { opacity: 1; transform: none; }
+.numeros__gallery img {
+    transition: transform .8s var(--ease-back), opacity .6s ease, box-shadow .3s ease;
+}
+/* estado oculto: apiladas al centro y bajadas */
+.numeros__gallery:not(.is-visible) img {
+    opacity: 0;
+    transform: translateY(48px) scale(.82) rotate(0) !important;
+}
+/* escalonado del reparto */
+.numeros__gallery.is-visible img:nth-child(1) { transition-delay: .05s; }
+.numeros__gallery.is-visible img:nth-child(2) { transition-delay: .13s; }
+.numeros__gallery.is-visible img:nth-child(3) { transition-delay: .21s; }
+.numeros__gallery.is-visible img:nth-child(4) { transition-delay: .29s; }
+.numeros__gallery.is-visible img:nth-child(5) { transition-delay: .37s; }
+.numeros__gallery.is-visible img:nth-child(6) { transition-delay: .45s; }
+/* hover: se endereza y se levanta al frente */
+.numeros__gallery img:hover {
+    transform: translateY(-18px) rotate(0deg) scale(1.05) !important;
+    z-index: 10 !important;
+    box-shadow: 0 30px 50px -12px rgba(0, 0, 0, .6);
+}
+
+/* ==========================================================================
+   CREEMOS JUNTOS — glow que late
+   ========================================================================== */
+.creemos { position: relative; }
+.creemos::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(46% 42% at 50% 34%, rgba(151, 71, 255, .5), transparent 70%);
+    animation: glowPulse 4.5s ease-in-out infinite;
+    pointer-events: none;
+}
+.creemos > .container { position: relative; z-index: 1; }
+.creemos__logo { animation: floaty 7s ease-in-out infinite; }
+
+/* ==========================================================================
+   BOTONES país — feedback de press
+   ========================================================================== */
+.country-btn:active { transform: translateY(0) scale(.98); }
+
+/* ==========================================================================
+   ACCESIBILIDAD — reduce motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .numeros__gallery:not(.is-visible) img { opacity: 1 !important; }
+    .hero__intro { opacity: 0 !important; }
+    .hero__smile { opacity: 1 !important; }
+}

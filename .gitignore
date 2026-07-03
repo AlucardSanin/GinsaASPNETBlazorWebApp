@@ -44,6 +44,11 @@ ScaffoldingReadMe.txt
 *~
 CodeCoverage/
 
+# Cursor / dev tooling outputs
+.cursor/
+tools/crops/
+tools/vid/
+
 # MSBuild Binary and Structured Log
 *.binlog
 
