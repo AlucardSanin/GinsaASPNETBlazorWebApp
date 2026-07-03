@@ -48,6 +48,8 @@ CodeCoverage/
 .cursor/
 tools/crops/
 tools/vid/
+artifacts/
+dist/
 
 # MSBuild Binary and Structured Log
 *.binlog
