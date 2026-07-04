@@ -356,7 +356,7 @@ a { text-decoration: none; color: inherit; }
     position: absolute;
     left: 42%;
     top: 8%;
-    width: 74px;
+    width: 135px;
     z-index: 4;
     pointer-events: none;
 }
