@@ -91,12 +91,10 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
    para no pisar transform en comillas invertidas. */
 @keyframes decorIn { from { opacity: 0; } to { opacity: 1; } }
 .hero .decor--curl-l       { animation: decorIn 1s .15s both var(--ease-out); }
+.hero .decor--curl-r       { animation: decorIn 1s .25s both var(--ease-out); }
 .hero .decor--hexagon      { animation: decorIn .9s .35s both var(--ease-out); }
-.hero .decor--periwinkle-a { animation: decorIn .9s .45s both var(--ease-out); }
-.hero .decor--periwinkle-b { animation: decorIn .9s .5s both var(--ease-out); }
-.hero .decor--quote        { animation: decorIn .9s .55s both var(--ease-out); }
-.hero .decor--button-up    { animation: decorIn .9s .6s both var(--ease-out); transition: transform .2s ease; }
-.hero .decor--button-up:hover { transform: scale(1.12) rotate(6deg); }
+.scroll-top                { transition: opacity .25s ease, visibility .25s ease, transform .2s ease; }
+.scroll-top:hover          { transform: scale(1.12) rotate(6deg); }
 
 /* ==========================================================================
    ¡HOLA! — decoraciones

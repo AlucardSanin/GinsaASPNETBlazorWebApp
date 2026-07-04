@@ -29,9 +29,36 @@
         onScroll();
     }
 
+    function initScrollTop() {
+        var btn = document.querySelector(".scroll-top");
+        var hero = document.querySelector(".hero");
+        if (!btn) return;
+
+        if (!btn.dataset.bound) {
+            btn.dataset.bound = "1";
+            btn.addEventListener("click", function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        }
+
+        if (!hero) return;
+
+        var onScroll = function () {
+            var heroBottom = hero.getBoundingClientRect().bottom;
+            btn.classList.toggle("is-hidden", heroBottom > window.innerHeight * 0.85);
+        };
+
+        if (!window._scrollTopHandler) {
+            window._scrollTopHandler = onScroll;
+            window.addEventListener("scroll", onScroll, { passive: true });
+        }
+        onScroll();
+    }
+
     function init() {
         initReveal();
         initNav();
+        initScrollTop();
     }
 
     if (document.readyState !== "loading") {
