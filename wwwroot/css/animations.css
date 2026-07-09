@@ -42,7 +42,6 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
    NAVBAR (fija + estado al hacer scroll)
    ========================================================================== */
 .site-nav {
-    position: fixed;
     transition: background .35s ease, box-shadow .35s ease, height .35s ease, backdrop-filter .35s ease;
 }
 .site-nav.is-scrolled {
