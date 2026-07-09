@@ -3,6 +3,14 @@
    Paleta y tipografía tomadas del archivo de Figma.
    ========================================================================== */
 
+@font-face {
+    font-family: "Gellaby";
+    src: url("../fonts/gellaby.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     /* Colores del design system */
     --c-dark: #181934;
@@ -16,13 +24,32 @@
     --c-lavender: #8c7de2;
     --c-light: #ebebeb;
 
-    /* Tipografía (fallbacks; el diseño original usa GRIFTER + Gellaby) */
-    --font-display: "Poppins", system-ui, sans-serif; /* ~ GRIFTER Bold */
-    --font-fun: "Fredoka", "Poppins", sans-serif;      /* ~ Gellaby */
+    /* Tipografía: Gellaby (display) + Montserrat (cuerpo) */
+    --font-display: "Gellaby", system-ui, sans-serif;
+    --font-fun: "Gellaby", system-ui, sans-serif;
     --font-body: "Montserrat", system-ui, sans-serif;
 
     --maxw: 1280px;
     --nav-h: 96px;
+    --noise-opacity: .6;
+    --mesh-max-w: 1920px;
+    --mesh-design-w: 1920;
+    --mesh-design-h: 9779;
+    --mesh-bg1-pct: 58.38%;
+    --mesh-bg2-pct: 41.62%;
+}
+
+/* Granulado solo sobre el mesh (Figma: Noise · 60% · Multiply) */
+.page-mesh__noise {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--noise-opacity);
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
 }
 
 *,
@@ -41,9 +68,57 @@ body {
     overflow-x: hidden;
 }
 
-img { max-width: 100%; display: block; }
+img { display: block; }
 
 a { text-decoration: none; color: inherit; }
+
+/* ---- Shell + mesh de fondo (Figma bg 1 + bg 2 @ 1920) -------------------- */
+.page-shell {
+    position: relative;
+    background: var(--c-page);
+    overflow-x: clip;
+}
+
+.page-shell > :not(.page-mesh) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mesh = altura exacta del contenido; bg1 arriba + bg2 abajo en proporción Figma */
+.page-mesh {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(var(--mesh-max-w), 100vw);
+    pointer-events: none;
+    z-index: 0;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.page-mesh__slice {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    pointer-events: none;
+    object-fit: cover;
+}
+
+/* bg 1 (147:1046): 58.38 % superior de la página */
+.page-mesh__slice--top {
+    top: 0;
+    height: calc(var(--mesh-bg1-pct) + 1.5%);
+    object-position: center top;
+}
+
+.page-mesh__slice--bottom {
+    bottom: 0;
+    height: calc(var(--mesh-bg2-pct) + 1.5%);
+    object-position: center bottom;
+}
 
 .container {
     width: 100%;
@@ -54,7 +129,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ---- Encabezados de sección (palabra normal + palabra "fun") -------------- */
 .section-title {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .01em;
@@ -64,8 +139,8 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.05;
 }
 .section-title .fun {
-    font-family: var(--font-fun);
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
 }
@@ -144,12 +219,12 @@ a { text-decoration: none; color: inherit; }
 }
 .nav-logo { display: flex; flex-direction: column; gap: 4px; width: 168px; }
 .nav-logo .arrieta { height: 40px; width: auto; }
-.nav-logo .agency { height: 14px; width: auto; align-self: center; }
+.nav-logo .agency { height: 14px; width: auto; align-self: center; max-width: 100%;}
 .nav-links {
     display: flex;
     align-items: center;
     gap: clamp(20px, 3vw, 56px);
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-weight: 700;
     font-size: 16px;
     letter-spacing: .02em;
@@ -173,10 +248,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     flex-direction: column;
     padding: 0;
-    background:
-        radial-gradient(120% 90% at 88% 100%, rgba(0, 229, 255, .55) 0%, rgba(0, 229, 255, 0) 42%),
-        radial-gradient(90% 80% at 12% 62%, rgba(133, 27, 244, .38) 0%, rgba(133, 27, 244, 0) 46%),
-        linear-gradient(158deg, #0a0730 0%, #0b0733 38%, #35356a 66%, #b9bcc6 100%);
+    background: transparent;
 }
 .hero__inner {
     position: relative;
@@ -209,6 +281,14 @@ a { text-decoration: none; color: inherit; }
     height: auto;
     max-height: min(42vh, 360px);
     object-fit: contain;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .6s var(--ease-out), visibility .6s var(--ease-out);
+}
+.hero__intro.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 .hero__smile {
     position: absolute;
@@ -218,6 +298,10 @@ a { text-decoration: none; color: inherit; }
     width: clamp(88px, 10vw, 118px);
     height: auto;
     opacity: 0;
+    transition: opacity .7s var(--ease-out);
+}
+.hero__smile.is-visible {
+    opacity: 1;
 }
 .hero__headline {
     font-family: var(--font-body);
@@ -249,21 +333,49 @@ a { text-decoration: none; color: inherit; }
     margin: 0;
 }
 
-/* Decoración hero — contornos horizontales (sin elipses/comillas) */
-.hero .decor { position: absolute; z-index: 1; pointer-events: none; }
-/* Loop blanco: esquina superior izquierda */
-.hero .decor--curl-l { left: -3%; top: calc(var(--nav-h) + 2%); width: min(300px, 34vw); height: auto; opacity: .34; }
-/* Loop blanco espejado: esquina superior derecha */
-.hero .decor--curl-r {
-    right: -4%;
-    top: calc(var(--nav-h) + 4%);
-    width: min(300px, 34vw);
-    height: auto;
-    opacity: .34;
-    transform: scaleX(-1);
+/* Decoración hero — cintas, elipses y semicírculos del diseño original */
+.hero .decor { position: absolute; z-index: 1; pointer-events: none; height: auto; }
+/* Cinta blanca izquierda */
+.hero .decor--curl-l { 
+    left: -21%;
+    top: 21%;
+    width: min(846px, 47vw);
+    opacity: .32;
+    rotate: 317deg;
 }
+/* Cinta blanca derecha */
+.hero .decor--curl-r {
+    right: -15%;
+    top: -2%;
+    width: min(384px, 34vw);
+    opacity: .32;
+    rotate: 274deg;
+    transform: rotateX(180deg);
+}
+
 /* Hexágono lila: mitad izquierda, zona baja */
-.hero .decor--hexagon { left: 7%; bottom: 18%; top: auto; width: min(118px, 14vw); height: auto; opacity: .92; }
+.hero .decor--hexagon { left: 7%; bottom: 18%; top: auto; width: min(131px, 14vw); opacity: .92; }
+/* Elipses cian apiladas: esquina superior derecha */
+.hero .decor--quote { 
+    right: -8.5%;
+    top: 77%;
+    width: min(204px, 17vw);
+    opacity: .95;
+}
+
+/* Semicírculos periwinkle junto a las elipses */
+.hero .decor--periwinkle-a {
+    right: 11%;
+    top: 31%;
+    width: min(60px, 5.5vw);
+    opacity: .92;
+}
+.hero .decor--periwinkle-b {
+    right: 6%;
+    top: 26%;
+    width: min(60px, 5.5vw);
+    opacity: .92;
+ }
 
 /* Botón volver arriba — fijo, esquina inferior derecha */
 .scroll-top {
@@ -297,24 +409,23 @@ a { text-decoration: none; color: inherit; }
    ========================================================================== */
 .hola {
     position: relative;
-    background:
-        radial-gradient(60% 40% at 18% 20%, rgba(133, 27, 244, .12), transparent 60%),
-        var(--c-light);
+    background: transparent;
     padding: 90px 0 120px;
     overflow: hidden;
 }
 .hola__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-    gap: 40px;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: clamp(24px, 3vw, 48px);
     align-items: start;
 }
 .hola__title {
-    font-family: var(--font-fun);
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 400;
     text-transform: uppercase;
     color: var(--c-dark);
-    font-size: clamp(40px, 5vw, 54px);
+    font-size: clamp(42px, 4.8vw, 56px);
+    line-height: 1;
     margin: 0 0 26px;
 }
 .hola__text p {
@@ -326,49 +437,120 @@ a { text-decoration: none; color: inherit; }
     margin: 0 0 18px;
     max-width: 620px;
 }
+/* Composición Figma Frame 23 (1020 × 1278) */
 .hola__people {
     position: relative;
     align-self: end;
-    min-height: 470px;
+    width: 100%;
+    aspect-ratio: 1020 / 1278;
+    min-height: clamp(560px, 52vw, 820px);
 }
 .hola__people .ginsa,
 .hola__people .hernedy {
     position: absolute;
-    bottom: 0;
-    width: 62%;
-    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .25));
+    top: 10.2%;
+    width: 84.8%;
+    height: auto;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .3)) drop-shadow(0 8px 12px rgba(0, 0, 0, .15));
 }
-.hola__people .ginsa { left: 2%; z-index: 3; }
-.hola__people .hernedy { right: 0; z-index: 3; }
+.hola__people .ginsa { left: 16%; z-index: 3; }
+.hola__people .hernedy { left: 28.4%; z-index: 2; }
 
-/* curl amarillo detrás de las cabezas */
+/* curl amarillo (curl 4) — detrás de las personas */
 .hola__people .hola__curl {
     position: absolute;
-    right: -8%;
-    top: -6%;
-    width: 62%;
+    right: -2.9%;
+    top: 0.3%;
+    width: 543px;
     z-index: 1;
     opacity: .95;
     pointer-events: none;
+    rotate : -166deg;
+    transform-origin: center;
+}
+/* curl naranja (curl 3) — curva lateral derecha */
+.hola__people .hola__curl--orange {
+    position: absolute;
+    right: -59.6%;
+    top: 23.9%;
+    width: 174.7%;
+    z-index: 1;
+    pointer-events: none;
+    transform: rotate(57deg);
+    transform-origin: center;
 }
 /* estallido rojo entre las dos personas */
 .hola__people .hola__burst {
     position: absolute;
-    left: 42%;
-    top: 8%;
-    width: 135px;
-    z-index: 4;
+    left: 52.1%;
+    top: 30.4%;
+    width: 22.8%;
+    z-index: 3;
     pointer-events: none;
 }
 /* onda morada fluida bajo las fotos */
 .hola__people .hola__wave {
     position: absolute;
-    left: -8%;
-    bottom: 2%;
-    width: 118%;
+    left: 0%;
+    bottom: -27px;
+    width: 113%;
     height: auto;
-    z-index: 2;
+    z-index: 5;
+    rotate: 353deg;
     pointer-events: none;
+}
+
+/* Tablet / móvil: texto arriba, fotos abajo (como Figma móvil) */
+@media (max-width: 1024px) {
+    .hola {
+        padding-top: max(72px, calc(var(--nav-h) + 24px));
+        padding-bottom: 80px;
+    }
+    .hola__grid {
+        grid-template-columns: 1fr;
+        gap: clamp(20px, 4vw, 36px);
+    }
+    .hola__content { order: 1; }
+    .hola__people {
+        order: 2;
+        align-self: center;
+        width: min(100%, 520px);
+        margin-inline: auto;
+        min-height: clamp(340px, 72vw, 480px);
+        aspect-ratio: 1020 / 1278;
+    }
+    .hola__title {
+        font-size: clamp(36px, 8vw, 48px);
+        margin-bottom: 20px;
+    }
+    .hola__text p {
+        font-size: clamp(16px, 3.8vw, 18px);
+        max-width: none;
+    }
+    .hola__people .ginsa,
+    .hola__people .hernedy {
+        top: 8%;
+        width: 76%;
+    }
+    .hola__people .ginsa { left: 6%; }
+    .hola__people .hernedy { left: 20%; }
+    .hola__people .hola__curl {
+        width: 58%;
+        right: -2%;
+        top: 2%;
+        rotate: -166deg;
+    }
+    .hola__people .hola__burst {
+        left: 40%;
+        top: 28%;
+        width: 20%;
+    }
+    .hola__people .hola__wave {
+        left: -4%;
+        bottom: 0;
+        width: 108%;
+        rotate: 0deg;
+    }
 }
 
 /* ==========================================================================
@@ -377,7 +559,7 @@ a { text-decoration: none; color: inherit; }
 .servicios {
     position: relative;
     padding: 80px 0 70px;
-    background: linear-gradient(180deg, #f3f1fb 0%, #f0edf9 12%, #6c5ba8 58%, #24164f 84%, #0e0230 100%);
+    background: transparent;
     overflow: hidden;
 }
 .servicios__title { color: var(--c-dark); margin-bottom: 8px; }
@@ -415,7 +597,7 @@ a { text-decoration: none; color: inherit; }
    ¿CÓMO LO HACEMOS? (carrusel de pasos)
    ========================================================================== */
 .proceso {
-    background: linear-gradient(180deg, #0e022e 0%, #030319 40%, #030319 100%);
+    background: transparent;
     padding: 80px 0 100px;
     overflow: hidden;
 }
@@ -476,9 +658,7 @@ a { text-decoration: none; color: inherit; }
    MARCAS (logos)
    ========================================================================== */
 .marcas {
-    background:
-        radial-gradient(60% 60% at 50% 30%, rgba(53, 47, 218, .35), transparent 70%),
-        var(--c-page);
+    background: transparent;
     padding: 90px 0 70px;
     overflow: hidden;
 }
@@ -501,10 +681,7 @@ a { text-decoration: none; color: inherit; }
    NÚMEROS (mockups)
    ========================================================================== */
 .numeros {
-    background:
-        radial-gradient(50% 40% at 90% 20%, rgba(122, 52, 202, .4), transparent 70%),
-        radial-gradient(50% 40% at 5% 90%, rgba(0, 229, 255, .28), transparent 70%),
-        var(--c-page);
+    background: transparent;
     padding: 90px 0 100px;
     overflow: hidden;
 }
@@ -538,9 +715,7 @@ a { text-decoration: none; color: inherit; }
    CREEMOS JUNTOS (CTA final)
    ========================================================================== */
 .creemos {
-    background:
-        radial-gradient(50% 50% at 50% 30%, rgba(122, 52, 202, .45), transparent 70%),
-        var(--c-page);
+    background: transparent;
     padding: 90px 0 110px;
     text-align: center;
 }
@@ -565,7 +740,7 @@ a { text-decoration: none; color: inherit; }
    FOOTER
    ========================================================================== */
 .site-footer {
-    background: var(--c-page);
+    background: transparent;
     padding: 40px 0 50px;
     border-top: 1px solid rgba(255, 255, 255, .05);
 }
@@ -621,11 +796,12 @@ a { text-decoration: none; color: inherit; }
     .hero__cta .lead { font-size: 17px; }
     .hero__cta { gap: 14px; }
     .hero .decor--curl-l { width: min(260px, 55vw); opacity: .26; }
-    .hero .decor--curl-r { width: min(260px, 55vw); opacity: .26; }
+    .hero .decor--curl-r { width: min(240px, 50vw); opacity: .26; }
 }
 
 @media (max-width: 900px) {
     :root { --nav-h: 72px; }
+
     .nav-links {
         position: absolute;
         top: var(--nav-h);
@@ -650,9 +826,6 @@ a { text-decoration: none; color: inherit; }
     }
     .nav-toggle span { width: 26px; height: 2px; background: #fff; display: block; }
     .site-nav .btn-cta { display: none; }
-
-    .hola__grid { grid-template-columns: 1fr; }
-    .hola__people { min-height: 380px; order: -1; }
 
     .step-card { flex-direction: column-reverse; text-align: center; align-items: center; }
     .step-card__art { flex-basis: 150px; width: 150px; }

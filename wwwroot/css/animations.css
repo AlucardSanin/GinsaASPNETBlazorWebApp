@@ -74,16 +74,13 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 @keyframes floaty      { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 @keyframes floatyFlip  { 0%, 100% { transform: scaleX(-1) translateY(0); } 50% { transform: scaleX(-1) translateY(-12px); } }
 @keyframes drift       { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(12px, -12px); } }
+@keyframes driftCurl4  { 0%, 100% { transform: rotate(166deg) translate(0, 0); } 50% { transform: rotate(166deg) translate(10px, -10px); } }
+@keyframes driftCurl3  { 0%, 100% { transform: rotate(57deg) translate(0, 0); } 50% { transform: rotate(57deg) translate(-8px, 8px); } }
 @keyframes driftRev    { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-12px, 10px); } }
 @keyframes pulse       { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.09); } }
 @keyframes glowPulse   { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 
 .hero__mark     { animation: popIn .85s .1s both var(--ease-back); }
-/* La intro (webp) corre ~2.4s una sola vez; luego crossfade al smile estático */
-@keyframes introOut { to { opacity: 0; visibility: hidden; } }
-@keyframes smileIn  { to { opacity: 1; } }
-.hero__intro { animation: introOut .6s 2.5s both var(--ease-out); }
-.hero__smile { animation: smileIn .7s 2.5s both var(--ease-out); }
 .hero__headline { animation: fadeUp .8s .35s both var(--ease-out); }
 .hero__cta      { animation: fadeUp .8s .55s both var(--ease-out); }
 
@@ -91,16 +88,19 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
    para no pisar transform en comillas invertidas. */
 @keyframes decorIn { from { opacity: 0; } to { opacity: 1; } }
 .hero .decor--curl-l       { animation: decorIn 1s .15s both var(--ease-out); }
-.hero .decor--curl-r       { animation: decorIn 1s .25s both var(--ease-out); }
+.hero .decor--curl-r       { animation: decorIn 1s .2s both var(--ease-out); }
 .hero .decor--hexagon      { animation: decorIn .9s .35s both var(--ease-out); }
+.hero .decor--periwinkle-a { animation: decorIn .9s .45s both var(--ease-out); }
+.hero .decor--periwinkle-b { animation: decorIn .9s .5s both var(--ease-out); }
+.hero .decor--quote        { animation: decorIn .9s .55s both var(--ease-out); }
 .scroll-top                { transition: opacity .25s ease, visibility .25s ease, transform .2s ease; }
 .scroll-top:hover          { transform: scale(1.12) rotate(6deg); }
 
 /* ==========================================================================
    ¡HOLA! — decoraciones
    ========================================================================== */
-.hola__people .hola__curl  { animation: drift 11s ease-in-out infinite; }
-.hola__people .hola__wave  { animation: floaty 8s ease-in-out infinite; }
+.hola__people .hola__curl:not(.hola__curl--orange) { animation: driftCurl4 11s ease-in-out infinite; }
+.hola__people .hola__curl--orange { animation: driftCurl3 9s ease-in-out infinite; }
 .hola__people .hola__burst { animation: pulse 3.2s ease-in-out infinite; transform-origin: center; }
 
 /* ==========================================================================
@@ -186,6 +186,7 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     }
     .reveal { opacity: 1 !important; transform: none !important; }
     .numeros__gallery:not(.is-visible) img { opacity: 1 !important; }
-    .hero__intro { opacity: 0 !important; }
+    .hero__intro { opacity: 0 !important; visibility: hidden !important; }
     .hero__smile { opacity: 1 !important; }
+    .page-mesh__noise { display: none; }
 }

@@ -1,10 +1,10 @@
-<svg width="100%" height="100%" viewBox="0 0 640 170" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;overflow:visible">
-  <path d="M8 96 C120 26 210 150 330 86 S560 24 632 78" stroke="url(#wp)" stroke-width="48" stroke-linecap="round" fill="none"/>
-  <defs>
-    <linearGradient id="wp" x1="0" y1="0" x2="640" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6A2BC9"/>
-      <stop offset="0.5" stop-color="#9747FF"/>
-      <stop offset="1" stop-color="#B06BFF"/>
-    </linearGradient>
-  </defs>
+<svg width="1020" height="612" viewBox="0 0 1020 612" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1628.18 269.034C1527.93 184.265 1175.31 -133.569 997.776 155.44C806.928 466.122 763.165 159.841 381.141 220.983C-0.882591 282.125 26.0376 809.569 36.3957 822.666" stroke="url(#paint0_linear_491_5001)" stroke-width="73"/>
+<defs>
+<linearGradient id="paint0_linear_491_5001" x1="1047.22" y1="84.0316" x2="9.26974" y2="845.65" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7A34CA"/>
+<stop offset="0.564307" stop-color="#9747FF"/>
+<stop offset="0.85036" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
 </svg>
