@@ -111,15 +111,16 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 .btn-portfolio .arrow { transition: transform .2s ease; }
 
 /* ==========================================================================
-   ¿CÓMO LO HACEMOS? — hover de tarjetas
+   ¿CÓMO LO HACEMOS? — hover del sticker (sin pelear con el translate del stage)
    ========================================================================== */
-.step-card { transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
-.step-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 26px 44px -14px rgba(0, 0, 0, .5);
-}
 .step-card__art img { transition: transform .4s var(--ease-back); }
-.step-card:hover .step-card__art img { transform: scale(1.08) rotate(-4deg); }
+.step-card.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-4deg); }
+.step-card--creamos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-28deg); }
+.step-card--ejecutamos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-26deg); }
+.step-card--medimos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(36deg); }
+.step-card.is-active {
+    box-shadow: 0 18px 36px -12px rgba(0, 0, 0, .35);
+}
 
 /* ==========================================================================
    MARCAS — pausa marquee en hover + hover logos
@@ -129,30 +130,20 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 .marquee__track img:hover { transform: scale(1.12); filter: brightness(1.12); }
 
 /* ==========================================================================
-   NÚMEROS — reparto de baraja al entrar + hover de tarjetas
+   NÚMEROS — entrada + expand en hover (figuras vía CSS en arrieta.css)
    ========================================================================== */
-.numeros__gallery.reveal { opacity: 1; transform: none; }
-.numeros__gallery img {
-    transition: transform .8s var(--ease-back), opacity .6s ease, box-shadow .3s ease;
+.numeros__stage.reveal { opacity: 1; transform: none; }
+.numeros__stage:not(.is-visible) .numeros__card {
+    opacity: 0 !important;
 }
-/* estado oculto: apiladas al centro y bajadas */
-.numeros__gallery:not(.is-visible) img {
-    opacity: 0;
-    transform: translateY(48px) scale(.82) rotate(0) !important;
-}
-/* escalonado del reparto */
-.numeros__gallery.is-visible img:nth-child(1) { transition-delay: .05s; }
-.numeros__gallery.is-visible img:nth-child(2) { transition-delay: .13s; }
-.numeros__gallery.is-visible img:nth-child(3) { transition-delay: .21s; }
-.numeros__gallery.is-visible img:nth-child(4) { transition-delay: .29s; }
-.numeros__gallery.is-visible img:nth-child(5) { transition-delay: .37s; }
-.numeros__gallery.is-visible img:nth-child(6) { transition-delay: .45s; }
-/* hover: se endereza y se levanta al frente */
-.numeros__gallery img:hover {
-    transform: translateY(-18px) rotate(0deg) scale(1.05) !important;
-    z-index: 10 !important;
-    box-shadow: 0 30px 50px -12px rgba(0, 0, 0, .6);
-}
+.numeros__stage.is-visible .numeros__card:nth-child(1) { transition-delay: .05s; }
+.numeros__stage.is-visible .numeros__card:nth-child(2) { transition-delay: .12s; }
+.numeros__stage.is-visible .numeros__card:nth-child(3) { transition-delay: .19s; }
+.numeros__stage.is-visible .numeros__card:nth-child(4) { transition-delay: .26s; }
+.numeros__stage.is-visible .numeros__card:nth-child(5) { transition-delay: .33s; }
+.numeros__stage.is-visible .numeros__card:nth-child(6) { transition-delay: .4s; }
+.numeros__stage.is-visible.is-ready .numeros__card { transition-delay: 0s; }
+.numeros__stage.is-visible.is-ready .numeros__fig { transition-delay: 0s; }
 
 /* ==========================================================================
    CREEMOS JUNTOS — glow que late
@@ -185,7 +176,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
         transition-duration: .001ms !important;
     }
     .reveal { opacity: 1 !important; transform: none !important; }
-    .numeros__gallery:not(.is-visible) img { opacity: 1 !important; }
+    .numeros__stage:not(.is-visible) .numeros__card { opacity: 1 !important; }
+    .numeros__fig { opacity: 1 !important; transform: none !important; }
     .hero__intro { opacity: 0 !important; visibility: hidden !important; }
     .hero__smile { opacity: 1 !important; }
     .page-mesh__noise { display: none; }

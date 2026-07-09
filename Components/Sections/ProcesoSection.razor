@@ -1,47 +1,56 @@
-<section class="proceso" id="proceso">
+<section class="proceso" id="proceso" data-step="0" tabindex="0" aria-label="¿Cómo lo hacemos? Carrusel de pasos">
+    <div class="proceso__bgs" aria-hidden="true">
+        <div class="proceso__bg proceso__bg--0 is-active"></div>
+        <div class="proceso__bg proceso__bg--1"></div>
+        <div class="proceso__bg proceso__bg--2"></div>
+        <div class="proceso__bg proceso__bg--3"></div>
+        <div class="proceso__bg proceso__bg--4"></div>
+        <div class="proceso__noise"></div>
+    </div>
+
     <div class="container">
         <h2 class="section-title proceso__title reveal"><span class="fun">¿Cómo</span> lo hacemos?</h2>
     </div>
 
-    <div class="proceso__track reveal d1">
-        <article class="step-card step-card--yellow">
+    <div class="proceso__stage reveal d1" role="list">
+        <article class="step-card step-card--yellow is-active" data-step="0" role="listitem" aria-current="true">
             <div class="step-card__body">
                 <h3 class="step-card__title"><span class="num">1.</span> Te escuchamos</h3>
                 <p class="step-card__text">Queremos entender tu marca: qué sueña, qué necesita y qué quiere lograr.</p>
             </div>
-            <div class="step-card__art"><img src="images/ear-te-escuchamos.png" alt="" /></div>
+            <div class="step-card__art"><img src="images/ear-te-escuchamos.png?v=3" alt="" /></div>
         </article>
 
-        <article class="step-card step-card--green">
+        <article class="step-card step-card--green" data-step="1" role="listitem">
             <div class="step-card__body">
                 <h3 class="step-card__title"><span class="num">2.</span> Proponemos ideas con propósito</h3>
                 <p class="step-card__text">En cada proyecto combinamos estrategia y creatividad, pensando siempre en que resuene con tu público objetivo.</p>
             </div>
-            <div class="step-card__art"><img src="images/card-proponemos.png" alt="" /></div>
+            <div class="step-card__art"><img src="images/card-proponemos.png?v=3" alt="" /></div>
         </article>
 
-        <article class="step-card step-card--blue">
+        <article class="step-card step-card--blue step-card--creamos" data-step="2" role="listitem">
             <div class="step-card__body">
                 <h3 class="step-card__title"><span class="num">3.</span> Creamos contigo</h3>
                 <p class="step-card__text">Esto lo construimos en equipo. Tú formas parte del proceso desde el día uno.</p>
             </div>
-            <div class="step-card__art"><img src="images/card-creamos.png" alt="" /></div>
+            <div class="step-card__art"><img src="images/card-creamos.png?v=3" alt="" /></div>
         </article>
 
-        <article class="step-card step-card--purple">
+        <article class="step-card step-card--purple step-card--ejecutamos" data-step="3" role="listitem">
             <div class="step-card__body">
                 <h3 class="step-card__title"><span class="num">4.</span> Ejecutamos con intención</h3>
                 <p class="step-card__text">Cada acción tiene un “para qué” y un “por qué”, siempre conectada a tus objetivos.</p>
             </div>
-            <div class="step-card__art"><img src="images/card-ejecutamos.png" alt="" /></div>
+            <div class="step-card__art"><img src="images/card-ejecutamos.png?v=3" alt="" /></div>
         </article>
 
-        <article class="step-card step-card--dark">
+        <article class="step-card step-card--dark step-card--medimos" data-step="4" role="listitem">
             <div class="step-card__body">
                 <h3 class="step-card__title"><span class="num">5.</span> Medimos y mejoramos</h3>
                 <p class="step-card__text">Porque las buenas ideas crecen cuando se analizan. Revisamos resultados, ajustamos y seguimos <strong>creciendo</strong>.</p>
             </div>
-            <div class="step-card__art"><img src="images/card-medimos.png" alt="" /></div>
+            <div class="step-card__art"><img src="images/card-medimos.png?v=3" alt="" /></div>
         </article>
     </div>
 </section>

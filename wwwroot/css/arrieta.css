@@ -594,46 +594,143 @@ a { text-decoration: none; color: inherit; }
 .btn-portfolio .arrow { width: 20px; height: 20px; object-fit: contain; filter: brightness(0) invert(1); }
 
 /* ==========================================================================
-   ¿CÓMO LO HACEMOS? (carrusel de pasos)
+   ¿CÓMO LO HACEMOS? — carrusel clickable (Figma 197:1811)
    ========================================================================== */
 .proceso {
+    --proceso-card-w: min(858px, 86vw);
+    --proceso-card-h: 332px;
+    --proceso-stack: 92px;
+    --proceso-next: min(1025px, 58vw);
+    position: relative;
+    isolation: isolate;
     background: transparent;
-    padding: 80px 0 100px;
+    padding: 120px 0 140px;
+    min-height: 820px;
+    overflow: visible; /* stickers may peek past the card */
+    cursor: pointer;
+    outline: none;
+}
+.proceso__bgs {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     overflow: hidden;
 }
-.proceso__title { color: #fff; margin-bottom: 56px; }
-.proceso__track {
-    display: flex;
-    gap: 34px;
-    overflow-x: auto;
-    /* Padding lateral que deja la 1ª tarjeta ligeramente a la izquierda del
-       centro con la 2ª asomando (como en el diseño), y arranca en scrollLeft 0. */
-    padding: 10px max(24px, calc(50% - 470px)) 30px;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: max(24px, calc(50% - 470px));
-    -webkit-overflow-scrolling: touch;
+.proceso__bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .55s ease;
 }
-.proceso__track::-webkit-scrollbar { height: 8px; }
-.proceso__track::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .2); border-radius: 4px; }
+.proceso__bg.is-active { opacity: 1; }
+.proceso__bg--0 {
+    /* Figma Default: fondo oscuro sólido */
+    background: #1a1b2e;
+}
+.proceso__bg--1 {
+    /* Figma Variant2: claro + blurs teal/lila */
+    background:
+        radial-gradient(ellipse 70% 80% at 0% 10%, rgba(90, 210, 200, .7), transparent 58%),
+        radial-gradient(ellipse 55% 70% at 90% 5%, rgba(170, 120, 255, .55), transparent 52%),
+        radial-gradient(ellipse 45% 50% at 45% -10%, rgba(140, 210, 255, .4), transparent 48%),
+        radial-gradient(ellipse 40% 45% at 10% 90%, rgba(200, 160, 255, .35), transparent 50%),
+        #f4f4f6;
+}
+.proceso__bg--2 {
+    /* Figma Variant3: púrpura + blurs */
+    background:
+        radial-gradient(ellipse 85% 95% at 10% 75%, rgba(30, 190, 230, .6), transparent 55%),
+        radial-gradient(ellipse 75% 85% at 90% 15%, rgba(60, 40, 210, .55), transparent 52%),
+        #6532cb;
+}
+.proceso__bg--3 {
+    /* Figma Variant4: gradiente púrpura → índigo */
+    background: linear-gradient(90deg, #6432c9 0%, #290162 100%);
+}
+.proceso__bg--4 {
+    /* Figma Variant5: oscuro + rosa/teal abajo */
+    background:
+        radial-gradient(ellipse 55% 60% at 18% 95%, rgba(255, 80, 150, .75), transparent 55%),
+        radial-gradient(ellipse 60% 55% at 78% 90%, rgba(30, 210, 220, .6), transparent 55%),
+        radial-gradient(ellipse 45% 45% at 50% 110%, rgba(120, 70, 255, .5), transparent 50%),
+        #141022;
+}
+.proceso__noise {
+    position: absolute;
+    inset: -10%;
+    opacity: 0;
+    transition: opacity .55s ease;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+.proceso[data-step="1"] .proceso__noise { opacity: .6; }
+.proceso[data-step="2"] .proceso__noise,
+.proceso[data-step="3"] .proceso__noise {
+    mix-blend-mode: soft-light;
+    opacity: .5;
+}
+.proceso[data-step="4"] .proceso__noise {
+    mix-blend-mode: soft-light;
+    opacity: .45;
+}
+
+.proceso > .container,
+.proceso__stage {
+    position: relative;
+    z-index: 1;
+}
+.proceso__title {
+    color: #fff;
+    margin-bottom: 72px;
+    transition: color .4s ease;
+}
+.proceso[data-step="1"] .proceso__title { color: var(--c-dark); }
+
+.proceso__stage {
+    position: relative;
+    height: calc(var(--proceso-card-h) + 80px);
+    margin-top: 8px;
+}
+
 .step-card {
-    scroll-snap-align: center;
-    flex: 0 0 auto;
-    width: 640px;
-    max-width: 86vw;
-    min-height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--proceso-card-w);
+    height: var(--proceso-card-h);
     border-radius: 18px;
-    padding: 44px;
+    padding: 48px;
     display: flex;
     align-items: center;
-    gap: 22px;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, .15), 0 2px 3px rgba(0, 0, 0, .3);
+    gap: 23px;
+    overflow: visible;
+    box-shadow:
+        0 4px 4px rgba(12, 12, 13, .1),
+        0 4px 4px rgba(12, 12, 13, .05);
+    transform: translate(-50%, -50%);
+    transition:
+        transform .55s cubic-bezier(.22, 1, .36, 1),
+        opacity .35s ease,
+        box-shadow .35s ease;
+    will-change: transform;
 }
-.step-card__body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 22px; }
+.step-card__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 474px;
+    transition: opacity .25s ease;
+}
 .step-card__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 30px;
-    line-height: 1.15;
+    font-size: clamp(26px, 2.4vw, 37px);
+    line-height: 1.18;
+    letter-spacing: .0125em;
     margin: 0;
     display: flex;
     gap: 12px;
@@ -642,17 +739,93 @@ a { text-decoration: none; color: inherit; }
 .step-card__text {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 19px;
+    font-size: clamp(16px, 1.5vw, 24px);
     line-height: 1.35;
+    letter-spacing: .0125em;
     margin: 0;
+    max-width: 419px;
 }
-.step-card__art { flex: 0 0 190px; width: 190px; }
-.step-card__art img { width: 100%; }
+.step-card__art {
+    position: relative;
+    flex: 0 0 224px;
+    width: 224px;
+    height: 224px;
+    display: grid;
+    place-items: center;
+    overflow: visible;
+    transition: opacity .25s ease;
+}
+.step-card__art img {
+    /* Stickers ~half card height so text stays primary */
+    width: 58%;
+    max-width: 130px;
+    max-height: 148px;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+}
+.step-card--creamos .step-card__art img { transform: rotate(-24deg); width: 54%; }
+.step-card--ejecutamos .step-card__art img { transform: rotate(-22deg); width: 56%; }
+.step-card--medimos .step-card__art img { transform: rotate(40deg); width: 54%; }
 .step-card--yellow { background: var(--c-yellow); color: var(--c-dark); }
 .step-card--green { background: var(--c-green); color: #fff; }
 .step-card--blue { background: var(--c-blue); color: #fff; }
 .step-card--purple { background: var(--c-purple); color: #fff; }
 .step-card--dark { background: var(--c-dark); color: #fff; }
+
+/* Past cards: stacked strips on the left */
+.step-card.is-past {
+    cursor: pointer;
+}
+.step-card.is-past .step-card__body,
+.step-card.is-past .step-card__art {
+    opacity: 0;
+    pointer-events: none;
+}
+.step-card.is-active {
+    z-index: 10;
+    box-shadow:
+        0 10px 28px rgba(12, 12, 13, .18),
+        0 4px 8px rgba(12, 12, 13, .1);
+}
+.step-card.is-next {
+    z-index: 5;
+}
+.step-card.is-far {
+    z-index: 1;
+    opacity: .95;
+}
+
+/* Positions per active step — Figma offsets (~92px stack, ~1025px next) */
+.proceso[data-step="0"] .step-card[data-step="0"] { transform: translate(calc(-50% - 112px), -50%); z-index: 10; }
+.proceso[data-step="0"] .step-card[data-step="1"] { transform: translate(calc(-50% + var(--proceso-next)), -50%); z-index: 5; }
+.proceso[data-step="0"] .step-card[data-step="2"] { transform: translate(calc(-50% + var(--proceso-next) * 1.9), -50%); }
+.proceso[data-step="0"] .step-card[data-step="3"] { transform: translate(calc(-50% + var(--proceso-next) * 2.8), -50%); }
+.proceso[data-step="0"] .step-card[data-step="4"] { transform: translate(calc(-50% + var(--proceso-next) * 3.7), -50%); }
+
+.proceso[data-step="1"] .step-card[data-step="0"] { transform: translate(calc(-50% - 112px), -50%); z-index: 6; }
+.proceso[data-step="1"] .step-card[data-step="1"] { transform: translate(calc(-50% - 20px), -50%); z-index: 10; }
+.proceso[data-step="1"] .step-card[data-step="2"] { transform: translate(calc(-50% + var(--proceso-next)), -50%); z-index: 5; }
+.proceso[data-step="1"] .step-card[data-step="3"] { transform: translate(calc(-50% + var(--proceso-next) * 1.9), -50%); }
+.proceso[data-step="1"] .step-card[data-step="4"] { transform: translate(calc(-50% + var(--proceso-next) * 2.8), -50%); }
+
+.proceso[data-step="2"] .step-card[data-step="0"] { transform: translate(calc(-50% - 112px), -50%); z-index: 6; }
+.proceso[data-step="2"] .step-card[data-step="1"] { transform: translate(calc(-50% - 20px), -50%); z-index: 7; }
+.proceso[data-step="2"] .step-card[data-step="2"] { transform: translate(calc(-50% + 72px), -50%); z-index: 10; }
+.proceso[data-step="2"] .step-card[data-step="3"] { transform: translate(calc(-50% + var(--proceso-next)), -50%); z-index: 5; }
+.proceso[data-step="2"] .step-card[data-step="4"] { transform: translate(calc(-50% + var(--proceso-next) * 1.9), -50%); }
+
+.proceso[data-step="3"] .step-card[data-step="0"] { transform: translate(calc(-50% - 112px), -50%); z-index: 6; }
+.proceso[data-step="3"] .step-card[data-step="1"] { transform: translate(calc(-50% - 20px), -50%); z-index: 7; }
+.proceso[data-step="3"] .step-card[data-step="2"] { transform: translate(calc(-50% + 72px), -50%); z-index: 8; }
+.proceso[data-step="3"] .step-card[data-step="3"] { transform: translate(calc(-50% + 164px), -50%); z-index: 10; }
+.proceso[data-step="3"] .step-card[data-step="4"] { transform: translate(calc(-50% + var(--proceso-next)), -50%); z-index: 5; }
+
+.proceso[data-step="4"] .step-card[data-step="0"] { transform: translate(calc(-50% - 112px), -50%); z-index: 6; }
+.proceso[data-step="4"] .step-card[data-step="1"] { transform: translate(calc(-50% - 20px), -50%); z-index: 7; }
+.proceso[data-step="4"] .step-card[data-step="2"] { transform: translate(calc(-50% + 72px), -50%); z-index: 8; }
+.proceso[data-step="4"] .step-card[data-step="3"] { transform: translate(calc(-50% + 164px), -50%); z-index: 9; }
+.proceso[data-step="4"] .step-card[data-step="4"] { transform: translate(calc(-50% + 256px), -50%); z-index: 10; }
 
 /* ==========================================================================
    MARCAS (logos)
@@ -678,38 +851,180 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ==========================================================================
-   NÚMEROS (mockups)
+   NÚMEROS — abanico → expandido en hover (Figma 288:1751)
    ========================================================================== */
 .numeros {
     background: transparent;
     padding: 90px 0 100px;
     overflow: hidden;
 }
-.numeros__title { color: var(--c-dark); background: transparent; margin-bottom: 60px; }
+.numeros__title { color: var(--c-dark); background: transparent; margin-bottom: 40px; }
 .numeros__title, .numeros__title .fun { color: #fff; }
-/* Abanico solapado de mockups (como en el diseño) */
+
+.numeros__stage {
+    position: relative;
+    height: 560px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    outline: none;
+    cursor: default;
+}
+
 .numeros__gallery {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    padding: 34px 0 24px;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
 }
-.numeros__gallery img {
-    border-radius: 18px;
-    box-shadow: 0 22px 40px -12px rgba(0, 0, 0, .55);
-    height: 330px;
-    width: auto;
-    margin-left: -58px;
-    transform-origin: center bottom;
+
+.numeros__card {
+    --card-x: 50%;
+    --card-rot: 0deg;
+    position: absolute;
+    top: 50%;
+    left: var(--card-x);
+    width: 118px;
+    height: min(256px, 36vh);
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 16px;
+    box-shadow: 0 16px 32px -8px rgba(12, 12, 13, .4);
+    transform: translate(-50%, -50%) rotate(var(--card-rot));
+    transform-origin: center center;
+    transition:
+        left .55s cubic-bezier(.22, 1, .36, 1),
+        transform .55s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .4s ease,
+        opacity .4s ease;
+    will-change: left, transform;
 }
-.numeros__gallery img:first-child { margin-left: 0; }
-.numeros__gallery img:nth-child(1) { transform: rotate(-9deg) translateY(26px); z-index: 1; }
-.numeros__gallery img:nth-child(2) { transform: rotate(-5deg) translateY(8px);  z-index: 2; }
-.numeros__gallery img:nth-child(3) { transform: rotate(-1deg) translateY(-2px); z-index: 3; }
-.numeros__gallery img:nth-child(4) { transform: rotate(3deg)  translateY(0);    z-index: 4; }
-.numeros__gallery img:nth-child(5) { transform: rotate(7deg)  translateY(12px); z-index: 3; }
-.numeros__gallery img:nth-child(6) { transform: rotate(11deg) translateY(28px); z-index: 2; }
+
+/* Estado cerrado (Property 1=2): abanico solapado — Figma ~26–68% */
+.numeros__card:nth-child(1) { --card-x: 30%; --card-rot: -2.4deg; z-index: 2; }
+.numeros__card:nth-child(2) { --card-x: 38%; --card-rot: 0deg;    z-index: 3; }
+.numeros__card:nth-child(3) { --card-x: 46%; --card-rot: 3.4deg;  z-index: 4; }
+.numeros__card:nth-child(4) { --card-x: 54%; --card-rot: 0deg;    z-index: 5; }
+.numeros__card:nth-child(5) { --card-x: 62%; --card-rot: -10deg;  z-index: 4; }
+.numeros__card:nth-child(6) { --card-x: 71%; --card-rot: 0deg;    z-index: 3; }
+
+/* Estado abierto: más aire entre teléfonos */
+.numeros__stage:hover .numeros__card:nth-child(1),
+.numeros__stage:focus-within .numeros__card:nth-child(1),
+.numeros__stage.is-open .numeros__card:nth-child(1) {
+    --card-x: 3%; --card-rot: 0deg; z-index: 2;
+}
+.numeros__stage:hover .numeros__card:nth-child(2),
+.numeros__stage:focus-within .numeros__card:nth-child(2),
+.numeros__stage.is-open .numeros__card:nth-child(2) {
+    --card-x: 20%; --card-rot: 0deg; z-index: 3;
+}
+.numeros__stage:hover .numeros__card:nth-child(3),
+.numeros__stage:focus-within .numeros__card:nth-child(3),
+.numeros__stage.is-open .numeros__card:nth-child(3) {
+    --card-x: 37%; --card-rot: 0deg; z-index: 4;
+}
+.numeros__stage:hover .numeros__card:nth-child(4),
+.numeros__stage:focus-within .numeros__card:nth-child(4),
+.numeros__stage.is-open .numeros__card:nth-child(4) {
+    --card-x: 54%; --card-rot: 0deg; z-index: 5;
+}
+.numeros__stage:hover .numeros__card:nth-child(5),
+.numeros__stage:focus-within .numeros__card:nth-child(5),
+.numeros__stage.is-open .numeros__card:nth-child(5) {
+    --card-x: 71%; --card-rot: 0deg; z-index: 4;
+}
+.numeros__stage:hover .numeros__card:nth-child(6),
+.numeros__stage:focus-within .numeros__card:nth-child(6),
+.numeros__stage.is-open .numeros__card:nth-child(6) {
+    --card-x: 93%; --card-rot: 0deg; z-index: 3;
+}
+
+/* Figuras: detrás en cerrado; en abierto asoman entre tarjetas (z alto) */
+.numeros__figs {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+}
+.numeros__fig {
+    position: absolute;
+    opacity: 0;
+    transform: scale(.4) translateY(12px);
+    transition:
+        opacity .35s ease,
+        transform .5s cubic-bezier(.22, 1, .36, 1);
+    max-width: none;
+    background: transparent;
+    mix-blend-mode: normal;
+}
+.numeros__stage:hover .numeros__fig,
+.numeros__stage:focus-within .numeros__fig,
+.numeros__stage.is-open .numeros__fig {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Posiciones Figma abiertas (aprox. % del stage) */
+.numeros__fig--bird {
+    left: 18%;
+    top: 30%;
+    width: 70px;
+    z-index: 7;
+    transition-delay: .04s;
+}
+.numeros__fig--spark {
+    left: 31%;
+    top: 22%;
+    width: 72px;
+    z-index: 7;
+    transition-delay: .08s;
+}
+.numeros__fig--wave {
+    left: 36%;
+    top: 70%;
+    width: 42px;
+    z-index: 7;
+    transition-delay: .1s;
+}
+.numeros__fig--smiley {
+    left: 58%;
+    top: 68%;
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    z-index: 7;
+    transition-delay: .12s;
+    background: transparent;
+}
+.numeros__smiley-face {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--c-yellow);
+    color: #181934;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 64px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .18);
+}
+.numeros__fig--semi {
+    left: 73%;
+    top: 16%;
+    width: 96px;
+    z-index: 7;
+    transition-delay: .14s;
+}
+.numeros__fig--blob {
+    left: 81%;
+    top: 50%;
+    width: 112px;
+    z-index: 1;
+    transition-delay: .16s;
+}
 
 /* ==========================================================================
    CREEMOS JUNTOS (CTA final)
@@ -827,17 +1142,85 @@ a { text-decoration: none; color: inherit; }
     .nav-toggle span { width: 26px; height: 2px; background: #fff; display: block; }
     .site-nav .btn-cta { display: none; }
 
-    .step-card { flex-direction: column-reverse; text-align: center; align-items: center; }
-    .step-card__art { flex-basis: 150px; width: 150px; }
+    .proceso {
+        --proceso-card-w: min(640px, 88vw);
+        --proceso-card-h: auto;
+        --proceso-stack: 56px;
+        --proceso-next: min(720px, 78vw);
+        padding: 72px 0 90px;
+    }
+    .proceso__stage { height: 460px; }
+    .step-card {
+        flex-direction: column-reverse;
+        text-align: center;
+        align-items: center;
+        height: auto;
+        min-height: 300px;
+        padding: 36px 28px;
+    }
+    .step-card__body { max-width: none; align-items: center; }
+    .step-card__text { max-width: 36ch; }
+    .step-card__art { flex-basis: 140px; width: 140px; height: 140px; }
+    .step-card__art img { width: 88%; max-width: 130px; max-height: 160px; }
+    .step-card--creamos .step-card__art img,
+    .step-card--ejecutamos .step-card__art img,
+    .step-card--medimos .step-card__art img { width: 84%; }
 
-    .numeros__gallery img { height: 260px; }
+    /* Tighter stack offsets on tablet/mobile */
+    .proceso[data-step="0"] .step-card[data-step="0"] { transform: translate(-50%, -50%); }
+    .proceso[data-step="1"] .step-card[data-step="0"] { transform: translate(calc(-50% - 40px), -50%); }
+    .proceso[data-step="1"] .step-card[data-step="1"] { transform: translate(-50%, -50%); }
+    .proceso[data-step="2"] .step-card[data-step="0"] { transform: translate(calc(-50% - 80px), -50%); }
+    .proceso[data-step="2"] .step-card[data-step="1"] { transform: translate(calc(-50% - 40px), -50%); }
+    .proceso[data-step="2"] .step-card[data-step="2"] { transform: translate(-50%, -50%); }
+    .proceso[data-step="3"] .step-card[data-step="0"] { transform: translate(calc(-50% - 120px), -50%); }
+    .proceso[data-step="3"] .step-card[data-step="1"] { transform: translate(calc(-50% - 80px), -50%); }
+    .proceso[data-step="3"] .step-card[data-step="2"] { transform: translate(calc(-50% - 40px), -50%); }
+    .proceso[data-step="3"] .step-card[data-step="3"] { transform: translate(-50%, -50%); }
+    .proceso[data-step="4"] .step-card[data-step="0"] { transform: translate(calc(-50% - 160px), -50%); }
+    .proceso[data-step="4"] .step-card[data-step="1"] { transform: translate(calc(-50% - 120px), -50%); }
+    .proceso[data-step="4"] .step-card[data-step="2"] { transform: translate(calc(-50% - 80px), -50%); }
+    .proceso[data-step="4"] .step-card[data-step="3"] { transform: translate(calc(-50% - 40px), -50%); }
+    .proceso[data-step="4"] .step-card[data-step="4"] { transform: translate(-50%, -50%); }
+
+    .numeros__stage { height: 420px; max-width: 100%; }
+    .numeros__card { width: 110px; height: min(238px, 36vh); }
+    .numeros__card:nth-child(1) { --card-x: 22%; }
+    .numeros__card:nth-child(2) { --card-x: 34%; }
+    .numeros__card:nth-child(3) { --card-x: 46%; }
+    .numeros__card:nth-child(4) { --card-x: 58%; }
+    .numeros__card:nth-child(5) { --card-x: 70%; }
+    .numeros__card:nth-child(6) { --card-x: 82%; }
+    .numeros__stage:hover .numeros__card:nth-child(1),
+    .numeros__stage:focus-within .numeros__card:nth-child(1),
+    .numeros__stage.is-open .numeros__card:nth-child(1) { --card-x: 4%; }
+    .numeros__stage:hover .numeros__card:nth-child(2),
+    .numeros__stage:focus-within .numeros__card:nth-child(2),
+    .numeros__stage.is-open .numeros__card:nth-child(2) { --card-x: 21%; }
+    .numeros__stage:hover .numeros__card:nth-child(3),
+    .numeros__stage:focus-within .numeros__card:nth-child(3),
+    .numeros__stage.is-open .numeros__card:nth-child(3) { --card-x: 38%; }
+    .numeros__stage:hover .numeros__card:nth-child(4),
+    .numeros__stage:focus-within .numeros__card:nth-child(4),
+    .numeros__stage.is-open .numeros__card:nth-child(4) { --card-x: 55%; }
+    .numeros__stage:hover .numeros__card:nth-child(5),
+    .numeros__stage:focus-within .numeros__card:nth-child(5),
+    .numeros__stage.is-open .numeros__card:nth-child(5) { --card-x: 72%; }
+    .numeros__stage:hover .numeros__card:nth-child(6),
+    .numeros__stage:focus-within .numeros__card:nth-child(6),
+    .numeros__stage.is-open .numeros__card:nth-child(6) { --card-x: 92%; }
+    .numeros__fig--bird { width: 52px; }
+    .numeros__fig--blob { width: 80px; }
+    .numeros__fig--smiley { width: 48px; }
 
     .site-footer__cols { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 560px) {
     .hero__headline { font-size: 22px; }
-    .numeros__gallery img { height: 200px; }
+    .numeros__stage { height: 340px; }
+    .numeros__card { width: 96px; height: min(200px, 34vh); }
+    .numeros__figs { display: none; }
     .site-footer__cols { grid-template-columns: 1fr; text-align: center; }
     .footer-col .v { justify-content: center; }
 }

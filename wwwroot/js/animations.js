@@ -107,11 +107,116 @@
         }
     }
 
+    function initProceso() {
+        var section = document.querySelector(".proceso");
+        if (!section) return;
+
+        var cards = Array.prototype.slice.call(section.querySelectorAll(".step-card"));
+        var bgs = Array.prototype.slice.call(section.querySelectorAll(".proceso__bg"));
+        var total = cards.length;
+        if (!total) return;
+
+        function setStep(index) {
+            var next = ((index % total) + total) % total;
+            section.dataset.step = String(next);
+
+            cards.forEach(function (card, i) {
+                card.classList.toggle("is-active", i === next);
+                card.classList.toggle("is-past", i < next);
+                card.classList.toggle("is-next", i === next + 1);
+                card.classList.toggle("is-far", i > next + 1);
+                if (i === next) {
+                    card.setAttribute("aria-current", "true");
+                } else {
+                    card.removeAttribute("aria-current");
+                }
+            });
+
+            bgs.forEach(function (bg, i) {
+                bg.classList.toggle("is-active", i === next);
+            });
+        }
+
+        if (!section.dataset.procesoBound) {
+            section.dataset.procesoBound = "1";
+
+            section.addEventListener("click", function (e) {
+                var past = e.target.closest(".step-card.is-past");
+                if (past) {
+                    setStep(Number(past.dataset.step));
+                    return;
+                }
+                var current = Number(section.dataset.step || "0");
+                setStep(current + 1);
+            });
+
+            section.addEventListener("keydown", function (e) {
+                var current = Number(section.dataset.step || "0");
+                if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+                    e.preventDefault();
+                    setStep(current + 1);
+                } else if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    setStep(current - 1);
+                } else if (e.key === "Home") {
+                    e.preventDefault();
+                    setStep(0);
+                } else if (e.key === "End") {
+                    e.preventDefault();
+                    setStep(total - 1);
+                }
+            });
+        }
+
+        setStep(Number(section.dataset.step || "0"));
+    }
+
+    function initNumeros() {
+        var stage = document.querySelector(".numeros__stage");
+        if (!stage) return;
+
+        if (!stage.dataset.numerosBound) {
+            stage.dataset.numerosBound = "1";
+
+            // Touch / click toggle (hover no existe en móvil)
+            stage.addEventListener("click", function () {
+                if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+                stage.classList.toggle("is-open");
+            });
+
+            stage.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    stage.classList.toggle("is-open");
+                }
+            });
+        }
+
+        function markReady() {
+            if (stage.classList.contains("is-visible")) {
+                setTimeout(function () { stage.classList.add("is-ready"); }, 700);
+            }
+        }
+
+        if (stage.classList.contains("is-visible")) {
+            markReady();
+            return;
+        }
+
+        if ("MutationObserver" in window && !stage._numerosMo) {
+            stage._numerosMo = new MutationObserver(markReady);
+            stage._numerosMo.observe(stage, { attributes: true, attributeFilter: ["class"] });
+        }
+        markReady();
+    }
+
     function init() {
         initReveal();
         initNav();
         initScrollTop();
         initHeroIntro();
+        initProceso();
+        initNumeros();
     }
 
     if (document.readyState !== "loading") {
