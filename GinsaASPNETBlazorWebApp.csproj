@@ -8,4 +8,10 @@
     <AssemblyName>GinsaASPNETBlazorWebApp</AssemblyName>
   </PropertyGroup>
 
+  <!-- Scratch exports used during design; keep them out of publish packages. -->
+  <ItemGroup>
+    <Content Remove="wwwroot\images\_tmp\**" />
+    <None Include="wwwroot\images\_tmp\**" />
+  </ItemGroup>
+
 </Project>

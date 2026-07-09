@@ -17,6 +17,8 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
+// Fallback for hosts that don't resolve MapStaticAssets endpoints cleanly (IIS folder publish).
+app.UseStaticFiles();
 app.MapStaticAssets();
 app.MapRazorComponents<App>();
 
