@@ -1,16 +1,86 @@
 <section class="servicios" id="servicios">
     <div class="container">
         <h2 class="section-title servicios__title reveal">¿Qué <span class="fun">hacemos?</span></h2>
-    </div>
 
-    <img class="servicios__wheel reveal reveal--scale"
-         src="@Assets["images/wheel.png"]"
-         alt="Servicios de Arrieta Agency. Marketing digital: gestión de perfil en Google, diseño y desarrollo de sitios web y aplicaciones móviles. Social media: gestión de redes sociales, publicidad en Facebook e Instagram, packs de posts personalizados, creación de contenido. Diseño gráfico: branding, identidad visual, packaging, material P.O.P, gigantografía." />
+        <div class="servicios__board reveal">
+            <div class="servicios__col servicios__col--left" aria-label="Servicios de social media">
+                <span class="servicios__tag servicios__tag--l1">Gestión de redes sociales</span>
+                <span class="servicios__tag servicios__tag--l2">Publicidad en Facebook e Instagram</span>
+                <span class="servicios__tag servicios__tag--l3">Packs de posts personalizados</span>
+                <span class="servicios__tag servicios__tag--l4">Creación de contenido</span>
+            </div>
 
-    <div class="container servicios__portfolio reveal">
-        <button class="btn-portfolio">
-            <span>Ver portafolio</span>
-            <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-        </button>
+            <div class="servicios__stack">
+                <img class="servicios__accent servicios__accent--burst"
+                     src="@Assets["images/servicio-burst.svg"]" alt="" aria-hidden="true" />
+                <div class="servicios__accent servicios__accent--blob" aria-hidden="true"></div>
+                <img class="servicios__accent servicios__accent--bulb"
+                     src="@Assets["images/servicio-bulb.svg"]" alt="" aria-hidden="true" />
+
+                <div class="servicios__sticker servicios__sticker--marketing">
+                    <img class="servicios__shape" src="@Assets["images/servicio-shape-marketing.svg"]" alt="" aria-hidden="true" />
+                    <p class="servicios__label servicios__label--marketing">
+                        <span class="servicios__label-line">MARKETING</span>
+                        <span class="servicios__label-line servicios__label-line--digital">
+                            <img class="servicios__icon servicios__icon--arrow" src="@Assets["images/servicio-icon-arrow.svg"]" alt="" aria-hidden="true" />
+                            <span>DIGITAL</span>
+                        </span>
+                    </p>
+                </div>
+
+                <div class="servicios__sticker servicios__sticker--social">
+                    <img class="servicios__shape" src="@Assets["images/servicio-shape-social.svg"]" alt="" aria-hidden="true" />
+                    <img class="servicios__icon servicios__icon--bird" src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" />
+                    <svg class="servicios__curve servicios__curve--social" viewBox="0 0 526.002 265.988" aria-label="Social Media" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            @* Arco más bajo para que el texto quede DENTRO del semicírculo *@
+                            <path id="servicios-social-arc" d="M 108 152 A 190 190 0 0 1 418 152" fill="none" />
+                        </defs>
+                        <text class="servicios__curve-text servicios__curve-text--social">
+                            <textPath href="#servicios-social-arc" startOffset="50%" text-anchor="middle">SOCIAL MEDIA</textPath>
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="servicios__sticker servicios__sticker--diseno">
+                    <img class="servicios__shape" src="@Assets["images/servicio-shape-diseno.svg"]" alt="" aria-hidden="true" />
+                    <img class="servicios__icon servicios__icon--swirl" src="@Assets["images/servicio-icon-swirl.svg"]" alt="" aria-hidden="true" />
+                    <svg class="servicios__curve servicios__curve--diseno" viewBox="0 0 343.626 344" aria-label="Diseño Gráfico" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            @* Top sweep=1 (arco superior). Bot sweep=0 (arco inferior real). side=right = GRÁFICO derecho *@
+                            <path id="servicios-diseno-top" d="M 52 82 A 148 148 0 0 1 292 82" fill="none" />
+                            <path id="servicios-diseno-bot" d="M 52 262 A 148 148 0 0 0 292 262" fill="none" />
+                        </defs>
+                        <text class="servicios__curve-text servicios__curve-text--diseno">
+                            <textPath href="#servicios-diseno-top" startOffset="50%" text-anchor="middle">DISEÑO</textPath>
+                        </text>
+                        <text class="servicios__curve-text servicios__curve-text--diseno">
+                            <textPath href="#servicios-diseno-bot" startOffset="50%" text-anchor="middle" side="right">GRÁFICO</textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="servicios__col servicios__col--right">
+                <div class="servicios__col-group" aria-label="Servicios de marketing digital">
+                    <span class="servicios__tag servicios__tag--r1">Gestión de perfil en Google</span>
+                    <span class="servicios__tag servicios__tag--r2 servicios__tag--wrap">Diseño y desarrollo de sitios web y aplicaciones móviles</span>
+                </div>
+                <div class="servicios__col-group servicios__col-group--bot" aria-label="Servicios de diseño gráfico">
+                    <span class="servicios__tag servicios__tag--light servicios__tag--b1">Branding</span>
+                    <span class="servicios__tag servicios__tag--light servicios__tag--b2">Identidad visual</span>
+                    <span class="servicios__tag servicios__tag--light servicios__tag--b3">Packaging</span>
+                    <span class="servicios__tag servicios__tag--light servicios__tag--b4">Material P.O.P</span>
+                    <span class="servicios__tag servicios__tag--light servicios__tag--b5">Gigantografía</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="servicios__portfolio">
+            <button type="button" class="btn-portfolio">
+                <span>Ver portafolio</span>
+                <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
+            </button>
+        </div>
     </div>
 </section>
