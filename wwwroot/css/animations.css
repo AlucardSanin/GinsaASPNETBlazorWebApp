@@ -103,11 +103,77 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 .hola__people .hola__burst { animation: pulse 3.2s ease-in-out infinite; transform-origin: center; }
 
 /* ==========================================================================
-   SERVICIOS — botón
+   SERVICIOS — hovers stickers (Marketing + Social Media)
    ========================================================================== */
 .btn-portfolio { transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
 .btn-portfolio:hover .arrow { transform: translateX(4px); }
 .btn-portfolio .arrow { transition: transform .2s ease; }
+
+/* Marketing Digital: flecha crece, letras encogen */
+.servicios__label--marketing {
+    transition: transform .4s var(--ease-back);
+    transform-origin: center center;
+}
+.servicios__icon--arrow {
+    transition: transform .4s var(--ease-back);
+    transform-origin: left bottom;
+}
+.servicios__sticker--marketing:hover .servicios__label--marketing,
+.servicios__sticker--marketing:focus-within .servicios__label--marketing {
+    transform: scale(.86);
+}
+.servicios__sticker--marketing:hover .servicios__icon--arrow,
+.servicios__sticker--marketing:focus-within .servicios__icon--arrow {
+    transform: scale(1.85);
+}
+
+/* Social Media: letras encogen; bird A sale ↑→ y B entra a su sitio (y al revés al salir) */
+.servicios__curve--social {
+    transition: transform .4s var(--ease-back);
+    transform-origin: 50% 42%;
+}
+.servicios__icon--bird {
+    transition:
+        transform .55s var(--ease-back),
+        opacity .4s ease;
+}
+/* A en la plaza; B esperando fuera, en la diagonal opuesta (abajo-izquierda) */
+.servicios__icon--bird-a {
+    transform: translateX(-50%);
+    opacity: 1;
+}
+.servicios__icon--bird-b {
+    transform: translateX(-50%) translate(-120%, 95%);
+    opacity: 0;
+}
+.servicios__sticker--social:hover .servicios__curve--social,
+.servicios__sticker--social:focus-within .servicios__curve--social {
+    transform: scale(.86);
+}
+.servicios__sticker--social:hover .servicios__icon--bird-a,
+.servicios__sticker--social:focus-within .servicios__icon--bird-a {
+    transform: translateX(-50%) translate(120%, -95%);
+    opacity: 0;
+}
+.servicios__sticker--social:hover .servicios__icon--bird-b,
+.servicios__sticker--social:focus-within .servicios__icon--bird-b {
+    transform: translateX(-50%);
+    opacity: 1;
+}
+
+/* Diseño Gráfico: swirl antihorario, fondo rojo horario (misma magnitud → imagen 2) */
+.servicios__sticker--diseno .servicios__shape,
+.servicios__icon--swirl {
+    transition: transform .55s var(--ease-back);
+}
+.servicios__sticker--diseno:hover .servicios__shape,
+.servicios__sticker--diseno:focus-within .servicios__shape {
+    transform: rotate(34deg);
+}
+.servicios__sticker--diseno:hover .servicios__icon--swirl,
+.servicios__sticker--diseno:focus-within .servicios__icon--swirl {
+    transform: translate(-50%, -50%) rotate(-34deg);
+}
 
 /* ==========================================================================
    ¿CÓMO LO HACEMOS? — hover del sticker (sin pelear con el translate del stage)
@@ -125,7 +191,7 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
    MARCAS — pausa marquee en hover + hover logos
    ========================================================================== */
 .marquee:hover .marquee__track { animation-play-state: paused; }
-.marquee__track img { transition: transform .25s ease, filter .25s ease; }
+.marquee__track img { transition: transform .25s ease, filter .25s ease; transform-origin: center center; }
 .marquee__track img:hover { transform: scale(1.12); filter: brightness(1.12); }
 
 /* ==========================================================================

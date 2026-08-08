@@ -140,6 +140,12 @@
         if (!section.dataset.procesoBound) {
             section.dataset.procesoBound = "1";
 
+            // Evita el menú flotante de imagen (Edge/Copilot) al interactuar con los stickers
+            section.querySelectorAll(".step-card__art img").forEach(function (img) {
+                img.setAttribute("draggable", "false");
+                img.addEventListener("dragstart", function (e) { e.preventDefault(); });
+            });
+
             section.addEventListener("click", function (e) {
                 var past = e.target.closest(".step-card.is-past");
                 if (past) {
@@ -176,15 +182,20 @@
         if (!stage) return;
 
         var gallery = stage.querySelector(".numeros__gallery");
+        var mobileMq = window.matchMedia("(max-width: 900px)");
+
+        function isMobile() {
+            return mobileMq.matches;
+        }
 
         function openGapPx() {
             var w = gallery ? gallery.clientWidth : stage.clientWidth;
             return Math.round(Math.min(40, Math.max(18, w * 0.024)));
         }
 
-        /** Distribuye capturas como flex+gap, pero en absolute para poder animar left */
+        /** Distribuye capturas como flex+gap, pero en absolute para poder animar left (desktop) */
         function applyOpenLayout() {
-            if (!gallery) return;
+            if (!gallery || isMobile()) return;
             var cards = gallery.querySelectorAll(".numeros__card");
             if (!cards.length) return;
 
@@ -203,7 +214,6 @@
             for (var j = 0; j < cards.length; j++) {
                 var center = x + widths[j] / 2;
                 var pct = gallery.clientWidth ? (center / gallery.clientWidth) * 100 : 50;
-                // left inline anima de forma fiable (cambiar solo --card-x a veces no interpola)
                 cards[j].style.left = pct.toFixed(3) + "%";
                 cards[j].style.setProperty("--card-rot", "0deg");
                 x += widths[j] + gap;
@@ -214,17 +224,21 @@
             if (!gallery) return;
             gallery.querySelectorAll(".numeros__card").forEach(function (card) {
                 card.style.removeProperty("left");
+                card.style.removeProperty("top");
                 card.style.removeProperty("--card-rot");
+                card.style.removeProperty("transform");
             });
+            stage.style.removeProperty("height");
         }
 
         function setOpen(open) {
             if (open) {
                 stage.classList.add("is-open");
-                // rAF: medir anchos con el estado actual y animar left hacia el layout abierto
-                requestAnimationFrame(function () {
-                    applyOpenLayout();
-                });
+                if (!isMobile()) {
+                    requestAnimationFrame(function () {
+                        applyOpenLayout();
+                    });
+                }
             } else {
                 clearOpenLayout();
                 stage.classList.remove("is-open");
@@ -249,7 +263,13 @@
             });
 
             window.addEventListener("resize", function () {
-                if (stage.classList.contains("is-open")) applyOpenLayout();
+                if (!stage.classList.contains("is-open")) return;
+                if (isMobile()) {
+                    clearOpenLayout();
+                    stage.classList.add("is-open");
+                } else {
+                    applyOpenLayout();
+                }
             });
         }
 

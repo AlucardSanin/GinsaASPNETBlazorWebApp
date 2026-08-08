@@ -1,4 +1,8 @@
 <section class="servicios" id="servicios">
+    @* Fondo: cúpula navy + glows laterales rosa/cyan (Figma) *@
+    <div class="servicios__fade" aria-hidden="true"></div>
+    <div class="servicios__glow servicios__glow--pink" aria-hidden="true"></div>
+    <div class="servicios__glow servicios__glow--cyan" aria-hidden="true"></div>
     <div class="container">
         <h2 class="section-title servicios__title reveal">¿Qué <span class="fun">hacemos?</span></h2>
 
@@ -18,23 +22,26 @@
                      src="@Assets["images/servicio-bulb.svg"]" alt="" aria-hidden="true" />
 
                 <div class="servicios__sticker servicios__sticker--marketing">
-                    <img class="servicios__shape" src="@Assets["images/servicio-shape-marketing.svg"]" alt="" aria-hidden="true" />
+                    <img class="servicios__shape" src="@Assets["images/servicio-shape-marketing.svg"]" alt="" aria-hidden="true" draggable="false" />
+                    @* Flecha absoluta en esquina inferior izquierda (Figma); no va en el flujo del texto *@
+                    <span class="servicios__icon servicios__icon--arrow" aria-hidden="true"></span>
                     <p class="servicios__label servicios__label--marketing">
                         <span class="servicios__label-line">MARKETING</span>
-                        <span class="servicios__label-line servicios__label-line--digital">
-                            <img class="servicios__icon servicios__icon--arrow" src="@Assets["images/servicio-icon-arrow.svg"]" alt="" aria-hidden="true" />
-                            <span>DIGITAL</span>
-                        </span>
+                        <span class="servicios__label-line">DIGITAL</span>
                     </p>
                 </div>
 
                 <div class="servicios__sticker servicios__sticker--social">
                     <img class="servicios__shape" src="@Assets["images/servicio-shape-social.svg"]" alt="" aria-hidden="true" />
-                    <img class="servicios__icon servicios__icon--bird" src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" />
+                    @* Dos birds: en hover uno sale ↑→ y el otro entra a la misma plaza; al salir se invierte *@
+                    <img class="servicios__icon servicios__icon--bird servicios__icon--bird-a"
+                         src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" draggable="false" />
+                    <img class="servicios__icon servicios__icon--bird servicios__icon--bird-b"
+                         src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" draggable="false" />
                     <svg class="servicios__curve servicios__curve--social" viewBox="0 0 526.002 265.988" aria-label="Social Media" preserveAspectRatio="xMidYMid meet">
                         <defs>
-                            @* Baseline baja: tipografía grande crece hacia el borde sin salirse *@
-                            <path id="servicios-social-arc" d="M 100 138 A 205 205 0 0 1 426 138" fill="none" />
+                            @* Baseline baja: tipografía grande (imagen 1) crece hacia el borde sin salirse *@
+                            <path id="servicios-social-arc" d="M 90 150 A 200 200 0 0 1 436 150" fill="none" />
                         </defs>
                         <text class="servicios__curve-text servicios__curve-text--social">
                             <textPath href="#servicios-social-arc" startOffset="50%" text-anchor="middle">SOCIAL MEDIA</textPath>
@@ -42,29 +49,14 @@
                     </svg>
                 </div>
 
-                <div class="servicios__sticker servicios__sticker--diseno">
-                    <img class="servicios__shape" src="@Assets["images/servicio-shape-diseno.svg"]" alt="" aria-hidden="true" />
-                    <img class="servicios__icon servicios__icon--swirl" src="@Assets["images/servicio-icon-swirl.svg"]" alt="" aria-hidden="true" />
-                    <svg class="servicios__curve servicios__curve--diseno" viewBox="0 0 343.626 344" aria-label="Diseño Gráfico" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            @* Clip = silueta del sticker: el texto no puede pintarse fuera del rojo *@
-                            <clipPath id="servicios-diseno-clip">
-                                <path d="M340.368 158.959L326.404 134.779L325.34 93.4898C325.132 85.3366 320.588 77.9209 313.422 74.0258L281.226 56.5301L266.639 31.262C262.286 23.7274 254.245 19.0829 245.545 19.0829H212.326L182.306 2.77068C175.141 -1.1245 166.446 -0.898519 159.494 3.35942L133.81 19.0829H98.0873C89.3871 19.0829 81.3411 23.7274 76.9939 31.262L56.8043 66.2294L32.2201 81.2809C25.2682 85.5388 21.1114 93.1805 21.3195 101.334L21.9737 126.554L3.26482 158.959C-1.08827 166.493 -1.08827 175.782 3.26482 183.317L24.3821 219.896L25.173 250.51C25.3812 258.663 29.9246 266.079 37.0905 269.974L60.7054 282.808L76.9939 311.019C81.347 318.554 89.3871 323.198 98.0873 323.198H135.023L168.207 341.229C175.372 345.124 184.067 344.899 191.019 340.641L219.51 323.193H245.539C254.24 323.193 262.286 318.548 266.633 311.013L281.524 285.222L318.287 262.713C325.239 258.455 329.396 250.814 329.182 242.66L328.194 204.381L340.362 183.311C344.715 175.776 344.715 166.487 340.362 158.953L340.368 158.959Z" />
-                            </clipPath>
-                            @* Arco superior inset (las letras crecen hacia afuera pero caben en el rojo).
-                               Inferior cerca del borde: crecimiento hacia el centro = derecho y dentro. *@
-                            <path id="servicios-diseno-top" d="M 70 120 A 115 115 0 0 1 274 120" fill="none" />
-                            <path id="servicios-diseno-bot" d="M 70 224 A 115 115 0 0 0 274 224" fill="none" />
-                        </defs>
-                        <g clip-path="url(#servicios-diseno-clip)">
-                            <text class="servicios__curve-text servicios__curve-text--diseno">
-                                <textPath href="#servicios-diseno-top" startOffset="50%" text-anchor="middle">DISEÑO</textPath>
-                            </text>
-                            <text class="servicios__curve-text servicios__curve-text--diseno">
-                                <textPath href="#servicios-diseno-bot" startOffset="50%" text-anchor="middle">GRÁFICO</textPath>
-                            </text>
-                        </g>
-                    </svg>
+                <div class="servicios__sticker servicios__sticker--diseno" role="img" aria-label="Diseño Gráfico">
+                    <img class="servicios__shape" src="@Assets["images/servicio-shape-diseno.svg"]" alt="" aria-hidden="true" draggable="false" />
+                    <img class="servicios__icon servicios__icon--swirl" src="@Assets["images/servicio-icon-swirl.svg"]" alt="" aria-hidden="true" draggable="false" />
+                    @* Tipografía vectorial de Figma (sin clip de textPath) *@
+                    <img class="servicios__text-figma servicios__text-figma--diseno-top"
+                         src="@Assets["images/servicio-text-diseno-top.svg"]" alt="" aria-hidden="true" draggable="false" />
+                    <img class="servicios__text-figma servicios__text-figma--diseno-bot"
+                         src="@Assets["images/servicio-text-diseno-bot.svg"]" alt="" aria-hidden="true" draggable="false" />
                 </div>
             </div>
 
