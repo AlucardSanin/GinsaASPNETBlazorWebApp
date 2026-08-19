@@ -140,6 +140,12 @@
         if (!section.dataset.procesoBound) {
             section.dataset.procesoBound = "1";
 
+            // Evita el menú flotante de imagen (Edge/Copilot) al interactuar con los stickers
+            section.querySelectorAll(".step-card__art img").forEach(function (img) {
+                img.setAttribute("draggable", "false");
+                img.addEventListener("dragstart", function (e) { e.preventDefault(); });
+            });
+
             section.addEventListener("click", function (e) {
                 var past = e.target.closest(".step-card.is-past");
                 if (past) {
@@ -175,19 +181,94 @@
         var stage = document.querySelector(".numeros__stage");
         if (!stage) return;
 
+        var gallery = stage.querySelector(".numeros__gallery");
+        var mobileMq = window.matchMedia("(max-width: 900px)");
+
+        function isMobile() {
+            return mobileMq.matches;
+        }
+
+        function openGapPx() {
+            var w = gallery ? gallery.clientWidth : stage.clientWidth;
+            return Math.round(Math.min(40, Math.max(18, w * 0.024)));
+        }
+
+        /** Distribuye capturas como flex+gap, pero en absolute para poder animar left (desktop) */
+        function applyOpenLayout() {
+            if (!gallery || isMobile()) return;
+            var cards = gallery.querySelectorAll(".numeros__card");
+            if (!cards.length) return;
+
+            var gap = openGapPx();
+            var widths = [];
+            var total = 0;
+            for (var i = 0; i < cards.length; i++) {
+                var w = cards[i].offsetWidth || 0;
+                widths.push(w);
+                total += w;
+            }
+
+            var free = gallery.clientWidth - total - gap * (cards.length - 1);
+            var x = Math.max(8, free / 2);
+
+            for (var j = 0; j < cards.length; j++) {
+                var center = x + widths[j] / 2;
+                var pct = gallery.clientWidth ? (center / gallery.clientWidth) * 100 : 50;
+                cards[j].style.left = pct.toFixed(3) + "%";
+                cards[j].style.setProperty("--card-rot", "0deg");
+                x += widths[j] + gap;
+            }
+        }
+
+        function clearOpenLayout() {
+            if (!gallery) return;
+            gallery.querySelectorAll(".numeros__card").forEach(function (card) {
+                card.style.removeProperty("left");
+                card.style.removeProperty("top");
+                card.style.removeProperty("--card-rot");
+                card.style.removeProperty("transform");
+            });
+            stage.style.removeProperty("height");
+        }
+
+        function setOpen(open) {
+            if (open) {
+                stage.classList.add("is-open");
+                if (!isMobile()) {
+                    requestAnimationFrame(function () {
+                        applyOpenLayout();
+                    });
+                }
+            } else {
+                clearOpenLayout();
+                stage.classList.remove("is-open");
+            }
+            stage.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+
         if (!stage.dataset.numerosBound) {
             stage.dataset.numerosBound = "1";
+            stage.setAttribute("role", "button");
+            stage.setAttribute("aria-expanded", "false");
 
-            // Touch / click toggle (hover no existe en móvil)
             stage.addEventListener("click", function () {
-                if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-                stage.classList.toggle("is-open");
+                setOpen(!stage.classList.contains("is-open"));
             });
 
             stage.addEventListener("keydown", function (e) {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    stage.classList.toggle("is-open");
+                    setOpen(!stage.classList.contains("is-open"));
+                }
+            });
+
+            window.addEventListener("resize", function () {
+                if (!stage.classList.contains("is-open")) return;
+                if (isMobile()) {
+                    clearOpenLayout();
+                    stage.classList.add("is-open");
+                } else {
+                    applyOpenLayout();
                 }
             });
         }

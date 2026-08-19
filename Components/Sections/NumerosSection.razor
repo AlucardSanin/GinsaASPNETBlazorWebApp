@@ -1,16 +1,14 @@
 <section class="numeros" id="numeros">
     <div class="container">
-        <h2 class="section-title numeros__title reveal">Números que <span class="fun">hablan</span> por sí solos</h2>
+        <h2 class="section-title numeros__title reveal">Números que <span class="fun">HABLAN</span> por sí solos</h2>
 
-        <div class="numeros__stage reveal" tabindex="0" aria-label="Galería de resultados. Pasa el cursor para expandir.">
-            <div class="numeros__figs" aria-hidden="true">
-                <img class="numeros__fig numeros__fig--bird" src="@Assets["images/numeros-bird.png"]" alt="" />
+        <div class="numeros__stage reveal" tabindex="0" role="button" aria-expanded="false" aria-label="Galería de resultados. Haz clic para expandir o contraer.">
+            @* Stickers detrás (asoman por bordes) *@
+            <div class="numeros__figs numeros__figs--back" aria-hidden="true">
                 <img class="numeros__fig numeros__fig--spark" src="@Assets["images/numeros-figure2.png"]" alt="" />
-                <img class="numeros__fig numeros__fig--wave" src="@Assets["images/numeros-figure3.png"]" alt="" />
-                <div class="numeros__fig numeros__fig--smiley" aria-hidden="true">
-                    <span class="numeros__smiley-face">;)</span>
-                </div>
                 <img class="numeros__fig numeros__fig--semi" src="@Assets["images/numeros-semicircle.png"]" alt="" />
+                <img class="numeros__fig numeros__fig--wave" src="@Assets["images/numeros-figure3.png"]" alt="" />
+                <img class="numeros__fig numeros__fig--bird" src="@Assets["images/numeros-bird.png"]" alt="" />
                 <img class="numeros__fig numeros__fig--blob" src="@Assets["images/numeros-figure.png"]" alt="" />
             </div>
 
@@ -21,6 +19,13 @@
                 <img class="numeros__card" src="@Assets["images/stats-anuncios.png"]" alt="Estadísticas de anuncios" />
                 <img class="numeros__card" src="@Assets["images/stats-resumen.png"]" alt="Resumen de estadísticas" />
                 <img class="numeros__card" src="@Assets["images/stats-seguidores.png"]" alt="Seguidores" />
+            </div>
+
+            @* Stickers delante (solo una esquina de la captura) *@
+            <div class="numeros__figs numeros__figs--front" aria-hidden="true">
+                <div class="numeros__fig numeros__fig--smiley">
+                    <span class="numeros__smiley-face">;)</span>
+                </div>
             </div>
         </div>
     </div>

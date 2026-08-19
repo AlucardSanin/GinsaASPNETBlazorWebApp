@@ -1,6 +1,6 @@
 @page "/"
 
-<PageTitle>Arrieta Agency — Creatividad + estrategia personalizada</PageTitle>
+<PageTitle>Arrieta Agency ï¿½ Creatividad + estrategia personalizada</PageTitle>
 <div class="page-shell">
     <PageMesh />
     <SiteNav />
@@ -8,10 +8,23 @@
     <HolaSection />
     <ServiciosSection />
     <ProcesoSection />
-    <MarcasSection />
-    <NumerosSection />
-    <CreemosSection />
-    <SiteFooter />
+
+    @* Fondo Figma 198:2813 (mesh-bg2) anclado a Marcas ? footer ï¿½ no depende del alto total de la pï¿½gina *@
+    <div class="band-lower">
+        <div class="band-lower__bg" aria-hidden="true">
+            <img class="band-lower__mesh"
+                 src="@Assets["images/mesh-bg2.png"]"
+                 alt=""
+                 width="1920"
+                 height="4070"
+                 decoding="async" />
+            <div class="band-lower__noise"></div>
+        </div>
+        <MarcasSection />
+        <NumerosSection />
+        <CreemosSection />
+        <SiteFooter />
+    </div>
 </div>
 
 <button type="button" class="scroll-top is-hidden" aria-label="Volver al inicio">
