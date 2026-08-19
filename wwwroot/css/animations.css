@@ -195,20 +195,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 .marquee__track img:hover { transform: scale(1.12); filter: brightness(1.12); }
 
 /* ==========================================================================
-   NÚMEROS — entrada + expand en hover (figuras vía CSS en arrieta.css)
+   NÚMEROS — KPIs (reveal vía .reveal)
    ========================================================================== */
-.numeros__stage.reveal { opacity: 1; transform: none; }
-.numeros__stage:not(.is-visible) .numeros__card {
-    opacity: 0 !important;
-}
-.numeros__stage.is-visible .numeros__card:nth-child(1) { transition-delay: .05s; }
-.numeros__stage.is-visible .numeros__card:nth-child(2) { transition-delay: .12s; }
-.numeros__stage.is-visible .numeros__card:nth-child(3) { transition-delay: .19s; }
-.numeros__stage.is-visible .numeros__card:nth-child(4) { transition-delay: .26s; }
-.numeros__stage.is-visible .numeros__card:nth-child(5) { transition-delay: .33s; }
-.numeros__stage.is-visible .numeros__card:nth-child(6) { transition-delay: .4s; }
-.numeros__stage.is-visible.is-ready .numeros__card { transition-delay: 0s; }
-.numeros__stage.is-visible.is-ready .numeros__fig { transition-delay: 0s; }
 
 /* ==========================================================================
    CREEMOS JUNTOS — glow que late
@@ -241,9 +229,6 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
         transition-duration: .001ms !important;
     }
     .reveal { opacity: 1 !important; transform: none !important; }
-    .numeros__stage:not(.is-visible) .numeros__card { opacity: 1 !important; }
-    .numeros__fig { opacity: 1 !important; transform: none !important; }
-    .hero__intro { opacity: 0 !important; visibility: hidden !important; }
-    .hero__smile { opacity: 1 !important; }
+    .hero__intro { opacity: 1 !important; visibility: visible !important; }
     .page-mesh__noise { display: none; }
 }

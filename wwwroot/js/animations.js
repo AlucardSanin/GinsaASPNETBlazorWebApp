@@ -55,58 +55,6 @@
         onScroll();
     }
 
-    function initHeroIntro() {
-        var intro = document.querySelector(".hero__intro");
-        var smile = document.querySelector(".hero__smile");
-        if (!intro || !smile) return;
-
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            intro.classList.add("is-done");
-            smile.classList.add("is-visible");
-            return;
-        }
-
-        var INTRO_MS = 2600;
-        var baseSrc = intro.getAttribute("src").split("?")[0];
-
-        function finishIntro() {
-            intro.classList.add("is-done");
-            smile.classList.add("is-visible");
-        }
-
-        function startIntro() {
-            intro.classList.remove("is-done");
-            smile.classList.remove("is-visible");
-
-            if (intro._introTimer) {
-                clearTimeout(intro._introTimer);
-            }
-
-            intro._introTimer = setTimeout(finishIntro, INTRO_MS);
-        }
-
-        function whenReady(forceReplay) {
-            if (forceReplay) {
-                intro.src = baseSrc + "?v=2&t=" + Date.now();
-                intro.addEventListener("load", startIntro, { once: true });
-                return;
-            }
-
-            if (intro.complete && intro.naturalWidth > 0) {
-                startIntro();
-            } else {
-                intro.addEventListener("load", startIntro, { once: true });
-            }
-        }
-
-        if (!intro.dataset.heroBound) {
-            intro.dataset.heroBound = "1";
-            whenReady(false);
-        } else {
-            whenReady(true);
-        }
-    }
-
     function initProceso() {
         var section = document.querySelector(".proceso");
         if (!section) return;
@@ -177,127 +125,78 @@
         setStep(Number(section.dataset.step || "0"));
     }
 
-    function initNumeros() {
-        var stage = document.querySelector(".numeros__stage");
-        if (!stage) return;
+    function initResenas() {
+        var root = document.querySelector("[data-resenas-carousel]");
+        if (!root) return;
 
-        var gallery = stage.querySelector(".numeros__gallery");
-        var mobileMq = window.matchMedia("(max-width: 900px)");
+        var track = root.querySelector("[data-resenas-track]");
+        var cards = Array.prototype.slice.call(root.querySelectorAll("[data-resenas-card]"));
+        var dotsWrap = root.querySelector("[data-resenas-dots]");
+        var prevBtn = root.querySelector("[data-resenas-prev]");
+        var nextBtn = root.querySelector("[data-resenas-next]");
+        if (!track || !cards.length || !dotsWrap) return;
 
-        function isMobile() {
-            return mobileMq.matches;
+        var index = Number(root.dataset.resenasIndex || "0") || 0;
+
+        function perView() {
+            return window.matchMedia("(min-width: 901px)").matches ? Math.min(2, cards.length) : 1;
         }
 
-        function openGapPx() {
-            var w = gallery ? gallery.clientWidth : stage.clientWidth;
-            return Math.round(Math.min(40, Math.max(18, w * 0.024)));
+        function maxIndex() {
+            return Math.max(0, cards.length - perView());
         }
 
-        /** Distribuye capturas como flex+gap, pero en absolute para poder animar left (desktop) */
-        function applyOpenLayout() {
-            if (!gallery || isMobile()) return;
-            var cards = gallery.querySelectorAll(".numeros__card");
-            if (!cards.length) return;
-
-            var gap = openGapPx();
-            var widths = [];
-            var total = 0;
-            for (var i = 0; i < cards.length; i++) {
-                var w = cards[i].offsetWidth || 0;
-                widths.push(w);
-                total += w;
-            }
-
-            var free = gallery.clientWidth - total - gap * (cards.length - 1);
-            var x = Math.max(8, free / 2);
-
-            for (var j = 0; j < cards.length; j++) {
-                var center = x + widths[j] / 2;
-                var pct = gallery.clientWidth ? (center / gallery.clientWidth) * 100 : 50;
-                cards[j].style.left = pct.toFixed(3) + "%";
-                cards[j].style.setProperty("--card-rot", "0deg");
-                x += widths[j] + gap;
+        function renderDots() {
+            var pages = maxIndex() + 1;
+            dotsWrap.innerHTML = "";
+            for (var i = 0; i < pages; i++) {
+                var btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "resenas__dot" + (i === index ? " is-active" : "");
+                btn.setAttribute("aria-label", "Ir a grupo " + (i + 1));
+                btn.dataset.resenasDot = String(i);
+                dotsWrap.appendChild(btn);
             }
         }
 
-        function clearOpenLayout() {
-            if (!gallery) return;
-            gallery.querySelectorAll(".numeros__card").forEach(function (card) {
-                card.style.removeProperty("left");
-                card.style.removeProperty("top");
-                card.style.removeProperty("--card-rot");
-                card.style.removeProperty("transform");
-            });
-            stage.style.removeProperty("height");
+        function goTo(next) {
+            index = Math.max(0, Math.min(maxIndex(), next));
+            root.dataset.resenasIndex = String(index);
+            var card = cards[0];
+            var gap = parseFloat(getComputedStyle(track).gap) || 18;
+            var step = card.getBoundingClientRect().width + gap;
+            track.style.transform = "translateX(" + (-index * step) + "px)";
+            renderDots();
         }
 
-        function setOpen(open) {
-            if (open) {
-                stage.classList.add("is-open");
-                if (!isMobile()) {
-                    requestAnimationFrame(function () {
-                        applyOpenLayout();
-                    });
-                }
-            } else {
-                clearOpenLayout();
-                stage.classList.remove("is-open");
+        if (!root.dataset.resenasBound) {
+            root.dataset.resenasBound = "1";
+
+            if (prevBtn) {
+                prevBtn.addEventListener("click", function () { goTo(index - 1); });
             }
-            stage.setAttribute("aria-expanded", open ? "true" : "false");
-        }
-
-        if (!stage.dataset.numerosBound) {
-            stage.dataset.numerosBound = "1";
-            stage.setAttribute("role", "button");
-            stage.setAttribute("aria-expanded", "false");
-
-            stage.addEventListener("click", function () {
-                setOpen(!stage.classList.contains("is-open"));
+            if (nextBtn) {
+                nextBtn.addEventListener("click", function () { goTo(index + 1); });
+            }
+            dotsWrap.addEventListener("click", function (e) {
+                var t = e.target.closest("[data-resenas-dot]");
+                if (!t) return;
+                goTo(Number(t.dataset.resenasDot) || 0);
             });
-
-            stage.addEventListener("keydown", function (e) {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setOpen(!stage.classList.contains("is-open"));
-                }
-            });
-
             window.addEventListener("resize", function () {
-                if (!stage.classList.contains("is-open")) return;
-                if (isMobile()) {
-                    clearOpenLayout();
-                    stage.classList.add("is-open");
-                } else {
-                    applyOpenLayout();
-                }
+                goTo(Math.min(index, maxIndex()));
             });
         }
 
-        function markReady() {
-            if (stage.classList.contains("is-visible")) {
-                setTimeout(function () { stage.classList.add("is-ready"); }, 700);
-            }
-        }
-
-        if (stage.classList.contains("is-visible")) {
-            markReady();
-            return;
-        }
-
-        if ("MutationObserver" in window && !stage._numerosMo) {
-            stage._numerosMo = new MutationObserver(markReady);
-            stage._numerosMo.observe(stage, { attributes: true, attributeFilter: ["class"] });
-        }
-        markReady();
+        goTo(index);
     }
 
     function init() {
         initReveal();
         initNav();
         initScrollTop();
-        initHeroIntro();
         initProceso();
-        initNumeros();
+        initResenas();
     }
 
     if (document.readyState !== "loading") {

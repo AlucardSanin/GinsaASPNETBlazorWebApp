@@ -1,0 +1,84 @@
+@using GinsaASPNETBlazorWebApp.Reviews
+@inject IGoogleReviewsService ReviewsService
+
+<section class="resenas" id="resenas" aria-label="Reseñas de clientes">
+    <div class="container resenas__layout">
+        <div class="resenas__intro reveal reveal--left">
+            <h2 class="resenas__title">Nuestros clientes aman lo que hacemos</h2>
+            <p class="resenas__lead">
+                Mira lo que dicen de nosotros en Google: experiencias reales de marcas que han crecido con Arrieta Agency.
+            </p>
+            <a class="btn-cta resenas__cta"
+               href="https://calendly.com/agenciarrieta/30min"
+               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/agenciarrieta/30min'});return false;">Hagamos equipo</a>
+        </div>
+
+        <div class="resenas__carousel" data-resenas-carousel>
+            <div class="resenas__nav" aria-hidden="false">
+                <button type="button" class="resenas__arrow resenas__arrow--prev" data-resenas-prev aria-label="Reseña anterior">
+                    <span aria-hidden="true">←</span>
+                </button>
+                <button type="button" class="resenas__arrow resenas__arrow--next" data-resenas-next aria-label="Reseña siguiente">
+                    <span aria-hidden="true">→</span>
+                </button>
+            </div>
+
+            <div class="resenas__viewport">
+                <div class="resenas__track" data-resenas-track>
+                    @foreach (var review in _reviews)
+                    {
+                        <article class="resenas__card" data-resenas-card>
+                            <div class="resenas__quote" aria-hidden="true">“</div>
+                            <p class="resenas__text">@review.Text</p>
+                            <div class="resenas__meta">
+                                <div class="resenas__author">
+                                    @if (!string.IsNullOrWhiteSpace(review.AuthorPhotoUrl))
+                                    {
+                                        <img class="resenas__avatar" src="@review.AuthorPhotoUrl" alt="" width="48" height="48" loading="lazy" />
+                                    }
+                                    else
+                                    {
+                                        <span class="resenas__avatar resenas__avatar--fallback" aria-hidden="true">@Initials(review.AuthorName)</span>
+                                    }
+                                    <div>
+                                        <p class="resenas__name">@review.AuthorName</p>
+                                        <p class="resenas__role">@(review.AuthorTitle ?? "Reseña en Google")@(string.IsNullOrWhiteSpace(review.RelativeTime) ? "" : $" · {review.RelativeTime}")</p>
+                                    </div>
+                                </div>
+                                <div class="resenas__rating" aria-label="@review.Rating de 5 estrellas">
+                                    <span class="resenas__stars" aria-hidden="true">@Stars(review.Rating)</span>
+                                    <span class="resenas__score">@review.Rating.ToString("0.0")</span>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                </div>
+            </div>
+
+            <div class="resenas__dots" data-resenas-dots role="tablist" aria-label="Paginación de reseñas"></div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private IReadOnlyList<GoogleReview> _reviews = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _reviews = await ReviewsService.GetReviewsAsync();
+    }
+
+    private static string Initials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (parts.Length == 0) return "A";
+        if (parts.Length == 1) return parts[0][..1].ToUpperInvariant();
+        return $"{parts[0][0]}{parts[^1][0]}".ToUpperInvariant();
+    }
+
+    private static string Stars(double rating)
+    {
+        var full = (int)Math.Round(Math.Clamp(rating, 0, 5));
+        return new string('★', full) + new string('☆', 5 - full);
+    }
+}

@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>GinsaASPNETBlazorWebApp</RootNamespace>
     <AssemblyName>GinsaASPNETBlazorWebApp</AssemblyName>
+    <UserSecretsId>ginsa-arrieta-agency-reviews</UserSecretsId>
   </PropertyGroup>
 
   <!-- Scratch exports used during design; keep them out of publish packages. -->

@@ -5,42 +5,13 @@
 
     <div class="marquee">
         <div class="marquee__track">
-            @for (var i = 0; i < 2; i++)
+            @foreach (var _ in Enumerable.Range(0, 2))
             {
-                <img src="@Assets["images/logo-ea3.png"]" alt="EA3 Electrónica Arrieta" />
-                <img src="@Assets["images/logo-raresca.png"]" alt="Raresca Autopartes" />
-                <img src="@Assets["images/logo-premier.png"]" alt="Premier Agency Service" />
-                <img src="@Assets["images/logo-artisan.png"]" alt="Artisan Food Produce" />
-                <img src="@Assets["images/logo-lomitos.png"]" alt="Lomito's Burger" />
-                <img src="@Assets["images/logo-supercarnes.png"]" alt="Super Carnes El Cuchillo" />
-                <img src="@Assets["images/logo-pastelitos.png"]" alt="Pastelitos er Zuliano" />
-                <img src="@Assets["images/logo-enplast.png"]" alt="ENPLAST" />
-                <img src="@Assets["images/logo-bolsafeliz.png"]" alt="Bolsa Feliz" />
-                <img src="@Assets["images/logo-eco.png"]" alt="ECO" />
-                <img src="@Assets["images/logo-grupocarnicosdelsur.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-gr&c.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-beautyclinic.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-biokit.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-cosmy.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-diporto.png"]" alt="Grupo Carnicos del Sur" />
-                <img src="@Assets["images/logo-doctorjavierlopez.png"]" alt="Grupo Carnicos del Sur" />
+                @foreach (var n in Enumerable.Range(1, 17))
+                {
+                    <img src="@Assets[$"images/logos/{n}.png"]" alt="Marca aliada @n" loading="lazy" />
+                }
             }
-        </div>
-    </div>
-
-    <div class="container marcas__cta reveal">
-        <p>Haz clic aquí para leer lo que dicen de nosotros en Google</p>
-        <div class="country-row">
-            <button class="country-btn on-dark">
-                <img class="flag" src="@Assets["images/flag-co.svg"]" alt="" />
-                <span class="label">Colombia</span>
-                <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-            </button>
-            <button class="country-btn on-dark">
-                <img class="flag" src="@Assets["images/flag-ve.svg"]" alt="" />
-                <span class="label">Venezuela</span>
-                <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-            </button>
         </div>
     </div>
 </section>
