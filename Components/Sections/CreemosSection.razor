@@ -1,6 +1,18 @@
 <section class="creemos" id="creemos">
     <div class="container">
-        <img class="creemos__logo reveal reveal--scale" src="@Assets["images/creemos-juntos.svg"]" alt="Creemos juntos" />
+        <div class="creemos__brand reveal reveal--scale" aria-label="Creemos juntos">
+            <img class="creemos__logo creemos__logo--base"
+                 src="@Assets["images/creemos-juntos.svg"]"
+                 alt="Creemos juntos"
+                 width="620"
+                 height="288" />
+            <img class="creemos__logo creemos__logo--hover"
+                 src="@Assets["images/creemos-juntos-hover.svg"]"
+                 alt=""
+                 aria-hidden="true"
+                 width="620"
+                 height="288" />
+        </div>
         <p class="creemos__text reveal d1">
             Si tienes una idea en mente o te gustaría conocer más de nuestros servicios, ¡contáctanos!
         </p>
@@ -21,10 +33,10 @@
                 <span class="label">Venezuela</span>
                 <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
             </a>
-            <a class="country-btn on-dark"
+            <a class="country-btn on-dark creemos__cta"
                href="https://calendly.com/agenciarrieta/30min"
                onclick="Calendly.initPopupWidget({url: 'https://calendly.com/agenciarrieta/30min'});return false;">
-                <img class="flag" src="@Assets["images/smile.svg"]" alt="" />
+                <img class="creemos__cta-icon" src="@Assets["images/smile.svg"]" alt="" />
                 <span class="label">Hagamos equipo</span>
                 <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
             </a>

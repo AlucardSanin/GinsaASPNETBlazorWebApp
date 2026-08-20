@@ -211,7 +211,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     pointer-events: none;
 }
 .creemos > .container { position: relative; z-index: 1; }
-.creemos__logo { animation: floaty 7s ease-in-out infinite; }
+.creemos__brand { animation: floaty 7s ease-in-out infinite; }
+.creemos__brand:hover { animation-play-state: paused; }
 
 /* ==========================================================================
    BOTONES país — feedback de press

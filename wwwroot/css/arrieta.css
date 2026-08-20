@@ -544,6 +544,7 @@ a { text-decoration: none; color: inherit; }
     .hola__title {
         font-size: clamp(36px, 8vw, 48px);
         margin-bottom: 20px;
+        color: #fff;
     }
     .hola__text p {
         font-size: clamp(16px, 3.8vw, 18px);
@@ -1234,8 +1235,6 @@ a { text-decoration: none; color: inherit; }
 .step-card__art img {
     /* Stickers ~half card height so text stays primary */
     width: 58%;
-    max-width: 130px;
-    max-height: 148px;
     height: auto;
     object-fit: contain;
     pointer-events: none;
@@ -1243,9 +1242,9 @@ a { text-decoration: none; color: inherit; }
     user-select: none;
     -webkit-touch-callout: none;
 }
-.step-card--creamos .step-card__art img { transform: rotate(-24deg); width: 54%; }
-.step-card--ejecutamos .step-card__art img { transform: rotate(-22deg); width: 56%; }
-.step-card--medimos .step-card__art img { transform: rotate(40deg); width: 54%; }
+.step-card--creamos .step-card__art img { transform: rotate(-24deg); }
+.step-card--ejecutamos .step-card__art img { transform: rotate(-22deg);}
+.step-card--medimos .step-card__art img { transform: rotate(40deg);}
 .step-card--yellow { background: var(--c-yellow); color: var(--c-dark); }
 .step-card--green { background: var(--c-green); color: #fff; }
 .step-card--blue { background: var(--c-blue); color: #fff; }
@@ -1379,7 +1378,9 @@ a { text-decoration: none; color: inherit; }
    ========================================================================== */
 .resenas {
     position: relative;
-    padding: clamp(48px, 8vh, 96px) 0 clamp(72px, 10vh, 120px);
+    /* Acerca reseñas a logos sin tocar el alto de marcas */
+    padding: clamp(8px, 2vh, 24px) 0 clamp(72px, 10vh, 120px);
+    margin-top: clamp(-48px, -6vh, -24px);
     overflow: hidden;
 }
 .resenas__layout {
@@ -1468,7 +1469,7 @@ a { text-decoration: none; color: inherit; }
     border-radius: 22px;
     padding: clamp(24px, 3vw, 36px);
     /* Sombra suave por card; evita “placa” gris entre huecos y esquinas */
-    box-shadow: 0 4px 18px rgba(0, 0, 0, .16);
+    box-shadow: 0 0px 7px rgba(0, 0, 0, .16);
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -1482,6 +1483,7 @@ a { text-decoration: none; color: inherit; }
     user-select: none;
 }
 .resenas__text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-family: var(--font-body);
     font-weight: 500;
     font-size: clamp(15px, 1.35vw, 18px);
@@ -1506,6 +1508,7 @@ a { text-decoration: none; color: inherit; }
     align-items: center;
     gap: 12px;
     min-width: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .resenas__avatar {
     width: 48px;
@@ -1589,6 +1592,12 @@ a { text-decoration: none; color: inherit; }
     }
     .resenas__nav { justify-content: flex-start; }
     .resenas__card { min-height: 260px; }
+    .resenas {
+        padding: clamp(8px, 2vh, 20px) 0 clamp(48px, 8vh, 72px);
+        margin-top: clamp(-40px, -5vh, -20px);
+    }
+    .resenas__title { color: #fff; }
+    .resenas__lead { color: rgba(255, 255, 255, .82); }
 }
 
 /* ==========================================================================
@@ -1696,10 +1705,33 @@ a { text-decoration: none; color: inherit; }
     padding: 90px 0 110px;
     text-align: center;
 }
-.creemos__logo {
-    width: min(620px, 86vw);
-    height: auto;
+.creemos__brand {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(680px, 92vw);
     margin: 0 auto 34px;
+    cursor: pointer;
+}
+.creemos__logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    grid-area: 1 / 1;
+    transition: opacity .35s ease;
+}
+.creemos__logo--hover {
+    opacity: 0;
+    pointer-events: none;
+}
+.creemos__brand:hover .creemos__logo--base,
+.creemos__brand:focus-within .creemos__logo--base {
+    opacity: 0;
+}
+.creemos__brand:hover .creemos__logo--hover,
+.creemos__brand:focus-within .creemos__logo--hover {
+    opacity: 1;
 }
 .creemos__text {
     font-family: var(--font-body);
@@ -1711,6 +1743,13 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.5;
     margin: 0 auto 40px;
     max-width: 640px;
+}
+.creemos__cta-icon {
+    width: 28px;
+    height: 36px;
+    object-fit: contain;
+    flex: 0 0 auto;
+    border-radius: 0;
 }
 
 /* ==========================================================================
