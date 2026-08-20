@@ -202,19 +202,6 @@ a { text-decoration: none; color: inherit; }
     justify-content: center;
     flex-wrap: wrap;
 }
-.creemos .country-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(230px, 280px));
-    justify-content: center;
-    gap: 16px 32px;
-    max-width: 640px;
-    margin: 0 auto;
-}
-.creemos .country-row .country-btn:last-child {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(280px, 100%);
-}
 
 /* ==========================================================================
    NAVBAR
@@ -322,13 +309,12 @@ a { text-decoration: none; color: inherit; }
     flex-shrink: 0;
 }
 .hero__headline-main {
-    display: inline-block;
+    display: block;
     font-weight: 700;
     font-size: clamp(22px, 3.2vw, 36px);
     text-transform: uppercase;
     letter-spacing: .02em;
     line-height: 1.15;
-    margin-bottom: .2em;
 }
 .hero__headline-sub {
     font-weight: 500;
@@ -349,6 +335,12 @@ a { text-decoration: none; color: inherit; }
     color: #fff;
     font-size: 20px;
     margin: 0;
+}
+.hero__calendly {
+    height: auto;
+    min-height: 40px;
+    padding: 10px 28px;
+    white-space: nowrap;
 }
 
 /* DecoraciÃ³n hero â€” cintas, elipses y semicÃ­rculos del diseÃ±o original */
@@ -723,93 +715,95 @@ a { text-decoration: none; color: inherit; }
 .servicios__board {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 420px) minmax(0, 1fr);
-    gap: clamp(8px, 2vw, 28px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 400px) minmax(0, 1fr);
+    gap: clamp(8px, 1.5vw, 24px);
     align-items: stretch;
-    max-width: 1180px;
-    margin: 110px auto 28px;
-    min-height: min(920px, 92vh);
+    max-width: 1240px;
+    margin: 80px auto 28px;
+    min-height: min(780px, 88vh);
 }
 
 .servicios__col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    position: relative;
+    display: block;
+    align-self: stretch;
+    min-height: 100%;
     z-index: 2;
 }
-.servicios__col--left {
-    align-items: flex-end;
-    text-align: right;
-    padding-top: 200px;
-}
-.servicios__col--right {
-    align-items: flex-start;
-    text-align: left;
-    justify-content: space-between;
-    padding-block: 2% 4%;
-}
+.servicios__col--left { text-align: right; }
+.servicios__col--right { text-align: left; }
+
 .servicios__col-group {
+    position: absolute;
     display: flex;
-    margin-left: -4%;
     flex-direction: column;
     gap: 12px;
+}
+.servicios__col-group--social {
+    top: 26%;
+    right: -8%;
+    align-items: flex-end;
+}
+.servicios__col-group--marketing {
+    top: 3%;
+    left: -4%;
     align-items: flex-start;
 }
-.servicios__col-group--bot { margin-top: auto; padding-bottom: 58%; margin-left: -20%;}
-/*.servicios__col-group--bot {
-    margin-top: auto;
-    padding-bottom: 87%;
-    margin-left: -41%;
-}*/
+.servicios__col-group--bot {
+    top: 48%;
+    left: -24%;
+    align-items: flex-start;
+}
+
 .servicios__tag {
     display: inline-block;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: clamp(14px, 1.15vw, 18px);
-    line-height: 1.25;
+    font-size: clamp(13px, 1.1vw, 17px);
+    line-height: 1.3;
     color: var(--c-dark);
-    padding: 6px 10px;
-    border-radius: 30px;
+    padding: 2px 0;
     cursor: default;
+    max-width: 22ch;
     transform-origin: center;
     transition: transform .22s cubic-bezier(.22, 1, .36, 1);
-    max-width: 28ch;
 }
 .servicios__col--left .servicios__tag { transform-origin: right center; }
 .servicios__col--right .servicios__tag { transform-origin: left center; }
-.servicios__tag--wrap { max-width: 26ch; }
 .servicios__tag--light { color: #fff; }
 .servicios__tag:hover,
 .servicios__tag:focus-visible {
     transform: scale(1.08);
 }
 
-/* Sangrías: siguen la silueta de los stickers (no lista alineada) */
-.servicios__tag--l1 { margin-right: -6px; }
-.servicios__tag--l2 { margin-right: 34px; }
-.servicios__tag--l3 { margin-right: 52px; }
-.servicios__tag--l4 { margin-right: 10px; }
+/* Siguen el arco izquierdo de Social Media (sticker top: 18%) */
+.servicios__col-group--social .servicios__tag:nth-child(1) { margin-right: 4px; }
+.servicios__col-group--social .servicios__tag:nth-child(2) { margin-right: 36px; }
+.servicios__col-group--social .servicios__tag:nth-child(3) { margin-right: 56px; }
+.servicios__col-group--social .servicios__tag:nth-child(4) { margin-right: 14px; }
 
-.servicios__tag--r1 { margin-left: 10px; }
-.servicios__tag--r2 { margin-left: -4px; }
+/* Siguen el borde derecho del ticket Marketing (sticker top: 0%) */
+.servicios__col-group--marketing .servicios__tag:nth-child(1) { margin-left: 8px; }
+.servicios__col-group--marketing .servicios__tag:nth-child(2) { margin-left: 22px; }
+.servicios__col-group--marketing .servicios__tag:nth-child(3) { margin-left: 4px; }
 
-.servicios__tag--b1 { margin-left: 2px; }
-.servicios__tag--b2 { margin-left: 16px; }
-.servicios__tag--b3 { margin-left: 54px; }
-.servicios__tag--b4 { margin-left: 62px; }
-.servicios__tag--b5 { margin-left: 24px; }
+/* Siguen el círculo de Diseño (sticker top: 46%) */
+.servicios__col-group--bot .servicios__tag:nth-child(1) { margin-left: 4px; }
+.servicios__col-group--bot .servicios__tag:nth-child(2) { margin-left: 32px; }
+.servicios__col-group--bot .servicios__tag:nth-child(3) { margin-left: 56px; }
+.servicios__col-group--bot .servicios__tag:nth-child(4) { margin-left: 42px; }
+.servicios__col-group--bot .servicios__tag:nth-child(5) { margin-left: 12px; }
 
 /* Stack central de stickers + acentos (formas SVG + texto) */
 .servicios__stack {
     position: relative;
     width: 100%;
-    max-width: 460px;
+    max-width: 400px;
     margin-inline: auto;
     aspect-ratio: 460 / 820;
     z-index: 1;
     overflow: visible;
 }
-
 .servicios__sticker {
     position: absolute;
     left: 50%;
@@ -1023,21 +1017,28 @@ a { text-decoration: none; color: inherit; }
     }
     .servicios__col--left,
     .servicios__col--right {
-        align-items: center;
         text-align: center;
-        padding: 0;
-        justify-content: flex-start;
-        gap: 10px;
+        min-height: 0;
     }
     .servicios__col--left { order: 2; }
-    .servicios__stack { order: 1; max-width: 320px; aspect-ratio: 360 / 640; }
-    .servicios__col--right { order: 3; gap: 28px; }
-    .servicios__col-group {
-        align-items: center;
-        gap: 10px;
-        width: min(100%, 34ch);
+    .servicios__stack {
+        order: 1;
+        max-width: 320px;
+        aspect-ratio: 360 / 640;
     }
-    .servicios__col-group--bot { margin-top: 0; padding-bottom: 0; margin-left: 0; }
+    .servicios__col--right { order: 3; }
+    .servicios__col-group {
+        position: static;
+        align-items: center;
+        width: min(100%, 34ch);
+        margin-inline: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+    }
+    .servicios__col-group--bot {
+        margin-top: 28px;
+    }
     .servicios__tag,
     .servicios__col--left .servicios__tag,
     .servicios__col--right .servicios__tag {
@@ -1050,8 +1051,6 @@ a { text-decoration: none; color: inherit; }
         padding: 8px 4px;
         max-width: none;
     }
-    .servicios__tag--wrap { max-width: 28ch; }
-    /* En móvil el fondo ya oscurece: tags claros con sombra para legibilidad */
     .servicios__tag--light {
         color: #fff;
         text-shadow: 0 1px 8px rgba(0, 0, 0, .35);
@@ -1642,17 +1641,6 @@ a { text-decoration: none; color: inherit; }
 }
 .numeros__item:nth-child(4) { grid-column: 2 / 4; }
 .numeros__item:nth-child(5) { grid-column: 4 / 6; }
-.numeros__item:nth-child(1)::after,
-.numeros__item:nth-child(2)::after,
-.numeros__item:nth-child(4)::after {
-    content: "";
-    position: absolute;
-    top: 10%;
-    right: 0;
-    width: 1px;
-    height: 78%;
-    background: rgba(255, 255, 255, .28);
-}
 .numeros__icon {
     width: clamp(48px, 5vw, 64px);
     height: clamp(48px, 5vw, 64px);
@@ -1744,13 +1732,6 @@ a { text-decoration: none; color: inherit; }
     margin: 0 auto 40px;
     max-width: 640px;
 }
-.creemos__cta-icon {
-    width: 28px;
-    height: 36px;
-    object-fit: contain;
-    flex: 0 0 auto;
-    border-radius: 0;
-}
 
 /* ==========================================================================
    FOOTER
@@ -1827,6 +1808,8 @@ a { text-decoration: none; color: inherit; }
         width: 100%;
         margin: 0;
         flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
         gap: 4px;
         padding: 16px 24px 22px;
         background: rgba(24, 25, 52, .48);
@@ -1841,6 +1824,11 @@ a { text-decoration: none; color: inherit; }
         width: 100%;
     }
     .nav-check:checked ~ .container .nav-links { display: flex; }
+    .nav-links a {
+        width: 100%;
+        text-align: right;
+        padding: 8px 0;
+    }
     .nav-toggle {
         display: inline-flex;
         flex-direction: column;
@@ -1949,7 +1937,6 @@ a { text-decoration: none; color: inherit; }
     .numeros__item:nth-child(5) {
         grid-column: 1;
     }
-    .numeros__item::after { display: none; }
     .numeros__item:not(:last-child) {
         padding-bottom: 36px;
         border-bottom: 1px solid rgba(255, 255, 255, .22);
@@ -1970,17 +1957,9 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 560px) {
-    .creemos .country-row {
-        grid-template-columns: 1fr;
-        max-width: 280px;
-    }
-    .creemos .country-row .country-btn:last-child {
-        grid-column: auto;
-        width: 100%;
-    }
-
     .hero__headline { font-size: 16px; }
     .hero__headline-main { font-size: 20px; }
+    .hero__calendly { white-space: normal; max-width: 92%; }
     .hero__intro { width: min(320px, 88vw); max-height: min(38vh, 300px); }
 
     .proceso {
