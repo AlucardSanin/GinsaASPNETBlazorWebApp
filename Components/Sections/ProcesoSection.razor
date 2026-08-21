@@ -1,3 +1,8 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var p = SiteContent.CurrentValue.Proceso;
+    var pasos = p.Pasos;
+}
 <section class="proceso" id="proceso" data-step="0" tabindex="0" aria-label="¿Cómo lo hacemos? Carrusel de pasos">
     <div class="proceso__bgs" aria-hidden="true">
         <div class="proceso__bg proceso__bg--0 is-active"></div>
@@ -9,48 +14,34 @@
     </div>
 
     <div class="container">
-        <h2 class="section-title proceso__title reveal"><span class="fun">¿CÓMO</span> lo hacemos?</h2>
+        <h2 class="section-title proceso__title reveal"><span class="fun">@p.TituloResaltado</span>@p.TituloDespues</h2>
     </div>
 
     <div class="proceso__stage reveal d1" role="list">
-        <article class="step-card step-card--yellow is-active" data-step="0" role="listitem" aria-current="true">
-            <div class="step-card__body">
-                <h3 class="step-card__title"><span class="num">1.</span>CONOCEMOS TU NEGOCIO</h3>
-                <p class="step-card__text">Queremos conocer bien tu negocio, qué quieres lograr, qué te preocupa y <strong>dónde está tu marca hoy.</strong></p>
-            </div>
-            <div class="step-card__art"><img src="@Assets["images/ear-te-escuchamos.png"]" alt="" draggable="false" /></div>
-        </article>
-
-        <article class="step-card step-card--green" data-step="1" role="listitem">
-            <div class="step-card__body">
-                <h3 class="step-card__title"><span class="num">2.</span>MIRAMOS MÁS ALLÁ</h3>
-                <p class="step-card__text">Analizamos tu mercado, competencia, clientes y datos para encontrar oportunidades de crecimiento.</p>
-            </div>
-            <div class="step-card__art"><img src="@Assets["images/card-proponemos.png"]" alt="" draggable="false" /></div>
-        </article>
-
-        <article class="step-card step-card--blue step-card--creamos" data-step="2" role="listitem">
-            <div class="step-card__body">
-                <h3 class="step-card__title"><span class="num">3.</span>PENSAMOS Y CREAMOS</h3>
-                <p class="step-card__text">Definimos <strong>Definimos qué queremos lograr, a quién queremos llegar y </strong> las estrategias que guien a tu marca.</p>
-            </div>
-            <div class="step-card__art"><img src="@Assets["images/card-creamos.png"]" alt="" draggable="false" /></div>
-        </article>
-
-        <article class="step-card step-card--purple step-card--ejecutamos" data-step="3" role="listitem">
-            <div class="step-card__body">
-                <h3 class="step-card__title"><span class="num">4.</span>LO HACEMOS REALIDAD</h3>
-                <p class="step-card__text">Nos ponemos manos a la obra, llevando <strong>la estrategia a la realidad</strong> y asegurando que todo avance como debe.</p>
-            </div>
-            <div class="step-card__art"><img src="@Assets["images/card-ejecutamos.png"]" alt="" draggable="false" /></div>
-        </article>
-
-        <article class="step-card step-card--dark step-card--medimos" data-step="4" role="listitem">
-            <div class="step-card__body">
-                <h3 class="step-card__title"><span class="num">5.</span>MEDIMOS Y MEJORAMOS</h3>
-                <p class="step-card__text">Vemos qué funcionó, qué podemos mejorar y qué aprendimos para seguir <strong>tomando mejores decisiones</strong>.</p>
-            </div>
-            <div class="step-card__art"><img src="@Assets["images/card-medimos.png"]" alt="" draggable="false" /></div>
-        </article>
+        @for (var i = 0; i < pasos.Count && i < StepMeta.Length; i++)
+        {
+            var paso = pasos[i];
+            var meta = StepMeta[i];
+            var active = i == 0;
+            var cardClass = active ? $"step-card {meta.Css} is-active" : $"step-card {meta.Css}";
+            <article class="@cardClass" data-step="@i" role="listitem" aria-current="@(active ? "true" : null)">
+                <div class="step-card__body">
+                    <h3 class="step-card__title"><span class="num">@paso.Numero</span>@paso.Titulo</h3>
+                    <p class="step-card__text">@((MarkupString)paso.Texto)</p>
+                </div>
+                <div class="step-card__art"><img src="@Assets[meta.Img]" alt="" draggable="false" /></div>
+            </article>
+        }
     </div>
 </section>
+
+@code {
+    private static readonly (string Css, string Img)[] StepMeta =
+    [
+        ("step-card--yellow", "images/ear-te-escuchamos.png"),
+        ("step-card--green", "images/card-proponemos.png"),
+        ("step-card--blue step-card--creamos", "images/card-creamos.png"),
+        ("step-card--purple step-card--ejecutamos", "images/card-ejecutamos.png"),
+        ("step-card--dark step-card--medimos", "images/card-medimos.png"),
+    ];
+}

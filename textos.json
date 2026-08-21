@@ -1,0 +1,166 @@
+{
+  "TituloPagina": "Agencia de Marketing y Publicidad en Bogotá y Maracaibo | Arrieta Agency",
+  "CalendlyUrl": "https://calendly.com/agenciarrieta/30min",
+
+  "Navegacion": {
+    "QuienesSomos": "¿Quiénes somos?",
+    "Servicios": "Servicios",
+    "Proceso": "Proceso",
+    "Portafolio": "Portafolio",
+    "Contactanos": "Contáctanos"
+  },
+
+  "Hero": {
+    "TituloLinea1": "CREAMOS MARCAS FELICES.",
+    "TituloLinea2": "CLIENTES TAMBIÉN.",
+    "Subtitulo": "Todo un equipo enfocado en hacerte crecer",
+    "BotonCalendly": "Cuéntanos sobre tu negocio",
+    "BotonColombia": "Sede Colombia",
+    "BotonVenezuela": "Sede Venezuela"
+  },
+
+  "Hola": {
+    "Titulo": "Sobre nosotros",
+    "Parrafos": [
+      "¡Hola!",
+      "Somos Ginsa y Hernedy, hermanos y mercadólogos al frente de una agencia con sede en Bogotá y Maracaibo, con más de 10 especialistas acompañando marcas en Estados Unidos, Suiza, Colombia y Venezuela.",
+      "Aquí hacemos las cosas BIEN y con el 💛 entero.",
+      "Todo empieza por entender muy bien tu negocio, tu mercado y las personas que te compran. Y desde ahí creamos estrategias que les den más razones para elegirte, volver y recomendarte.",
+      "Ahora cuéntanos de ti y de tu negocio."
+    ],
+    "Boton": "Hagamos equipo"
+  },
+
+  "Servicios": {
+    "TituloAntes": "¿Qué ",
+    "TituloResaltado": "HACEMOS?",
+    "SocialMedia": [
+      "Estrategia de contenido y guiones",
+      "Gestión de redes sociales",
+      "Publicidad digital",
+      "Creación de contenido audiovisual"
+    ],
+    "Marketing": [
+      "Estrategia digital",
+      "Diseño y desarrollo de sitios web y apps (UI/UX)",
+      "Gestión de Perfil de Empresa en Google y posicionamiento local"
+    ],
+    "Diseno": [
+      "Branding y estrategia de posicionamiento",
+      "Identidad visual",
+      "Diseño de empaques (packaging)",
+      "Material P.O.P. y gigantografía",
+      "Diseño editorial y catálogos"
+    ],
+    "BotonPortafolio": "Ver portafolio"
+  },
+
+  "Proceso": {
+    "TituloResaltado": "¿CÓMO",
+    "TituloDespues": " lo hacemos?",
+    "Pasos": [
+      {
+        "Numero": "1.",
+        "Titulo": "CONOCEMOS TU NEGOCIO",
+        "Texto": "Queremos conocer bien tu negocio, qué quieres lograr, qué te preocupa y <strong>dónde está tu marca hoy.</strong>"
+      },
+      {
+        "Numero": "2.",
+        "Titulo": "MIRAMOS MÁS ALLÁ",
+        "Texto": "Analizamos tu mercado, competencia, clientes y datos para encontrar oportunidades de crecimiento."
+      },
+      {
+        "Numero": "3.",
+        "Titulo": "PENSAMOS Y CREAMOS",
+        "Texto": "Definimos <strong>qué queremos lograr, a quién queremos llegar</strong> y las estrategias que guíen a tu marca."
+      },
+      {
+        "Numero": "4.",
+        "Titulo": "LO HACEMOS REALIDAD",
+        "Texto": "Nos ponemos manos a la obra, llevando <strong>la estrategia a la realidad</strong> y asegurando que todo avance como debe."
+      },
+      {
+        "Numero": "5.",
+        "Titulo": "MEDIMOS Y MEJORAMOS",
+        "Texto": "Vemos qué funcionó, qué podemos mejorar y qué aprendimos para seguir <strong>tomando mejores decisiones</strong>."
+      }
+    ]
+  },
+
+  "Marcas": {
+    "TituloAntes": "Marcas que han ",
+    "TituloResaltado": "CRECIDO",
+    "TituloDespues": " con nosotros"
+  },
+
+  "Resenas": {
+    "Titulo": "Nuestros clientes aman lo que hacemos",
+    "Intro": "Mira lo que dicen de nosotros en Google: experiencias reales de marcas que han crecido con Arrieta Agency.",
+    "Boton": "Hagamos equipo"
+  },
+
+  "Numeros": {
+    "Titulo": "NÚMEROS QUE HABLAN POR SÍ SOLOS",
+    "Nota": "Resultados reales de proyectos gestionados por nuestro equipo.\nPor confidencialidad, las marcas no están identificadas. Cada negocio, objetivo y estrategia es diferente.",
+    "Items": [
+      {
+        "Valor": "$10K",
+        "Destacado": "generados desde una estrategia orgánica",
+        "Detalle": "sin inversión en anuncios pagados"
+      },
+      {
+        "Valor": "500X",
+        "Destacado": "de retorno sobre inversión publicitaria",
+        "Detalle": "en una campaña puntual"
+      },
+      {
+        "Valor": "+500",
+        "Destacado": "conversaciones iniciadas",
+        "Detalle": "en un mes"
+      },
+      {
+        "Valor": "12,8%",
+        "Destacado": "de tasa de interacción",
+        "Detalle": "en una pieza de contenido"
+      },
+      {
+        "Valor": "95,7%",
+        "Destacado": "del alcance llegó a personas que aún no seguían la marca",
+        "Detalle": "en una pieza de contenido"
+      }
+    ]
+  },
+
+  "Creemos": {
+    "Texto": "Si tienes una idea en mente o te gustaría conocer más de nuestros servicios, ¡contáctanos!",
+    "BotonColombia": "Colombia",
+    "BotonVenezuela": "Venezuela"
+  },
+
+  "Footer": {
+    "TituloCorreo": "Correo",
+    "TituloInstagram": "Instagram",
+    "TituloVenezuela": "Contacto Venezuela",
+    "TituloColombia": "Contacto Colombia",
+    "Copyright": "© Arrieta Agency, 2026"
+  },
+
+  "Portafolio": {
+    "Titulo": "Portafolio",
+    "Volver": "← Volver",
+    "Cargando": "Abriendo el portafolio…",
+    "Pista": "Arrastra o haz clic en el borde de la página",
+    "Error": "No se pudo abrir el portafolio. Revisa que el PDF de Drive esté compartido con “Cualquier persona con el enlace”.",
+    "DriveFileId": "1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp"
+  },
+
+  "Contacto": {
+    "Email": "contacto@arrietagency.com",
+    "InstagramUrl": "https://instagram.com/arrietagency",
+    "Instagram": "@arrietagency",
+    "WhatsAppColombia": "573002414506",
+    "WhatsAppVenezuela": "584246172813",
+    "TelefonoColombia": "+57 3002414506",
+    "TelefonoVenezuela": "+58 4246172813"
+  }
+}

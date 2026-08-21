@@ -1,13 +1,17 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var m = SiteContent.CurrentValue.Marcas;
+}
 <section class="marcas" id="marcas">
     <div class="container">
-        <h2 class="section-title marcas__title">Marcas que han <br /> <span class="fun">CRECIDO</span> con nosotros</h2>
+        <h2 class="section-title marcas__title">@m.TituloAntes<br /> <span class="fun">@m.TituloResaltado</span> @m.TituloDespues</h2>
     </div>
 
     <div class="marquee">
         <div class="marquee__track">
             @foreach (var _ in Enumerable.Range(0, 2))
             {
-                @foreach (var n in Enumerable.Range(1, 17))
+                @foreach (var n in Enumerable.Range(1, 22))
                 {
                     <img src="@Assets[$"images/logos/{n}.png"]" alt="Marca aliada @n" loading="lazy" />
                 }

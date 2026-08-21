@@ -1,28 +1,26 @@
 @using GinsaASPNETBlazorWebApp.Reviews
 @inject IGoogleReviewsService ReviewsService
+@inject IOptionsMonitor<SiteContent> SiteContent
+
+@{
+    var t = SiteContent.CurrentValue;
+    var r = t.Resenas;
+    var calendlyOnclick = $"Calendly.initPopupWidget({{url: '{t.CalendlyUrl}'}});return false;";
+}
 
 <section class="resenas" id="resenas" aria-label="Reseñas de clientes">
     <div class="container resenas__layout">
         <div class="resenas__intro reveal reveal--left">
-            <h2 class="resenas__title">Nuestros clientes aman lo que hacemos</h2>
+            <h2 class="resenas__title">@r.Titulo</h2>
             <p class="resenas__lead">
-                Mira lo que dicen de nosotros en Google: experiencias reales de marcas que han crecido con Arrieta Agency.
+                @r.Intro
             </p>
             <a class="btn-cta resenas__cta"
-               href="https://calendly.com/agenciarrieta/30min"
-               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/agenciarrieta/30min'});return false;">Hagamos equipo</a>
+               href="@t.CalendlyUrl"
+               onclick="@calendlyOnclick">@r.Boton</a>
         </div>
 
         <div class="resenas__carousel" data-resenas-carousel>
-            <div class="resenas__nav" aria-hidden="false">
-                <button type="button" class="resenas__arrow resenas__arrow--prev" data-resenas-prev aria-label="Reseña anterior">
-                    <span aria-hidden="true">←</span>
-                </button>
-                <button type="button" class="resenas__arrow resenas__arrow--next" data-resenas-next aria-label="Reseña siguiente">
-                    <span aria-hidden="true">→</span>
-                </button>
-            </div>
-
             <div class="resenas__viewport">
                 <div class="resenas__track" data-resenas-track>
                     @foreach (var review in _reviews)

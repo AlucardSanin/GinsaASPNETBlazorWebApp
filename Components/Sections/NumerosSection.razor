@@ -1,47 +1,58 @@
-<section class="numeros" id="numeros" aria-label="Números que hablan por sí solos">
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var n = SiteContent.CurrentValue.Numeros;
+    var notaLineas = n.Nota.Replace("\r\n", "\n").Split('\n');
+}
+<section class="numeros" id="numeros" aria-label="@n.Titulo">
     <div class="container">
-        <h2 class="section-title numeros__title reveal">NÚMEROS QUE HABLAN POR SÍ SOLOS</h2>
+        <h2 class="section-title numeros__title reveal">@n.Titulo</h2>
 
         <div class="numeros__grid">
-            <article class="numeros__item reveal">
-                <img class="numeros__icon" src="@Assets["images/numeros/seedling.png"]" alt="" width="64" height="64" />
-                <p class="numeros__value">$10K</p>
-                <p class="numeros__lead"><strong>generados desde una estrategia orgánica</strong></p>
-                <p class="numeros__sub">sin inversión en anuncios pagados</p>
-            </article>
-
-            <article class="numeros__item reveal d1">
-                <img class="numeros__icon" src="@Assets["images/numeros/rocket-launch.png"]" alt="" width="64" height="64" />
-                <p class="numeros__value">500X</p>
-                <p class="numeros__lead"><strong>de retorno sobre inversión publicitaria</strong></p>
-                <p class="numeros__sub">en una campaña puntual</p>
-            </article>
-
-            <article class="numeros__item reveal d2">
-                <img class="numeros__icon" src="@Assets["images/numeros/envelope.png"]" alt="" width="64" height="64" />
-                <p class="numeros__value">+500</p>
-                <p class="numeros__lead"><strong>conversaciones iniciadas</strong></p>
-                <p class="numeros__sub">en un mes</p>
-            </article>
-
-            <article class="numeros__item reveal d3">
-                <img class="numeros__icon" src="@Assets["images/numeros/heart.png"]" alt="" width="64" height="64" />
-                <p class="numeros__value">12,8%</p>
-                <p class="numeros__lead"><strong>de tasa de interacción</strong></p>
-                <p class="numeros__sub">en una pieza de contenido</p>
-            </article>
-
-            <article class="numeros__item reveal d4">
-                <img class="numeros__icon" src="@Assets["images/numeros/user.png"]" alt="" width="64" height="64" />
-                <p class="numeros__value">95,7%</p>
-                <p class="numeros__lead"><strong>del alcance llegó a personas que aún no seguían la marca</strong></p>
-                <p class="numeros__sub">en una pieza de contenido</p>
-            </article>
+            @for (var i = 0; i < n.Items.Count && i < KpiIcons.Length; i++)
+            {
+                var item = n.Items[i];
+                var itemClass = i == 0 ? "numeros__item reveal" : $"numeros__item reveal d{i}";
+                <article class="@itemClass">
+                    <span class="numeros__icon" aria-hidden="true">
+                        <img class="numeros__icon-still" src="@Assets[KpiIcons[i]]" alt="" width="64" height="64" />
+                        <img class="numeros__icon-anim" src="@Assets[KpiGifs[i]]" alt="" width="64" height="64" loading="lazy" />
+                    </span>
+                    <p class="numeros__value">@item.Valor</p>
+                    <p class="numeros__lead"><strong>@item.Destacado</strong></p>
+                    <p class="numeros__sub">@item.Detalle</p>
+                </article>
+            }
         </div>
 
         <p class="numeros__note reveal d5">
-            Resultados reales de proyectos gestionados por nuestro equipo.<br />
-            Por confidencialidad, las marcas no están identificadas. Cada negocio, objetivo y estrategia es diferente.
+            @for (var i = 0; i < notaLineas.Length; i++)
+            {
+                @notaLineas[i]
+                if (i < notaLineas.Length - 1)
+                {
+                    <br />
+                }
+            }
         </p>
     </div>
 </section>
+
+@code {
+    private static readonly string[] KpiIcons =
+    [
+        "images/numeros/seedling.png",
+        "images/numeros/rocket-launch.png",
+        "images/numeros/envelope.png",
+        "images/numeros/heart.png",
+        "images/numeros/user.png",
+    ];
+
+    private static readonly string[] KpiGifs =
+    [
+        "images/numeros/seedling-hover.gif",
+        "images/numeros/rocket-hover.gif",
+        "images/numeros/envelope-hover.gif",
+        "images/numeros/heart-hover.gif",
+        "images/numeros/user-hover.gif",
+    ];
+}

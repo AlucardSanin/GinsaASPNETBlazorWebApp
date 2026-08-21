@@ -1,36 +1,36 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var t = SiteContent.CurrentValue;
+    var c = t.Creemos;
+    var contacto = t.Contacto;
+}
 <section class="creemos" id="creemos">
     <div class="container">
-        <div class="creemos__brand reveal reveal--scale" aria-label="Creemos juntos">
+        <div class="creemos__brand reveal reveal--scale" aria-label="Creemos juntos" data-creemos-logo>
             <img class="creemos__logo creemos__logo--base"
                  src="@Assets["images/creemos-juntos.svg"]"
                  alt="Creemos juntos"
                  width="620"
                  height="288" />
-            <img class="creemos__logo creemos__logo--hover"
-                 src="@Assets["images/creemos-juntos-hover.svg"]"
-                 alt=""
-                 aria-hidden="true"
-                 width="620"
-                 height="288" />
         </div>
         <p class="creemos__text reveal d1">
-            Si tienes una idea en mente o te gustaría conocer más de nuestros servicios, ¡contáctanos!
+            @c.Texto
         </p>
         <div class="country-row reveal d2">
             <a class="country-btn on-dark"
-               href="https://wa.me/573002414506"
+               href="https://wa.me/@contacto.WhatsAppColombia"
                target="_blank"
                rel="noopener noreferrer">
                 <img class="flag" src="@Assets["images/flag-co.svg"]" alt="" />
-                <span class="label">Colombia</span>
+                <span class="label">@c.BotonColombia</span>
                 <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
             </a>
             <a class="country-btn on-dark"
-               href="https://wa.me/584246172813"
+               href="https://wa.me/@contacto.WhatsAppVenezuela"
                target="_blank"
                rel="noopener noreferrer">
                 <img class="flag" src="@Assets["images/flag-ve.svg"]" alt="" />
-                <span class="label">Venezuela</span>
+                <span class="label">@c.BotonVenezuela</span>
                 <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
             </a>
         </div>

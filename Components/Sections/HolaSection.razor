@@ -1,27 +1,24 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var t = SiteContent.CurrentValue;
+    var h = t.Hola;
+    var calendlyOnclick = $"Calendly.initPopupWidget({{url: '{t.CalendlyUrl}'}});return false;";
+}
 <section class="hola" id="hola">
     <div class="container hola__grid">
         <div class="hola__content">
-            <h2 class="hola__title reveal reveal--left">Sobre nosotros</h2>
+            <h2 class="hola__title reveal reveal--left">@h.Titulo</h2>
 
             <div class="hola__text reveal reveal--left d1">
-                <p>¡Hola!</p>
-                <p>
-                    Somos Ginsa y Hernedy, hermanos y mercadólogos al frente de una agencia con sede en Bogotá y Maracaibo, con más de 10 especialistas acompañando marcas en Estados Unidos, Suiza, Colombia y Venezuela.
-                </p>
-                <p>
-                    Aquí hacemos las cosas BIEN y con el 💛 entero.
-                </p>
-                <p>
-                    Todo empieza por entender muy bien tu negocio, tu mercado y las personas que te compran. Y desde ahí creamos estrategias que les den más razones para elegirte, volver y recomendarte.
-                </p>
-                <p>
-                    Ahora cuéntanos de ti y de tu negocio.
-                </p>
+                @foreach (var p in h.Parrafos)
+                {
+                    <p>@p</p>
+                }
             </div>
 
             <a class="btn-cta hola__cta reveal reveal--left d2"
-               href="https://calendly.com/agenciarrieta/30min"
-               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/agenciarrieta/30min'});return false;">Hagamos equipo</a>
+               href="@t.CalendlyUrl"
+               onclick="@calendlyOnclick">@h.Boton</a>
         </div>
 
         <div class="hola__people reveal reveal--right d1">

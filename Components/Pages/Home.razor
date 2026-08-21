@@ -1,6 +1,7 @@
 @page "/"
+@inject IOptionsMonitor<SiteContent> SiteContent
 
-<PageTitle>Agencia de Marketing y Publicidad en Bogotá y Maracaibo | Arrieta Agency</PageTitle>
+<PageTitle>@SiteContent.CurrentValue.TituloPagina</PageTitle>
 <div class="page-shell">
     <PageMesh />
     <SiteNav />

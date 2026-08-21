@@ -1,11 +1,22 @@
 using GinsaASPNETBlazorWebApp.Components;
+using GinsaASPNETBlazorWebApp.Content;
 using GinsaASPNETBlazorWebApp.Reviews;
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("textos.json", optional: false, reloadOnChange: true);
+
 builder.Services.AddRazorComponents();
 builder.Services.AddMemoryCache();
+builder.Services.Configure<SiteContent>(builder.Configuration);
+builder.Services.AddSingleton<PortfolioPdfService>();
+builder.Services.AddHttpClient(PortfolioPdfService.HttpClientName, client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(60);
+    client.DefaultRequestHeaders.UserAgent.ParseAdd(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
+});
 builder.Services.Configure<GoogleReviewsOptions>(
     builder.Configuration.GetSection(GoogleReviewsOptions.SectionName));
 builder.Services.AddSingleton<IGoogleTokenStore, FileGoogleTokenStore>();
@@ -34,6 +45,16 @@ app.UseAntiforgery();
 app.UseStaticFiles();
 app.MapStaticAssets();
 app.MapRazorComponents<App>();
+
+app.MapGet("/api/portfolio", async (HttpContext http, PortfolioPdfService pdf, CancellationToken cancellationToken) =>
+{
+    var bytes = await pdf.GetPdfAsync(cancellationToken);
+    if (bytes is null)
+        return Results.NotFound();
+
+    http.Response.Headers.CacheControl = "private, max-age=300";
+    return Results.File(bytes, "application/pdf", enableRangeProcessing: true);
+}).DisableAntiforgery();
 
 // One-time Google Business Profile OAuth (admin account).
 app.MapGet("/oauth/google/start", async (GoogleOAuthTokenService oauth, IMemoryCache cache) =>

@@ -132,8 +132,7 @@
         var track = root.querySelector("[data-resenas-track]");
         var cards = Array.prototype.slice.call(root.querySelectorAll("[data-resenas-card]"));
         var dotsWrap = root.querySelector("[data-resenas-dots]");
-        var prevBtn = root.querySelector("[data-resenas-prev]");
-        var nextBtn = root.querySelector("[data-resenas-next]");
+        var viewport = root.querySelector(".resenas__viewport") || track.parentElement;
         if (!track || !cards.length || !dotsWrap) return;
 
         var index = Number(root.dataset.resenasIndex || "0") || 0;
@@ -172,12 +171,6 @@
         if (!root.dataset.resenasBound) {
             root.dataset.resenasBound = "1";
 
-            if (prevBtn) {
-                prevBtn.addEventListener("click", function () { goTo(index - 1); });
-            }
-            if (nextBtn) {
-                nextBtn.addEventListener("click", function () { goTo(index + 1); });
-            }
             dotsWrap.addEventListener("click", function (e) {
                 var t = e.target.closest("[data-resenas-dot]");
                 if (!t) return;
@@ -186,9 +179,66 @@
             window.addEventListener("resize", function () {
                 goTo(Math.min(index, maxIndex()));
             });
+
+            var startX = 0;
+            var startY = 0;
+            var swiping = false;
+
+            function clearSelection() {
+                var sel = window.getSelection && window.getSelection();
+                if (sel && sel.removeAllRanges) sel.removeAllRanges();
+            }
+
+            viewport.addEventListener("selectstart", function (e) { e.preventDefault(); });
+            viewport.addEventListener("dragstart", function (e) { e.preventDefault(); });
+            viewport.addEventListener("pointerdown", function (e) {
+                if (e.pointerType === "mouse" && e.button !== 0) return;
+                startX = e.clientX;
+                startY = e.clientY;
+                swiping = true;
+                clearSelection();
+                viewport.setPointerCapture(e.pointerId);
+            });
+            viewport.addEventListener("pointermove", function () {
+                if (swiping) clearSelection();
+            });
+            viewport.addEventListener("pointerup", function (e) {
+                if (!swiping) return;
+                swiping = false;
+                clearSelection();
+                var dx = e.clientX - startX;
+                var dy = e.clientY - startY;
+                if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+                goTo(index + (dx < 0 ? 1 : -1));
+            });
+            viewport.addEventListener("pointercancel", function () { swiping = false; });
         }
 
         goTo(index);
+    }
+
+    function initCreemosLogo() {
+        var host = document.querySelector("[data-creemos-logo]");
+        if (!host || host.dataset.creemosInlined) return;
+        var img = host.querySelector(".creemos__logo--base, .creemos__logo");
+        if (!img || !img.getAttribute("src")) return;
+
+        fetch(img.getAttribute("src"), { credentials: "same-origin" })
+            .then(function (res) { return res.ok ? res.text() : Promise.reject(); })
+            .then(function (markup) {
+                if (host.dataset.creemosInlined) return;
+                var doc = new DOMParser().parseFromString(markup, "image/svg+xml");
+                var svg = doc.querySelector("svg");
+                if (!svg) return;
+                host.dataset.creemosInlined = "1";
+                svg.removeAttribute("width");
+                svg.removeAttribute("height");
+                svg.classList.add("creemos__logo", "creemos-svg");
+                svg.setAttribute("role", "img");
+                svg.setAttribute("aria-label", "Creemos juntos");
+                img.replaceWith(svg);
+            })
+            .catch(function () { /* keep the raster/SVG <img> fallback */ });
     }
 
     function init() {
@@ -197,6 +247,7 @@
         initScrollTop();
         initProceso();
         initResenas();
+        initCreemosLogo();
     }
 
     if (document.readyState !== "loading") {

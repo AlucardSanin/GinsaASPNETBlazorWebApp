@@ -1,18 +1,22 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var s = SiteContent.CurrentValue.Servicios;
+}
 <section class="servicios" id="servicios">
     @* Fondo: cúpula navy + glows laterales rosa/cyan (Figma) *@
     <div class="servicios__fade" aria-hidden="true"></div>
     <div class="servicios__glow servicios__glow--pink" aria-hidden="true"></div>
     <div class="servicios__glow servicios__glow--cyan" aria-hidden="true"></div>
     <div class="container">
-        <h2 class="section-title servicios__title reveal">¿Qué <span class="fun">HACEMOS?</span></h2>
+        <h2 class="section-title servicios__title reveal">@s.TituloAntes<span class="fun">@s.TituloResaltado</span></h2>
 
         <div class="servicios__board reveal">
             <div class="servicios__col servicios__col--left" aria-label="Servicios de social media">
                 <div class="servicios__col-group servicios__col-group--social">
-                    <span class="servicios__tag">Estrategia de contenido y guiones</span>
-                    <span class="servicios__tag">Gestión de redes sociales</span>
-                    <span class="servicios__tag">Publicidad digital</span>
-                    <span class="servicios__tag">Creación de contenido audiovisual</span>
+                    @foreach (var tag in s.SocialMedia)
+                    {
+                        <span class="servicios__tag">@tag</span>
+                    }
                 </div>
             </div>
 
@@ -64,25 +68,25 @@
 
             <div class="servicios__col servicios__col--right">
                 <div class="servicios__col-group servicios__col-group--marketing" aria-label="Servicios de marketing digital">
-                    <span class="servicios__tag">Estrategia digital</span>
-                    <span class="servicios__tag">Diseño y desarrollo de sitios web y apps (UI/UX)</span>
-                    <span class="servicios__tag">Gestión de Perfil de Empresa en Google y posicionamiento local</span>
+                    @foreach (var tag in s.Marketing)
+                    {
+                        <span class="servicios__tag">@tag</span>
+                    }
                 </div>
                 <div class="servicios__col-group servicios__col-group--bot" aria-label="Servicios de diseño gráfico">
-                    <span class="servicios__tag servicios__tag--light">Branding y estrategia de posicionamiento</span>
-                    <span class="servicios__tag servicios__tag--light">Identidad visual</span>
-                    <span class="servicios__tag servicios__tag--light">Diseño de empaques (packaging)</span>
-                    <span class="servicios__tag servicios__tag--light">Material P.O.P. y gigantografía</span>
-                    <span class="servicios__tag servicios__tag--light">Diseño editorial y catálogos</span>
+                    @foreach (var tag in s.Diseno)
+                    {
+                        <span class="servicios__tag servicios__tag--light">@tag</span>
+                    }
                 </div>
             </div>
         </div>
 
         <div class="servicios__portfolio">
-            <button type="button" class="btn-portfolio">
-                <span>Ver portafolio</span>
+            <a class="btn-portfolio" href="/portafolio">
+                <span>@s.BotonPortafolio</span>
                 <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-            </button>
+            </a>
         </div>
     </div>
 </section>

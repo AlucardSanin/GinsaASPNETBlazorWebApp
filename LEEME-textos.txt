@@ -1,0 +1,40 @@
+CÓMO ACTUALIZAR LOS TEXTOS DEL SITIO
+====================================
+
+Archivo a editar:  textos.json
+(está en la misma carpeta del sitio, junto a GinsaASPNETBlazorWebApp.dll)
+
+1. Haz una copia de textos.json por si acaso.
+2. Ábrelo con el Bloc de notas (o VS Code).
+3. Cambia SOLO el texto que está entre comillas.
+4. No borres comas , ni llaves { } ni corchetes [ ].
+5. Guarda el archivo.
+6. En el servidor IIS: recicla el Application Pool del sitio
+   (o reinicia el sitio). Al recargar la web, se verán los cambios.
+
+Si el JSON queda mal escrito (falta una coma, una comilla, etc.)
+el sitio puede no arrancar. En ese caso restaura la copia.
+
+PORTAFOLIO (PDF EN GOOGLE DRIVE)
+================================
+
+El PDF NO se sube al servidor. Se lee desde Google Drive.
+
+DriveFileId (dentro de "Portafolio") es el ID del archivo.
+Ejemplo de enlace:
+  https://drive.google.com/file/d/1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp/view
+El ID es la parte del medio:  1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp
+
+Para que el visor funcione:
+  1. En Drive, clic derecho en el PDF → Compartir.
+  2. “Acceso general” = Cualquier persona con el enlace (Lector).
+  3. Guarda.
+
+Para actualizar el portafolio SIN tocar el servidor:
+  - En el MISMO archivo de Drive: Archivo → Administrar versiones
+    (o reemplaza el contenido manteniendo el mismo archivo).
+  - Así el ID no cambia y la web muestra la versión nueva
+    (puede tardar unos minutos; reciclar el pool lo muestra al instante).
+
+Si subes un PDF NUEVO (otro archivo, otro ID), copia el ID nuevo
+en DriveFileId dentro de textos.json y recicla el pool.

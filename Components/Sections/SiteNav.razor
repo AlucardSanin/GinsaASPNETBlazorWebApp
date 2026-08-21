@@ -1,3 +1,7 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var n = SiteContent.CurrentValue.Navegacion;
+}
 <nav class="site-nav">
     <input type="checkbox" id="navToggle" class="nav-check" hidden />
     <div class="container">
@@ -6,15 +10,15 @@
         </a>
 
         <div class="nav-links">
-            <a href="#hola">¿Quiénes somos?</a>
-            <a href="#servicios">Servicios</a>
-            <a href="#proceso">Proceso</a>
-            <a href="#marcas">Portafolio</a>
+            <a href="#hola">@n.QuienesSomos</a>
+            <a href="#servicios">@n.Servicios</a>
+            <a href="#proceso">@n.Proceso</a>
+            <a href="/portafolio">@n.Portafolio</a>
         </div>
 
         <label for="navToggle" class="nav-toggle" aria-label="Abrir menú">
             <span></span><span></span><span></span>
         </label>
-        <a class="btn-cta" href="#footer">Contáctanos</a>
+        <a class="btn-cta" href="#footer">@n.Contactanos</a>
     </div>
 </nav>

@@ -1,0 +1,32 @@
+@page "/portafolio"
+@inject IOptionsMonitor<SiteContent> SiteContent
+
+@{
+    var t = SiteContent.CurrentValue.Portafolio;
+}
+
+<PageTitle>@t.Titulo | Arrieta Agency</PageTitle>
+
+<div class="portfolio-view">
+    <header class="portfolio-view__bar">
+        <a class="portfolio-view__back" href="/">@t.Volver</a>
+        <p class="portfolio-view__title">@t.Titulo</p>
+        <div class="portfolio-view__pager">
+            <button type="button" class="portfolio-view__nav" data-book-prev aria-label="Página anterior">‹</button>
+            <span class="portfolio-view__status" data-book-status>Cargando…</span>
+            <button type="button" class="portfolio-view__nav" data-book-next aria-label="Página siguiente">›</button>
+        </div>
+    </header>
+
+    <div class="portfolio-view__stage">
+        <div class="portfolio-book"
+             data-portfolio-book
+             data-pdf="/api/portfolio">
+            <div class="portfolio-book__desktop" data-book-desktop></div>
+            <div class="portfolio-book__mobile" data-book-mobile hidden></div>
+        </div>
+        <p class="portfolio-book__loading" data-book-loading>@t.Cargando</p>
+        <p class="portfolio-book__hint" data-book-hint hidden>@t.Pista</p>
+        <p class="portfolio-book__error" data-book-error hidden>@t.Error</p>
+    </div>
+</div>

@@ -1,3 +1,10 @@
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var t = SiteContent.CurrentValue;
+    var h = t.Hero;
+    var c = t.Contacto;
+    var calendlyOnclick = $"Calendly.initPopupWidget({{url: '{t.CalendlyUrl}'}});return false;";
+}
 <header class="hero">
     <img class="decor decor--curl-l" src="@Assets["images/curl1.svg"]" alt="" aria-hidden="true" />
     <img class="decor decor--curl-r" src="@Assets["images/curl2.svg"]" alt="" aria-hidden="true" />
@@ -12,30 +19,30 @@
         </div>
 
         <p class="hero__headline">
-            <span class="hero__headline-main">CREAMOS MARCAS FELICES.</span><br />
-            <span class="hero__headline-main">CLIENTES TAMBIÉN.</span><br />
-            <span class="hero__headline-sub">Todo un equipo enfocado en hacerte crecer</span>
+            <span class="hero__headline-main">@h.TituloLinea1</span><br />
+            <span class="hero__headline-main">@h.TituloLinea2</span><br />
+            <span class="hero__headline-sub">@h.Subtitulo</span>
         </p>
 
         <div class="hero__cta">
             <a class="btn-cta hero__calendly"
-               href="https://calendly.com/agenciarrieta/30min"
-               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/agenciarrieta/30min'});return false;">Cuéntanos sobre tu negocio</a>
+               href="@t.CalendlyUrl"
+               onclick="@calendlyOnclick">@h.BotonCalendly</a>
             <div class="country-row">
                 <a class="country-btn on-dark"
-                   href="https://wa.me/573002414506"
+                   href="https://wa.me/@c.WhatsAppColombia"
                    target="_blank"
                    rel="noopener noreferrer">
                     <img class="flag" src="@Assets["images/flag-co.svg"]" alt="" />
-                    <span class="label">Sede Colombia</span>
+                    <span class="label">@h.BotonColombia</span>
                     <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
                 </a>
                 <a class="country-btn on-dark"
-                   href="https://wa.me/584246172813"
+                   href="https://wa.me/@c.WhatsAppVenezuela"
                    target="_blank"
                    rel="noopener noreferrer">
                     <img class="flag" src="@Assets["images/flag-ve.svg"]" alt="" />
-                    <span class="label">Sede Venezuela</span>
+                    <span class="label">@h.BotonVenezuela</span>
                     <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
                 </a>
             </div>
