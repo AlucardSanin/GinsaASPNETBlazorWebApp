@@ -1,0 +1,44 @@
+@if (Kind == "marketing")
+{
+    <div class="servicios__sticker servicios__sticker--marketing pf-sticker pf-sticker--marketing" tabindex="0">
+        <img class="servicios__shape" src="@Assets["images/servicio-shape-marketing.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <span class="servicios__icon servicios__icon--arrow" aria-hidden="true"></span>
+        <p class="servicios__label servicios__label--marketing">
+            <span class="servicios__label-line">MARKETING</span>
+            <span class="servicios__label-line">DIGITAL</span>
+        </p>
+    </div>
+}
+else if (Kind == "social")
+{
+    <div class="servicios__sticker servicios__sticker--social pf-sticker pf-sticker--social" tabindex="0">
+        <img class="servicios__shape" src="@Assets["images/servicio-shape-social.svg"]" alt="" aria-hidden="true" />
+        <img class="servicios__icon servicios__icon--bird servicios__icon--bird-a"
+             src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <img class="servicios__icon servicios__icon--bird servicios__icon--bird-b"
+             src="@Assets["images/servicio-icon-bird.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <svg class="servicios__curve servicios__curve--social" viewBox="0 0 526.002 265.988" aria-label="Social Media" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <path id="pf-social-arc" d="M 90 150 A 200 200 0 0 1 436 150" fill="none" />
+            </defs>
+            <text class="servicios__curve-text servicios__curve-text--social">
+                <textPath href="#pf-social-arc" startOffset="50%" text-anchor="middle">SOCIAL MEDIA</textPath>
+            </text>
+        </svg>
+    </div>
+}
+else if (Kind == "diseno")
+{
+    <div class="servicios__sticker servicios__sticker--diseno pf-sticker pf-sticker--diseno" role="img" aria-label="Diseño Gráfico" tabindex="0">
+        <img class="servicios__shape" src="@Assets["images/servicio-shape-diseno.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <img class="servicios__icon servicios__icon--swirl" src="@Assets["images/servicio-icon-swirl.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <img class="servicios__text-figma servicios__text-figma--diseno-top"
+             src="@Assets["images/servicio-text-diseno-top.svg"]" alt="" aria-hidden="true" draggable="false" />
+        <img class="servicios__text-figma servicios__text-figma--diseno-bot"
+             src="@Assets["images/servicio-text-diseno-bot.svg"]" alt="" aria-hidden="true" draggable="false" />
+    </div>
+}
+
+@code {
+    [Parameter] public string Kind { get; set; } = "marketing";
+}

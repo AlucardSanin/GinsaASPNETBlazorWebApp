@@ -1,0 +1,21 @@
+CÓMO CARGAR PIEZAS DEL PORTAFOLIO
+=================================
+
+Coloca las imágenes (png, jpg, webp, gif, svg) en estas carpetas
+y reinicia la app (o recicla el Application Pool). El orden es
+alfabético por nombre de archivo.
+
+  portafolio/portada/              → 1 imagen de portada (hero)
+  portafolio/Marketing Digital/    → mockups web (laptop, tablet, teléfono: las 3 primeras)
+  portafolio/Social Media/         → piezas de redes (rejilla)
+  portafolio/Reels/                → verticales 9:16 (carrusel)
+  portafolio/Identidad Visual/     → logos / sistemas de marca
+  portafolio/Material POP/         → menús, flyers, merchandising
+  portafolio/Packaging/            → empaques
+  portafolio/Gigantografia/        → vallas / gran formato
+
+El nombre del archivo se usa como etiqueta (ej. "logo-beauty-clinic.png"
+→ "Logo Beauty Clinic"). Haz clic en una pieza para ampliarla.
+
+No hace falta tocar el código. Si una carpeta está vacía, esa
+sección se muestra sin piezas.

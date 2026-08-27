@@ -2,7 +2,6 @@
 @{
     var t = SiteContent.CurrentValue;
     var h = t.Hero;
-    var c = t.Contacto;
     var calendlyOnclick = $"Calendly.initPopupWidget({{url: '{t.CalendlyUrl}'}});return false;";
 }
 <header class="hero">
@@ -19,33 +18,22 @@
         </div>
 
         <p class="hero__headline">
-            <span class="hero__headline-main">@h.TituloLinea1</span><br />
-            <span class="hero__headline-main">@h.TituloLinea2</span><br />
-            <span class="hero__headline-sub">@h.Subtitulo</span>
+            <span class="hero__headline-main">@h.TituloLinea1</span>
+            <span class="hero__headline-block">
+                <span class="hero__headline-main">@h.TituloLinea2</span>
+                <span class="hero__headline-sub" aria-label="@h.Subtitulo">
+                    @foreach (var ch in h.Subtitulo)
+                    {
+                        <span aria-hidden="true">@(ch == ' ' ? "\u00A0" : ch.ToString())</span>
+                    }
+                </span>
+            </span>
         </p>
 
         <div class="hero__cta">
             <a class="btn-cta hero__calendly"
                href="@t.CalendlyUrl"
                onclick="@calendlyOnclick">@h.BotonCalendly</a>
-            <div class="country-row">
-                <a class="country-btn on-dark"
-                   href="https://wa.me/@c.WhatsAppColombia"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    <img class="flag" src="@Assets["images/flag-co.svg"]" alt="" />
-                    <span class="label">@h.BotonColombia</span>
-                    <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-                </a>
-                <a class="country-btn on-dark"
-                   href="https://wa.me/@c.WhatsAppVenezuela"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    <img class="flag" src="@Assets["images/flag-ve.svg"]" alt="" />
-                    <span class="label">@h.BotonVenezuela</span>
-                    <img class="arrow" src="@Assets["images/icon-arrow.svg"]" alt="" />
-                </a>
-            </div>
         </div>
     </div>
 </header>

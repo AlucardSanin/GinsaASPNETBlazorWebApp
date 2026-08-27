@@ -15,26 +15,22 @@ Archivo a editar:  textos.json
 Si el JSON queda mal escrito (falta una coma, una comilla, etc.)
 el sitio puede no arrancar. En ese caso restaura la copia.
 
-PORTAFOLIO (PDF EN GOOGLE DRIVE)
-================================
+PORTAFOLIO (PÁGINA INTERACTIVA)
+===============================
 
-El PDF NO se sube al servidor. Se lee desde Google Drive.
+Ya no se usa el visor PDF. El portafolio vive en /portafolio y lee
+imágenes de carpetas dentro de wwwroot/portafolio (ver LEEME.txt ahí).
 
-DriveFileId (dentro de "Portafolio") es el ID del archivo.
-Ejemplo de enlace:
-  https://drive.google.com/file/d/1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp/view
-El ID es la parte del medio:  1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp
+Sube las piezas a la carpeta correspondiente y recicla el Application
+Pool. El orden es alfabético por nombre de archivo.
 
-Para que el visor funcione:
-  1. En Drive, clic derecho en el PDF → Compartir.
-  2. “Acceso general” = Cualquier persona con el enlace (Lector).
-  3. Guarda.
+Carpetas:
+  portada/
+  Marketing Digital/
+  Social Media/
+  Reels/
+  Identidad Visual/
+  Material POP/
+  Packaging/
+  Gigantografia/
 
-Para actualizar el portafolio SIN tocar el servidor:
-  - En el MISMO archivo de Drive: Archivo → Administrar versiones
-    (o reemplaza el contenido manteniendo el mismo archivo).
-  - Así el ID no cambia y la web muestra la versión nueva
-    (puede tardar unos minutos; reciclar el pool lo muestra al instante).
-
-Si subes un PDF NUEVO (otro archivo, otro ID), copia el ID nuevo
-en DriveFileId dentro de textos.json y recicla el pool.

@@ -18,13 +18,21 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <link rel="preconnect" href="https://assets.calendly.com" crossorigin />
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="@Assets["css/arrieta.css"]" />
 
     <link rel="stylesheet" href="@Assets["css/animations.css"]" />
 
+    <link rel="stylesheet" href="@Assets["css/portfolio.css"]" />
+
     <link rel="stylesheet" href="@Assets["GinsaASPNETBlazorWebApp.styles.css"]" />
+
+    <link rel="preload" href="https://assets.calendly.com/assets/external/widget.css" as="style" />
+
+    <link rel="preload" href="https://assets.calendly.com/assets/external/widget.js" as="script" />
 
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 
@@ -38,6 +46,8 @@
 
     <HeadOutlet />
 
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" defer></script>
+
 </head>
 
 
@@ -48,7 +58,7 @@
 
     <script src="@Assets["js/animations.js"]"></script>
     <script src="@Assets["js/portfolio-book.js"]"></script>
-    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script src="@Assets["js/portfolio.js"]"></script>
 
 </body>
 

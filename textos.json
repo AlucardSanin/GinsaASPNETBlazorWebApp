@@ -147,11 +147,24 @@
 
   "Portafolio": {
     "Titulo": "Portafolio",
-    "Volver": "← Volver",
+    "Volver": "← Inicio",
     "Cargando": "Abriendo el portafolio…",
     "Pista": "Arrastra o haz clic en el borde de la página",
     "Error": "No se pudo abrir el portafolio. Revisa que el PDF de Drive esté compartido con “Cualquier persona con el enlace”.",
-    "DriveFileId": "1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp"
+    "DriveFileId": "1uGBJM9Mpj1YgOi4FSheMCoYP-9wqGeBp",
+    "MarketingTitulo": "Diseñamos para<br /><em>hacer crecer.</em>",
+    "MarketingCopy": "Sitios web, aplicaciones y experiencias digitales creadas con intención: que se vean bien, funcionen mejor y acompañen el crecimiento de la marca.",
+    "SocialTitulo": "Contenido con<br /><em>intención.</em>",
+    "SocialCopy": "Estrategia, gestión, publicidad y creación de contenido reunidas en un mismo sistema visual.",
+    "ReelsTitulo": "Historias en<br /><em>movimiento.</em>",
+    "ReelsCopy": "Contenido vertical pensado para el ritmo real de las plataformas.",
+    "DisenoTitulo": "Una idea.<br /><em>Muchas formas.</em>",
+    "DisenoCopy": "Identidad, empaque, piezas físicas y gran formato dentro de una sola experiencia visual.",
+    "DisenoKicker": "Diseño gráfico",
+    "IdentidadNombre": "Identidad Visual",
+    "PopNombre": "Material P.O.P.",
+    "PackagingNombre": "Packaging",
+    "GigantografiaNombre": "Gigantografía"
   },
 
   "Contacto": {

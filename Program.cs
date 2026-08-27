@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<SiteContent>(builder.Configuration);
 builder.Services.AddSingleton<PortfolioPdfService>();
+builder.Services.AddSingleton<PortfolioGalleryService>();
 builder.Services.AddHttpClient(PortfolioPdfService.HttpClientName, client =>
 {
     client.Timeout = TimeSpan.FromSeconds(60);

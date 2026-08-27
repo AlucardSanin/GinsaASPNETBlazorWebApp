@@ -120,6 +120,19 @@ public sealed class PortafolioTextos
     public string Pista { get; set; } = "";
     public string Error { get; set; } = "";
     public string DriveFileId { get; set; } = "";
+    public string MarketingTitulo { get; set; } = "";
+    public string MarketingCopy { get; set; } = "";
+    public string SocialTitulo { get; set; } = "";
+    public string SocialCopy { get; set; } = "";
+    public string ReelsTitulo { get; set; } = "";
+    public string ReelsCopy { get; set; } = "";
+    public string DisenoTitulo { get; set; } = "";
+    public string DisenoCopy { get; set; } = "";
+    public string DisenoKicker { get; set; } = "";
+    public string IdentidadNombre { get; set; } = "";
+    public string PopNombre { get; set; } = "";
+    public string PackagingNombre { get; set; } = "";
+    public string GigantografiaNombre { get; set; } = "";
 }
 
 public sealed class ContactoTextos

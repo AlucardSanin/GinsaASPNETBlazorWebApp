@@ -86,11 +86,36 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 /* Decoraciones del hero: entrada única (sin loop), solo opacidad
    para no pisar transform en comillas invertidas. */
 @keyframes decorIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes heroBobUp {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+@keyframes heroBobDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(14px); }
+}
+@keyframes heroTwirl {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(22deg); }
+}
 .hero .decor--curl-l       { animation: decorIn 1s .15s both var(--ease-out); }
 .hero .decor--curl-r       { animation: decorIn 1s .2s both var(--ease-out); }
-.hero .decor--hexagon      { animation: decorIn .9s .35s both var(--ease-out); }
-.hero .decor--periwinkle-a { animation: decorIn .9s .45s both var(--ease-out); }
-.hero .decor--periwinkle-b { animation: decorIn .9s .5s both var(--ease-out); }
+.hero .decor--hexagon {
+    animation:
+        decorIn .9s .35s both var(--ease-out),
+        heroTwirl 4.2s ease-in-out .9s infinite;
+    transform-origin: center;
+}
+.hero .decor--periwinkle-a {
+    animation:
+        decorIn .9s .45s both var(--ease-out),
+        heroBobUp 4.2s ease-in-out .9s infinite;
+}
+.hero .decor--periwinkle-b {
+    animation:
+        decorIn .9s .5s both var(--ease-out),
+        heroBobDown 4.2s ease-in-out .9s infinite;
+}
 .hero .decor--quote        { animation: decorIn .9s .55s both var(--ease-out); }
 .scroll-top                { transition: opacity .25s ease, visibility .25s ease, transform .2s ease; }
 .scroll-top:hover          { transform: scale(1.12) rotate(6deg); }
@@ -232,4 +257,6 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     .reveal { opacity: 1 !important; transform: none !important; }
     .hero__intro { opacity: 1 !important; visibility: visible !important; }
     .page-mesh__noise { display: none; }
+    .resenas__typewriter { display: none !important; }
+    .pf-reel-track, .pf-dg-decor { animation: none !important; }
 }

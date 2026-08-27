@@ -1,32 +1,232 @@
 @page "/portafolio"
 @inject IOptionsMonitor<SiteContent> SiteContent
+@inject PortfolioGalleryService Gallery
 
 @{
     var t = SiteContent.CurrentValue.Portafolio;
+    var ig = SiteContent.CurrentValue.Contacto;
+    var g = _gallery;
+    var laptop = g.Marketing.ElementAtOrDefault(0);
+    var tablet = g.Marketing.ElementAtOrDefault(1);
+    var phone = g.Marketing.ElementAtOrDefault(2);
+    var reelsLoop = g.Reels.Count > 0 ? g.Reels.Concat(g.Reels).ToList() : g.Reels;
 }
 
 <PageTitle>@t.Titulo | Arrieta Agency</PageTitle>
 
-<div class="portfolio-view">
-    <header class="portfolio-view__bar">
-        <a class="portfolio-view__back" href="/">@t.Volver</a>
-        <p class="portfolio-view__title">@t.Titulo</p>
-        <div class="portfolio-view__pager">
-            <button type="button" class="portfolio-view__nav" data-book-prev aria-label="Página anterior">‹</button>
-            <span class="portfolio-view__status" data-book-status>Cargando…</span>
-            <button type="button" class="portfolio-view__nav" data-book-next aria-label="Página siguiente">›</button>
-        </div>
-    </header>
-
-    <div class="portfolio-view__stage">
-        <div class="portfolio-book"
-             data-portfolio-book
-             data-pdf="/api/portfolio">
-            <div class="portfolio-book__desktop" data-book-desktop></div>
-            <div class="portfolio-book__mobile" data-book-mobile hidden></div>
-        </div>
-        <p class="portfolio-book__loading" data-book-loading>@t.Cargando</p>
-        <p class="portfolio-book__hint" data-book-hint hidden>@t.Pista</p>
-        <p class="portfolio-book__error" data-book-error hidden>@t.Error</p>
+<div class="pf">
+    <div class="pf-bg" aria-hidden="true">
+        <div class="pf-bg__layer pf-bg__layer--a"></div>
+        <div class="pf-bg__layer pf-bg__layer--b"></div>
+        <div class="pf-bg__layer pf-bg__layer--c"></div>
+        <div class="pf-bg__layer pf-bg__layer--d"></div>
     </div>
+
+    <a class="pf-back" href="/">@t.Volver</a>
+
+    <section class="pf-hero" id="top" data-bg="0">
+        <div class="pf-hero__frame">
+            <img class="pf-hero__logo" src="@Assets["images/logo-arrieta-agency.svg"]" alt="Arrieta Agency" />
+
+            <h1 class="pf-word" aria-label="@t.Titulo">
+                <span class="pf-letter pf-letter--p" tabindex="0" data-depth=".18">
+                    <img src="@Assets["images/portafolio-title/p.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--o1" tabindex="0" data-depth=".28">
+                    <img src="@Assets["images/portafolio-title/o1.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--r" tabindex="0" data-depth=".22">
+                    <img src="@Assets["images/portafolio-title/r.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--t" tabindex="0" data-depth=".3">
+                    <img src="@Assets["images/portafolio-title/t.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--a" tabindex="0" data-depth=".2">
+                    <img src="@Assets["images/portafolio-title/a.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--f" tabindex="0" data-depth=".32">
+                    <img src="@Assets["images/portafolio-title/f.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--o2" tabindex="0" data-depth=".14">
+                    <img src="@Assets["images/portafolio-title/o2.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--l" tabindex="0" data-depth=".26">
+                    <img src="@Assets["images/portafolio-title/l.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--i" tabindex="0" data-depth=".18">
+                    <img src="@Assets["images/portafolio-title/i.png"]" alt="" draggable="false" />
+                </span>
+                <span class="pf-letter pf-letter--o3" tabindex="0" data-depth=".34">
+                    <img src="@Assets["images/portafolio-title/o3.png"]" alt="" draggable="false" />
+                </span>
+            </h1>
+
+            <span class="pf-chip pf-chip--diseno" data-depth=".4">DISEÑO</span>
+            <span class="pf-chip pf-chip--grafico" data-depth=".36">GRÁFICO</span>
+            <span class="pf-chip pf-chip--marketing" data-depth=".24">MARKETING</span>
+            <a class="pf-chip pf-chip--ig" href="@ig.InstagramUrl" target="_blank" rel="noopener noreferrer" data-depth=".3">@ig.Instagram</a>
+
+            <div class="pf-seal" data-depth=".22" aria-hidden="true">
+                <svg viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="98" fill="#fff" />
+                    <defs>
+                        <path id="pf-seal-path" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
+                    </defs>
+                    <text class="pf-seal__text" fill="#171738" font-size="15.5" font-weight="800" letter-spacing="3.2">
+                        <textPath href="#pf-seal-path">SOCIAL MEDIA  ·  SOCIAL MEDIA  ·</textPath>
+                    </text>
+                    <g transform="translate(100 108)">
+                        <path d="M0-28c16 14 18 32 0 50c-18-18-16-36 0-50z" fill="#171738" />
+                        <path d="M0-22c-14 12-14 28 0 40c14-12 14-28 0-40z" fill="#ffcf12" />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="pf-hero__scroll">DESLIZA <span aria-hidden="true">
+                <svg viewBox="0 0 12 12" width="12" height="12"><path d="M6 2v7M2.5 6.5 6 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span></div>
+        </div>
+    </section>
+
+    <section class="pf-section pf-section--light pf-marketing" id="marketing" data-bg="1">
+        <div class="pf-abstract pf-abstract--pill" data-depth=".5"></div>
+        <div class="pf-inner pf-marketing__grid">
+            <div>
+                <ServicioSticker Kind="marketing" />
+                <h2 class="pf-title">@((MarkupString)t.MarketingTitulo)</h2>
+                <p class="pf-copy">@t.MarketingCopy</p>
+            </div>
+            @if (g.Marketing.Count > 0)
+            {
+                <div class="pf-devices">
+                    @if (laptop is not null)
+                    {
+                        <figure class="pf-device pf-device--laptop"><img src="@laptop.Src" alt="@laptop.Label" /></figure>
+                    }
+                    @if (tablet is not null)
+                    {
+                        <figure class="pf-device pf-device--tablet"><img src="@tablet.Src" alt="@tablet.Label" /></figure>
+                    }
+                    @if (phone is not null)
+                    {
+                        <figure class="pf-device pf-device--phone"><img src="@phone.Src" alt="@phone.Label" /></figure>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="pf-section pf-section--dark pf-social" id="social" data-bg="2">
+        <div class="pf-abstract pf-abstract--half" data-depth=".45"></div>
+        <div class="pf-inner pf-social__layout">
+            <div class="pf-social__sticky">
+                <ServicioSticker Kind="social" />
+                <h2 class="pf-title">@((MarkupString)t.SocialTitulo)</h2>
+                <p class="pf-copy">@t.SocialCopy</p>
+            </div>
+            @if (g.Social.Count > 0)
+            {
+                <div class="pf-design-grid">
+                    @foreach (var item in g.Social)
+                    {
+                        <figure class="pf-design-card">
+                            <img src="@item.Src" alt="@item.Label" />
+                        </figure>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="pf-section pf-section--light pf-reels" id="reels" data-bg="3">
+        <div class="pf-abstract pf-abstract--dot" data-depth=".6"></div>
+        <div class="pf-inner">
+            <div class="pf-reels__head">
+                <h2 class="pf-title">@((MarkupString)t.ReelsTitulo)</h2>
+                <p class="pf-copy">@t.ReelsCopy</p>
+            </div>
+        </div>
+        @if (reelsLoop.Count > 0)
+        {
+            <div class="pf-reel-window">
+                <div class="pf-reel-track">
+                    @foreach (var item in reelsLoop)
+                    {
+                        <figure class="pf-reel"><img src="@item.Src" alt="@item.Label" /></figure>
+                    }
+                </div>
+            </div>
+        }
+    </section>
+
+    <section class="pf-section pf-section--dark pf-design" id="diseno" data-bg="2">
+        <div class="pf-design__intro pf-inner">
+            <div class="pf-design__copy">
+                <h2 class="pf-title">@((MarkupString)t.DisenoTitulo)</h2>
+                <p class="pf-copy">@t.DisenoCopy</p>
+            </div>
+            <div class="pf-design__mark">
+                <ServicioSticker Kind="diseno" />
+            </div>
+        </div>
+
+        @{
+            var scenes = new (string Key, string Label, IReadOnlyList<PortfolioItem> Items)[]
+            {
+                ("identity", t.IdentidadNombre, g.Identidad),
+                ("pop", t.PopNombre, g.Pop),
+                ("packaging", t.PackagingNombre, g.Packaging),
+                ("giga", t.GigantografiaNombre, g.Gigantografia),
+            };
+            var liveScenes = scenes.Where(s => s.Items.Count > 0).ToArray();
+        }
+
+        @if (liveScenes.Length > 0)
+        {
+            <div class="pf-design-stage" data-pf-design-stage aria-label="Muestras de Diseño Gráfico">
+                <div class="pf-design-sticky">
+                    <div class="pf-dg-head">
+                        <div class="pf-dg-kicker">@t.DisenoKicker</div>
+                        <div class="pf-dg-name" data-pf-dg-name>@liveScenes[0].Label</div>
+                    </div>
+                    <div class="pf-dg-scenes">
+                        @foreach (var scene in liveScenes)
+                        {
+                            <section class="pf-dg-scene" data-scene="@scene.Key" data-label="@scene.Label">
+                                <div class="pf-dg-collage">
+                                    @for (var i = 0; i < scene.Items.Count; i++)
+                                    {
+                                        var item = scene.Items[i];
+                                        var slot = scene.Key switch
+                                        {
+                                            "pop" => (i % 4) + 1,
+                                            "packaging" => (i % 3) + 1,
+                                            "giga" => (i % 3) + 1,
+                                            _ => (i % 6) + 1
+                                        };
+                                        <figure class="pf-dg-card c@(slot)" tabindex="0" role="button"
+                                                aria-label="Abrir @item.Label" data-label="@item.Label">
+                                            <img src="@item.Src" alt="@item.Label" />
+                                            <figcaption>@item.Label</figcaption>
+                                        </figure>
+                                    }
+                                </div>
+                                <img class="pf-dg-decor d1" src="@Assets["images/servicio-burst.svg"]" alt="" aria-hidden="true" />
+                                <img class="pf-dg-decor d2" src="@Assets["images/servicio-bulb.svg"]" alt="" aria-hidden="true" />
+                            </section>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
 </div>
+
+@code {
+    private PortfolioGallery _gallery = new();
+
+    protected override void OnInitialized()
+    {
+        _gallery = Gallery.Load();
+    }
+}

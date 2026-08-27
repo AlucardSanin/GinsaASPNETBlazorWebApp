@@ -125,6 +125,122 @@
         setStep(Number(section.dataset.step || "0"));
     }
 
+    function initResenasTypewriter() {
+        var section = document.querySelector(".resenas");
+        var layer = document.querySelector("[data-resenas-typewriter]");
+        var wordEl = document.querySelector("[data-resenas-typewriter-word]");
+        if (!section || !layer || !wordEl) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            layer.hidden = true;
+            return;
+        }
+
+        var STOP = {
+            que: 1, los: 1, las: 1, del: 1, una: 1, unos: 1, unas: 1, con: 1, por: 1, para: 1,
+            como: 1, esta: 1, este: 1, esto: 1, estos: 1, estas: 1, muy: 1, mas: 1, sin: 1,
+            sobre: 1, entre: 1, desde: 1, hasta: 1, todo: 1, toda: 1, todos: 1, todas: 1, pero: 1,
+            porque: 1, tambien: 1, solo: 1, cada: 1, nos: 1, nuestro: 1, nuestra: 1, nuestros: 1,
+            nuestras: 1, sus: 1, ser: 1, han: 1, hay: 1, fue: 1, son: 1, esa: 1, ese: 1, eso: 1,
+            aqui: 1, alli: 1, cuando: 1, donde: 1, quien: 1, cual: 1, cuales: 1, cliente: 1,
+            clientes: 1, google: 1, arrieta: 1, agency: 1, marca: 1, marcas: 1, equipo: 1,
+            negocio: 1, hacen: 1, hacer: 1, tiene: 1, tienen: 1, bien: 1, nosotros: 1,
+            ellas: 1, ellos: 1
+        };
+        // Keep accented stopwords too
+        STOP["más"] = 1;
+        STOP["también"] = 1;
+        STOP["sólo"] = 1;
+        STOP["aquí"] = 1;
+        STOP["allí"] = 1;
+
+        var FALLBACK = ["Excelente", "Profesionales", "Estrategia", "Compromiso", "Resultados", "Crecer"];
+
+        function extractKeywords() {
+            var texts = Array.prototype.map.call(
+                section.querySelectorAll(".resenas__text"),
+                function (el) { return el.textContent || ""; }
+            );
+            var counts = {};
+            texts.forEach(function (t) {
+                t.split(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/).forEach(function (raw) {
+                    if (!raw || raw.length < 6 || raw.length > 16) return;
+                    var lower = raw.toLowerCase();
+                    if (STOP[lower]) return;
+                    counts[lower] = (counts[lower] || 0) + 1;
+                });
+            });
+            var keys = Object.keys(counts).sort(function (a, b) {
+                return counts[b] - counts[a] || a.localeCompare(b);
+            });
+            if (!keys.length) return FALLBACK.slice();
+            return keys.slice(0, 14).map(function (w) {
+                return w.charAt(0).toUpperCase() + w.slice(1);
+            });
+        }
+
+        var words = extractKeywords();
+        layer._resenasWords = words;
+
+        if (layer.dataset.typewriterBound === "1") return;
+        layer.dataset.typewriterBound = "1";
+
+        var wordIndex = 0;
+        var charIndex = 0;
+        var deleting = false;
+        var pauseUntil = 0;
+        var visible = false;
+        var raf = 0;
+        var lastTick = 0;
+
+        function currentWord() {
+            var list = layer._resenasWords || words;
+            return list[wordIndex % list.length] || "";
+        }
+
+        function tick(now) {
+            raf = window.requestAnimationFrame(tick);
+            if (!visible) return;
+            if (now < pauseUntil) return;
+            if (now - lastTick < (deleting ? 28 : 58)) return;
+            lastTick = now;
+
+            var full = currentWord();
+            if (!full) return;
+
+            if (!deleting) {
+                charIndex = Math.min(full.length, charIndex + 1);
+                wordEl.textContent = full.slice(0, charIndex);
+                if (charIndex >= full.length) {
+                    deleting = true;
+                    pauseUntil = now + 1100;
+                }
+            } else {
+                charIndex = Math.max(0, charIndex - 1);
+                wordEl.textContent = full.slice(0, charIndex);
+                if (charIndex <= 0) {
+                    deleting = false;
+                    var list = layer._resenasWords || words;
+                    wordIndex = (wordIndex + 1) % list.length;
+                    pauseUntil = now + 320;
+                }
+            }
+        }
+
+        if ("IntersectionObserver" in window) {
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    visible = entry.isIntersecting;
+                    if (visible && !raf) raf = window.requestAnimationFrame(tick);
+                });
+            }, { threshold: 0.2 });
+            io.observe(section);
+        } else {
+            visible = true;
+            raf = window.requestAnimationFrame(tick);
+        }
+    }
+
     function initResenas() {
         var root = document.querySelector("[data-resenas-carousel]");
         if (!root) return;
@@ -241,13 +357,41 @@
             .catch(function () { /* keep the raster/SVG <img> fallback */ });
     }
 
+    function initCalendlyWarm() {
+        var link = document.querySelector(".hero__calendly, a[href*='calendly.com']");
+        if (!link) return;
+        var url = link.getAttribute("href");
+        if (!url || document.querySelector('link[data-calendly-warm]')) return;
+
+        var warm = document.createElement("link");
+        warm.rel = "prefetch";
+        warm.href = url;
+        warm.setAttribute("data-calendly-warm", "1");
+        document.head.appendChild(warm);
+
+        // Si el script ya está, tocamos la API en idle para que el primer click abra más rápido.
+        function touch() {
+            if (!window.Calendly) return;
+            try {
+                /* no-op: fuerza resolución del módulo en memoria */
+                void window.Calendly.initPopupWidget;
+            } catch (e) { /* ignore */ }
+        }
+        if (window.requestIdleCallback) window.requestIdleCallback(touch, { timeout: 2500 });
+        else window.setTimeout(touch, 1200);
+    }
+
     function init() {
         initReveal();
         initNav();
         initScrollTop();
         initProceso();
         initResenas();
+        initResenasTypewriter();
+        // Reviews pueden llegar un poco después en Blazor; refresca keywords.
+        window.setTimeout(initResenasTypewriter, 700);
         initCreemosLogo();
+        initCalendlyWarm();
     }
 
     if (document.readyState !== "loading") {
