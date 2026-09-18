@@ -1457,34 +1457,23 @@ a {
     flex: 0 0 248px;
     width: 248px;
     height: 248px;
-    display: grid;
-    place-items: center;
     overflow: visible;
     transition: opacity .25s ease;
     pointer-events: none;
 }
 
     .step-card__art img {
-        width: 82%;
-        height: auto;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         object-fit: contain;
+        object-position: center;
         pointer-events: none;
         -webkit-user-drag: none;
         user-select: none;
         -webkit-touch-callout: none;
     }
-
-.step-card--creamos .step-card__art img {
-    transform: rotate(-24deg);
-}
-
-.step-card--ejecutamos .step-card__art img {
-    transform: rotate(-22deg) translate(2%, 4%);
-}
-/* Empuja el sticker hacia dentro para que el círculo no se corte al rotar */
-.step-card--medimos .step-card__art img {
-    transform: rotate(40deg) translate(-2%, 10%);
-}
 
 .step-card--yellow {
     background: var(--c-yellow);
@@ -2605,16 +2594,11 @@ a {
     }
 
         .step-card__art img {
-            width: 88%;
-            max-width: 110px;
-            max-height: 120px;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
         }
-
-    .step-card--creamos .step-card__art img,
-    .step-card--ejecutamos .step-card__art img,
-    .step-card--medimos .step-card__art img {
-        width: 84%;
-    }
 
     /* Centro activo + peek izquierda/derecha del mismo tamaño */
     .proceso[data-step="0"] .step-card[data-step="0"] {

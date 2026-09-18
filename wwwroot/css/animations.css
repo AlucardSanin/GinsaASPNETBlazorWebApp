@@ -203,11 +203,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
 /* ==========================================================================
    ¿CÓMO LO HACEMOS? — hover del sticker (sin pelear con el translate del stage)
    ========================================================================== */
-.step-card__art img { transition: transform .4s var(--ease-back); }
-.step-card.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-4deg); }
-.step-card--creamos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-28deg); }
-.step-card--ejecutamos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(-26deg); }
-.step-card--medimos.is-active:hover .step-card__art img { transform: scale(1.08) rotate(36deg); }
+.step-card__art img { transition: transform .4s var(--ease-back); transform-origin: center; }
+.step-card.is-active:hover .step-card__art img { transform: scale(1.07) rotate(-3deg); }
 .step-card.is-active {
     box-shadow: 0 18px 36px -12px rgba(0, 0, 0, .35);
 }
