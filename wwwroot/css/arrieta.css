@@ -1465,7 +1465,7 @@ a {
 }
 
     .step-card__art img {
-        width: 64%;
+        width: 82%;
         height: auto;
         object-fit: contain;
         pointer-events: none;
@@ -1736,6 +1736,49 @@ a {
     margin-bottom: 0;
 }
 
+.marcas__typewriter {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: .35em;
+    margin: 18px 0 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(18px, 2.4vw, 28px);
+    line-height: 1.25;
+    letter-spacing: .01em;
+    color: rgba(255, 255, 255, .86);
+    min-height: 1.35em;
+}
+
+.marcas__typewriter-prefix {
+    color: rgba(255, 255, 255, .78);
+}
+
+.marcas__typewriter-typed {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.marcas__typewriter-word {
+    color: var(--c-yellow);
+    font-weight: 700;
+}
+
+.marcas__typewriter-cursor {
+    color: var(--c-yellow);
+    font-weight: 700;
+    margin-left: .02em;
+    animation: marcasCursorBlink 1s steps(1) infinite;
+}
+
+@keyframes marcasCursorBlink {
+    0%, 45% { opacity: 1; }
+    46%, 100% { opacity: 0; }
+}
+
 .marquee {
     position: relative;
     width: 100%;
@@ -1780,50 +1823,6 @@ a {
     padding: clamp(8px, 2vh, 24px) 0 clamp(72px, 10vh, 120px);
     margin-top: clamp(-48px, -6vh, -24px);
     overflow: hidden;
-}
-
-/* Palabras de las reseñas tipeándose detrás del contenido */
-.resenas__typewriter {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    overflow: hidden;
-    user-select: none;
-}
-
-.resenas__typewriter-word {
-    font-family: var(--font-Caps);
-    font-weight: 700;
-    font-size: clamp(42px, 11vw, 128px);
-    line-height: 1;
-    letter-spacing: .02em;
-    text-transform: uppercase;
-    color: var(--c-dark);
-    opacity: .08;
-    white-space: nowrap;
-    max-width: 92%;
-    overflow: hidden;
-    text-overflow: clip;
-}
-
-.resenas__typewriter-cursor {
-    font-family: var(--font-Caps);
-    font-weight: 700;
-    font-size: clamp(42px, 11vw, 128px);
-    line-height: 1;
-    color: var(--c-dark);
-    opacity: .12;
-    margin-left: .04em;
-    animation: resenasCursorBlink 1s steps(1) infinite;
-}
-
-@keyframes resenasCursorBlink {
-    0%, 45% { opacity: .12; }
-    46%, 100% { opacity: 0; }
 }
 
 .resenas__layout {

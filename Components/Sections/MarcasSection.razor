@@ -5,6 +5,22 @@
 <section class="marcas" id="marcas">
     <div class="container">
         <h2 class="section-title marcas__title">@m.TituloAntes<br /> <span class="fun">@m.TituloResaltado</span> @m.TituloDespues</h2>
+        @if (m.TypewriterPalabras.Count > 0)
+        {
+            <p class="marcas__typewriter" data-marcas-typewriter aria-live="polite">
+                @if (!string.IsNullOrWhiteSpace(m.TypewriterPrefijo))
+                {
+                    <span class="marcas__typewriter-prefix">@(m.TypewriterPrefijo + "\u00A0")</span>
+                }
+                <span class="marcas__typewriter-typed">
+                    <span class="marcas__typewriter-word" data-marcas-typewriter-word></span><span class="marcas__typewriter-cursor">_</span>
+                </span>
+                @foreach (var word in m.TypewriterPalabras)
+                {
+                    <span class="marcas__typewriter-source" data-word="@word" hidden></span>
+                }
+            </p>
+        }
     </div>
 
     <div class="marquee">

@@ -125,62 +125,22 @@
         setStep(Number(section.dataset.step || "0"));
     }
 
-    function initResenasTypewriter() {
-        var section = document.querySelector(".resenas");
-        var layer = document.querySelector("[data-resenas-typewriter]");
-        var wordEl = document.querySelector("[data-resenas-typewriter-word]");
-        if (!section || !layer || !wordEl) return;
+    function initMarcasTypewriter() {
+        var layer = document.querySelector("[data-marcas-typewriter]");
+        var wordEl = document.querySelector("[data-marcas-typewriter-word]");
+        var section = document.querySelector(".marcas");
+        if (!layer || !wordEl || !section) return;
+
+        var words = Array.prototype.map.call(
+            layer.querySelectorAll("[data-word]"),
+            function (el) { return (el.getAttribute("data-word") || "").trim(); }
+        ).filter(Boolean);
+        if (!words.length) return;
 
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            layer.hidden = true;
+            wordEl.textContent = words[0];
             return;
         }
-
-        var STOP = {
-            que: 1, los: 1, las: 1, del: 1, una: 1, unos: 1, unas: 1, con: 1, por: 1, para: 1,
-            como: 1, esta: 1, este: 1, esto: 1, estos: 1, estas: 1, muy: 1, mas: 1, sin: 1,
-            sobre: 1, entre: 1, desde: 1, hasta: 1, todo: 1, toda: 1, todos: 1, todas: 1, pero: 1,
-            porque: 1, tambien: 1, solo: 1, cada: 1, nos: 1, nuestro: 1, nuestra: 1, nuestros: 1,
-            nuestras: 1, sus: 1, ser: 1, han: 1, hay: 1, fue: 1, son: 1, esa: 1, ese: 1, eso: 1,
-            aqui: 1, alli: 1, cuando: 1, donde: 1, quien: 1, cual: 1, cuales: 1, cliente: 1,
-            clientes: 1, google: 1, arrieta: 1, agency: 1, marca: 1, marcas: 1, equipo: 1,
-            negocio: 1, hacen: 1, hacer: 1, tiene: 1, tienen: 1, bien: 1, nosotros: 1,
-            ellas: 1, ellos: 1
-        };
-        // Keep accented stopwords too
-        STOP["más"] = 1;
-        STOP["también"] = 1;
-        STOP["sólo"] = 1;
-        STOP["aquí"] = 1;
-        STOP["allí"] = 1;
-
-        var FALLBACK = ["Excelente", "Profesionales", "Estrategia", "Compromiso", "Resultados", "Crecer"];
-
-        function extractKeywords() {
-            var texts = Array.prototype.map.call(
-                section.querySelectorAll(".resenas__text"),
-                function (el) { return el.textContent || ""; }
-            );
-            var counts = {};
-            texts.forEach(function (t) {
-                t.split(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/).forEach(function (raw) {
-                    if (!raw || raw.length < 6 || raw.length > 16) return;
-                    var lower = raw.toLowerCase();
-                    if (STOP[lower]) return;
-                    counts[lower] = (counts[lower] || 0) + 1;
-                });
-            });
-            var keys = Object.keys(counts).sort(function (a, b) {
-                return counts[b] - counts[a] || a.localeCompare(b);
-            });
-            if (!keys.length) return FALLBACK.slice();
-            return keys.slice(0, 14).map(function (w) {
-                return w.charAt(0).toUpperCase() + w.slice(1);
-            });
-        }
-
-        var words = extractKeywords();
-        layer._resenasWords = words;
 
         if (layer.dataset.typewriterBound === "1") return;
         layer.dataset.typewriterBound = "1";
@@ -194,15 +154,14 @@
         var lastTick = 0;
 
         function currentWord() {
-            var list = layer._resenasWords || words;
-            return list[wordIndex % list.length] || "";
+            return words[wordIndex % words.length] || "";
         }
 
         function tick(now) {
             raf = window.requestAnimationFrame(tick);
             if (!visible) return;
             if (now < pauseUntil) return;
-            if (now - lastTick < (deleting ? 28 : 58)) return;
+            if (now - lastTick < (deleting ? 32 : 72)) return;
             lastTick = now;
 
             var full = currentWord();
@@ -213,16 +172,15 @@
                 wordEl.textContent = full.slice(0, charIndex);
                 if (charIndex >= full.length) {
                     deleting = true;
-                    pauseUntil = now + 1100;
+                    pauseUntil = now + 1400;
                 }
             } else {
                 charIndex = Math.max(0, charIndex - 1);
                 wordEl.textContent = full.slice(0, charIndex);
                 if (charIndex <= 0) {
                     deleting = false;
-                    var list = layer._resenasWords || words;
-                    wordIndex = (wordIndex + 1) % list.length;
-                    pauseUntil = now + 320;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    pauseUntil = now + 280;
                 }
             }
         }
@@ -233,7 +191,7 @@
                     visible = entry.isIntersecting;
                     if (visible && !raf) raf = window.requestAnimationFrame(tick);
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.25 });
             io.observe(section);
         } else {
             visible = true;
@@ -387,9 +345,7 @@
         initScrollTop();
         initProceso();
         initResenas();
-        initResenasTypewriter();
-        // Reviews pueden llegar un poco después en Blazor; refresca keywords.
-        window.setTimeout(initResenasTypewriter, 700);
+        initMarcasTypewriter();
         initCreemosLogo();
         initCalendlyWarm();
     }

@@ -257,6 +257,6 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     .reveal { opacity: 1 !important; transform: none !important; }
     .hero__intro { opacity: 1 !important; visibility: visible !important; }
     .page-mesh__noise { display: none; }
-    .resenas__typewriter { display: none !important; }
+    .marcas__typewriter { animation: none !important; }
     .pf-reel-track, .pf-dg-decor { animation: none !important; }
 }

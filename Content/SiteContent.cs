@@ -73,6 +73,8 @@ public sealed class MarcasTextos
     public string TituloAntes { get; set; } = "";
     public string TituloResaltado { get; set; } = "";
     public string TituloDespues { get; set; } = "";
+    public string TypewriterPrefijo { get; set; } = "";
+    public List<string> TypewriterPalabras { get; set; } = [];
 }
 
 public sealed class ResenasTextos

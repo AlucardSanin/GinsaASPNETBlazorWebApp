@@ -24,6 +24,9 @@ imágenes de carpetas dentro de wwwroot/portafolio (ver LEEME.txt ahí).
 Sube las piezas a la carpeta correspondiente y recicla el Application
 Pool. El orden es alfabético por nombre de archivo.
 
+En Marcas, TypewriterPrefijo y TypewriterPalabras controlan la línea
+de máquina de escribir bajo el título (industrias).
+
 Carpetas:
   portada/
   Marketing Digital/

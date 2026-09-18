@@ -90,7 +90,22 @@
   "Marcas": {
     "TituloAntes": "Marcas que han ",
     "TituloResaltado": "CRECIDO",
-    "TituloDespues": " con nosotros"
+    "TituloDespues": " con nosotros",
+    "TypewriterPrefijo": "Experiencia en",
+    "TypewriterPalabras": [
+      "software",
+      "salud",
+      "B2B",
+      "real estate",
+      "legal",
+      "automotriz",
+      "manufactura",
+      "educación",
+      "retail",
+      "joyería",
+      "gastronomía",
+      "floristería"
+    ]
   },
 
   "Resenas": {
