@@ -32,7 +32,7 @@
                                 <div class="resenas__author">
                                     @if (!string.IsNullOrWhiteSpace(review.AuthorPhotoUrl))
                                     {
-                                        <img class="resenas__avatar" src="@review.AuthorPhotoUrl" alt="" width="48" height="48" loading="lazy" />
+                                        <img class="resenas__avatar" src="@review.AuthorPhotoUrl" alt="" width="48" height="48" loading="lazy" referrerpolicy="no-referrer" decoding="async" />
                                     }
                                     else
                                     {

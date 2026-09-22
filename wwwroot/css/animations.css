@@ -256,4 +256,5 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     .page-mesh__noise { display: none; }
     .marcas__typewriter { animation: none !important; }
     .pf-reel-track, .pf-dg-decor { animation: none !important; }
+    .pf-reel video { display: block; }
 }

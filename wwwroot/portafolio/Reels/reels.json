@@ -1,0 +1,9 @@
+{
+  // Se reproducen en el carrusel. TikTok: @cuenta/video/123... (no el corto).
+  // Instagram: /reel/CODIGO/  Tiene que ser público.
+  "items": [
+    // { "titulo": "Campaña X", "url": "https://www.instagram.com/reel/CODIGO/" },
+    // { "titulo": "TikTok Y", "url": "https://www.tiktok.com/@cuenta/video/1234567890" },
+    // { "titulo": "Pieza propia", "archivo": "cliente.mp4", "portada": "cliente.jpg" }
+  ]
+}

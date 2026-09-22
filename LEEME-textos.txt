@@ -27,11 +27,34 @@ Pool. El orden es alfabético por nombre de archivo.
 En Marcas, TypewriterPrefijo y TypewriterPalabras controlan la línea
 de máquina de escribir bajo el título (industrias).
 
+La política de privacidad vive en /privacidad (también /privacy).
+El texto se edita en la sección "Privacidad" de este JSON. Google Cloud
+pide esa URL pública en la pantalla de consentimiento OAuth:
+https://www.arrietagency.com/privacidad
+
+RESEÑAS DE GOOGLE (SERVIDOR)
+============================
+
+Junto al .dll debe existir la carpeta secrets/ con:
+  google-oauth.json
+  google-tokens.json
+
+Esos archivos no van en git. Si publicas desde esta PC, se copian
+al paquete. Si no, cópialos a mano y recicla el Application Pool.
+
+En Google Cloud, el cliente OAuth debe tener estas URIs:
+  http://localhost:44369/oauth/callback
+  https://www.arrietagency.com/oauth/callback
+  https://arrietagency.com/oauth/callback
+
+Si hay token válido, las reseñas salen solas. Para autorizar de
+nuevo en producción: https://www.arrietagency.com/oauth/google/start
+
 Carpetas:
   portada/
   Marketing Digital/
   Social Media/
-  Reels/
+  Reels/          (MP4 H.264 9:16 y/o enlaces en Reels/reels.json)
   Identidad Visual/
   Material POP/
   Packaging/

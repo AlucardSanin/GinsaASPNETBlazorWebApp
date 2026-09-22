@@ -2,13 +2,13 @@ CÓMO CARGAR PIEZAS DEL PORTAFOLIO
 =================================
 
 Coloca las imágenes (png, jpg, webp, gif, svg) en estas carpetas
-y reinicia la app (o recicla el Application Pool). El orden es
-alfabético por nombre de archivo.
+y recicla el Application Pool. El orden es alfabético por nombre
+de archivo, salvo Reels (mira abajo).
 
   portafolio/portada/              → 1 imagen de portada (hero)
   portafolio/Marketing Digital/    → mockups web (laptop, tablet, teléfono: las 3 primeras)
   portafolio/Social Media/         → piezas de redes (rejilla)
-  portafolio/Reels/                → verticales 9:16 (carrusel)
+  portafolio/Reels/                → vídeos locales + enlaces (carrusel)
   portafolio/Identidad Visual/     → logos / sistemas de marca
   portafolio/Material POP/         → menús, flyers, merchandising
   portafolio/Packaging/            → empaques
@@ -17,5 +17,27 @@ alfabético por nombre de archivo.
 El nombre del archivo se usa como etiqueta (ej. "logo-beauty-clinic.png"
 → "Logo Beauty Clinic"). Haz clic en una pieza para ampliarla.
 
-No hace falta tocar el código. Si una carpeta está vacía, esa
-sección se muestra sin piezas.
+REELS
+=====
+
+Formato de vídeo en la carpeta:
+  - MP4 (H.264 + audio AAC). Es el que mejor funciona en la web.
+  - WebM también vale. No uses MOV, AVI ni MKV.
+  - Vertical 9:16, ideal 1080×1920. Procura que pese menos de 20 MB.
+
+Enlaces de Instagram o TikTok: edita Reels/reels.json
+
+{
+  "items": [
+    { "titulo": "Campaña X", "url": "https://www.instagram.com/reel/CODIGO/" },
+    { "titulo": "TikTok Y", "url": "https://www.tiktok.com/@cuenta/video/1234567890" },
+    { "titulo": "Pieza propia", "archivo": "cliente.mp4", "portada": "cliente.jpg" }
+  ]
+}
+
+Los ítems del JSON salen primero. Luego se agregan solos los MP4/WebM
+(y fotos) de la carpeta que no hayas listado. Enlaces y archivos se
+reproducen en el carrusel (el reproductor oficial de Instagram o TikTok).
+El reel o vídeo tiene que ser público. En TikTok usa el enlace completo
+(@cuenta/video/123...), no el corto de vm.tiktok.com.
+Si el JSON está mal escrito, igual se muestran los vídeos de la carpeta.

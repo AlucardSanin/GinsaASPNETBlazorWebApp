@@ -1,0 +1,34 @@
+@page "/privacidad"
+@page "/privacy"
+@inject IOptionsMonitor<SiteContent> SiteContent
+@{
+    var t = SiteContent.CurrentValue;
+    var p = t.Privacidad;
+}
+
+<PageTitle>@p.TituloPagina</PageTitle>
+<div class="page-shell legal-page">
+    <PageMesh />
+    <SiteNav />
+    <main class="legal">
+        <div class="container legal__inner">
+            <p class="legal__kicker">Arrieta Agency</p>
+            <h1 class="legal__title">@p.Titulo</h1>
+            @if (!string.IsNullOrWhiteSpace(p.Actualizado))
+            {
+                <p class="legal__updated">@p.Actualizado</p>
+            }
+            @foreach (var seccion in p.Secciones)
+            {
+                <section class="legal__section">
+                    <h2>@seccion.Titulo</h2>
+                    @foreach (var parrafo in seccion.Parrafos)
+                    {
+                        <p>@parrafo</p>
+                    }
+                </section>
+            }
+        </div>
+    </main>
+    <SiteFooter />
+</div>

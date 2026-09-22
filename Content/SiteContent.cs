@@ -14,6 +14,7 @@ public sealed class SiteContent
     public NumerosTextos Numeros { get; set; } = new();
     public CreemosTextos Creemos { get; set; } = new();
     public FooterTextos Footer { get; set; } = new();
+    public PrivacidadTextos Privacidad { get; set; } = new();
     public PortafolioTextos Portafolio { get; set; } = new();
     public ContactoTextos Contacto { get; set; } = new();
 }
@@ -112,6 +113,21 @@ public sealed class FooterTextos
     public string TituloVenezuela { get; set; } = "";
     public string TituloColombia { get; set; } = "";
     public string Copyright { get; set; } = "";
+    public string EnlacePrivacidad { get; set; } = "Política de privacidad";
+}
+
+public sealed class PrivacidadTextos
+{
+    public string TituloPagina { get; set; } = "";
+    public string Titulo { get; set; } = "";
+    public string Actualizado { get; set; } = "";
+    public List<PrivacidadSeccion> Secciones { get; set; } = [];
+}
+
+public sealed class PrivacidadSeccion
+{
+    public string Titulo { get; set; } = "";
+    public List<string> Parrafos { get; set; } = [];
 }
 
 public sealed class PortafolioTextos

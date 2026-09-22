@@ -42,13 +42,37 @@ public sealed class GoogleOAuthTokenService(
             opts.ClientSecret = cs.GetString() ?? "";
     }
 
-    public string BuildAuthorizationUrl(string state)
+    public string ResolveRedirectUri(HttpRequest request)
+    {
+        var host = request.Host.Host;
+        if (host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ||
+            host.Equals("127.0.0.1", StringComparison.OrdinalIgnoreCase))
+        {
+            return string.IsNullOrWhiteSpace(options.Value.RedirectUri)
+                ? $"{request.Scheme}://{request.Host}/oauth/callback"
+                : options.Value.RedirectUri;
+        }
+
+        var scheme = request.Scheme;
+        if (request.Headers.TryGetValue("X-Forwarded-Proto", out var proto) &&
+            !string.IsNullOrWhiteSpace(proto))
+        {
+            scheme = proto.ToString().Split(',')[0].Trim();
+        }
+
+        if (host.Contains("arrietagency.com", StringComparison.OrdinalIgnoreCase))
+            scheme = "https";
+
+        return $"{scheme}://{request.Host.ToString().TrimEnd('/')}/oauth/callback";
+    }
+
+    public string BuildAuthorizationUrl(string state, string? redirectUri = null)
     {
         var opts = options.Value;
         var query = new Dictionary<string, string>
         {
             ["client_id"] = opts.ClientId,
-            ["redirect_uri"] = opts.RedirectUri,
+            ["redirect_uri"] = string.IsNullOrWhiteSpace(redirectUri) ? opts.RedirectUri : redirectUri,
             ["response_type"] = "code",
             ["scope"] = Scope,
             ["access_type"] = "offline",
@@ -61,7 +85,7 @@ public sealed class GoogleOAuthTokenService(
                string.Join("&", query.Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value)}"));
     }
 
-    public async Task<string> ExchangeCodeAsync(string code, CancellationToken cancellationToken = default)
+    public async Task<string> ExchangeCodeAsync(string code, string? redirectUri = null, CancellationToken cancellationToken = default)
     {
         await EnsureCredentialsLoadedAsync(cancellationToken);
         var opts = options.Value;
@@ -71,7 +95,7 @@ public sealed class GoogleOAuthTokenService(
             ["code"] = code,
             ["client_id"] = opts.ClientId,
             ["client_secret"] = opts.ClientSecret,
-            ["redirect_uri"] = opts.RedirectUri,
+            ["redirect_uri"] = string.IsNullOrWhiteSpace(redirectUri) ? opts.RedirectUri : redirectUri,
             ["grant_type"] = "authorization_code"
         });
 

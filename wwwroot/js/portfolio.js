@@ -163,19 +163,18 @@
             setLabel(active);
             scenes.forEach(function (scene, i) {
                 var local = clamp(raw - i);
-                var enter = smooth(clamp(local / 0.34));
-                var exit = smooth(clamp((local - 0.76) / 0.24));
-                scene.style.opacity = String(clamp(enter * (1 - exit * 0.96)));
+                var enter = i === 0 ? 1 : smooth(clamp(local / 0.22));
+                var exit = scenes.length === 1 ? 0 : smooth(clamp((local - 0.78) / 0.22));
+                scene.style.opacity = String(clamp(enter * (1 - exit)));
                 scene.style.transform = "translate3d(" + ((1 - enter) * 2.5 - exit * 2.5) + "vw,0,0)";
-                scene.classList.toggle("is-current", local > 0.15 && local < 0.9);
+                scene.classList.toggle("is-current", i === active);
                 var key = scene.dataset.scene || "";
                 var vecs = vectorsByScene[key] || [];
                 Array.prototype.forEach.call(scene.querySelectorAll(".pf-dg-card"), function (card, j) {
-                    var start = 0.035 + j * 0.07;
-                    var t = ease(clamp((local - start) / 0.25));
+                    var t = i === 0 ? 1 : ease(clamp((local - (0.02 + j * 0.04)) / 0.18));
                     var vectors = vecs[j] || [0, 0, 0];
                     var depth = (j % 2 ? 1 : -1) * Math.sin((p * 4.2) + (j * 0.8)) * 1.2;
-                    card.style.opacity = String(clamp(t * (1 - exit * 0.9)));
+                    card.style.opacity = String(clamp(t * (1 - exit * 0.85)));
                     card.style.transform =
                         "translate3d(" + ((1 - t) * vectors[0] + depth) + "px," +
                         ((1 - t) * vectors[1]) + "px," + j + "px) rotate(" +

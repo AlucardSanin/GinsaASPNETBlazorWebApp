@@ -1,6 +1,7 @@
 using GinsaASPNETBlazorWebApp.Components;
 using GinsaASPNETBlazorWebApp.Content;
 using GinsaASPNETBlazorWebApp.Reviews;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,8 +30,16 @@ builder.Services.AddHttpClient<IGoogleReviewsService, GoogleBusinessReviewsServi
 {
     client.Timeout = TimeSpan.FromSeconds(30);
 });
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -58,12 +67,13 @@ app.MapGet("/api/portfolio", async (HttpContext http, PortfolioPdfService pdf, C
 }).DisableAntiforgery();
 
 // One-time Google Business Profile OAuth (admin account).
-app.MapGet("/oauth/google/start", async (GoogleOAuthTokenService oauth, IMemoryCache cache) =>
+app.MapGet("/oauth/google/start", async (HttpContext http, GoogleOAuthTokenService oauth, IMemoryCache cache) =>
 {
     await oauth.EnsureCredentialsLoadedAsync();
     var state = Guid.NewGuid().ToString("N");
-    cache.Set($"gmb-oauth:{state}", true, TimeSpan.FromMinutes(15));
-    return Results.Redirect(oauth.BuildAuthorizationUrl(state));
+    var redirectUri = oauth.ResolveRedirectUri(http.Request);
+    cache.Set($"gmb-oauth:{state}", redirectUri, TimeSpan.FromMinutes(15));
+    return Results.Redirect(oauth.BuildAuthorizationUrl(state, redirectUri));
 });
 
 app.MapGet("/oauth/callback", async (
@@ -79,14 +89,14 @@ app.MapGet("/oauth/callback", async (
     if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
         return Results.BadRequest("Missing code/state.");
 
-    if (!cache.TryGetValue($"gmb-oauth:{state}", out bool _))
+    if (!cache.TryGetValue($"gmb-oauth:{state}", out string? redirectUri) || string.IsNullOrWhiteSpace(redirectUri))
         return Results.BadRequest("Invalid or expired OAuth state. Start again at /oauth/google/start");
 
     cache.Remove($"gmb-oauth:{state}");
 
     try
     {
-        await oauth.ExchangeCodeAsync(code);
+        await oauth.ExchangeCodeAsync(code, redirectUri);
         cache.Remove("google-business-reviews:v1");
         return Results.Content(
             """

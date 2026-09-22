@@ -157,7 +157,63 @@
     "TituloInstagram": "Instagram",
     "TituloVenezuela": "Contacto Venezuela",
     "TituloColombia": "Contacto Colombia",
-    "Copyright": "© Arrieta Agency, 2026"
+    "Copyright": "© Arrieta Agency, 2026",
+    "EnlacePrivacidad": "Política de privacidad"
+  },
+
+  "Privacidad": {
+    "TituloPagina": "Política de privacidad | Arrieta Agency",
+    "Titulo": "Política de privacidad",
+    "Actualizado": "Última actualización: 18 de septiembre de 2026",
+    "Secciones": [
+      {
+        "Titulo": "1. Quiénes somos",
+        "Parrafos": [
+          "Esta política describe cómo Arrieta Agency (Ginsa / sede en Bogotá, Colombia, y Maracaibo, Venezuela) trata datos personales en el sitio web arrietagency.com y en la aplicación OAuth “ARRIETAGENCY LANDING” registrada en Google Cloud.",
+          "Responsable del tratamiento: Arrieta Agency. Correo de contacto: contacto@arrietagency.com."
+        ]
+      },
+      {
+        "Titulo": "2. Qué datos usamos en el sitio",
+        "Parrafos": [
+          "No pedimos crear una cuenta para navegar. Si nos escribes o agendás una reunión, recibimos el nombre, correo, teléfono y el mensaje que tú nos envíes por correo, WhatsApp o Calendly.",
+          "El sitio carga recursos de terceros (por ejemplo tipografías de Google Fonts, el widget de Calendly e Instagram). Esos servicios pueden registrar datos técnicos como dirección IP, tipo de navegador e identificadores de sesión según sus propias políticas."
+        ]
+      },
+      {
+        "Titulo": "3. Conexión con Google Business Profile",
+        "Parrafos": [
+          "Para mostrar reseñas reales de clientes en la web, un administrador del Perfil de Empresa de Arrieta puede autorizar la aplicación una sola vez. En ese flujo Google nos concede el permiso business.manage.",
+          "Con ese permiso solo consultamos las reseñas públicas del Perfil de Empresa: nombre visible del autor, foto de perfil si Google la entrega, calificación, comentario y fecha. No usamos el permiso para publicar, responder, borrar reseñas ni para gestionar anuncios.",
+          "El token de actualización (refresh token) se guarda en el servidor de la agencia, fuera del repositorio público, y se usa únicamente para volver a leer esas reseñas. No vendemos esa información ni la compartimos con terceros ajenos a la operación del sitio.",
+          "Puedes revocar el acceso en cualquier momento desde tu cuenta de Google: https://myaccount.google.com/permissions"
+        ]
+      },
+      {
+        "Titulo": "4. Reseñas que se muestran en la web",
+        "Parrafos": [
+          "Las reseñas que aparecen en el sitio son comentarios que sus autores ya hicieron públicos en Google. Las mostramos con el nombre y la foto que Google asocia a esa reseña, junto con la calificación y el texto."
+        ]
+      },
+      {
+        "Titulo": "5. Conservación",
+        "Parrafos": [
+          "Las reseñas se consultan a Google y se guardan en caché por unas horas para no saturar la API. El token de autorización se conserva mientras la agencia quiera seguir mostrando reseñas actualizadas. Los mensajes que nos envíes se conservan el tiempo necesario para atenderte."
+        ]
+      },
+      {
+        "Titulo": "6. Tus derechos",
+        "Parrafos": [
+          "Puedes pedir acceso, corrección o eliminación de tus datos personales, o retirar un consentimiento, escribiendo a contacto@arrietagency.com. Si tu reseña está en Google, también puedes editarla o eliminarla desde tu cuenta de Google; el sitio se actualizará en la siguiente consulta a la API."
+        ]
+      },
+      {
+        "Titulo": "7. Cambios",
+        "Parrafos": [
+          "Si actualizamos esta política, cambiaremos la fecha del inicio de esta página. El uso continuado del sitio o de la autorización de Google implica que conoces la versión vigente."
+        ]
+      }
+    ]
   },
 
   "Portafolio": {

@@ -9,7 +9,8 @@
     var laptop = g.Marketing.ElementAtOrDefault(0);
     var tablet = g.Marketing.ElementAtOrDefault(1);
     var phone = g.Marketing.ElementAtOrDefault(2);
-    var reelsLoop = g.Reels.Count > 0 ? g.Reels.Concat(g.Reels).ToList() : g.Reels;
+    var hasEmbeds = g.Reels.Any(r => r.Kind is "instagram" or "tiktok");
+    var reelsLoop = !hasEmbeds && g.Reels.Count > 0 ? g.Reels.Concat(g.Reels).ToList() : g.Reels;
 }
 
 <PageTitle>@t.Titulo | Arrieta Agency</PageTitle>
@@ -140,11 +141,31 @@
         </div>
         @if (reelsLoop.Count > 0)
         {
-            <div class="pf-reel-window">
+            <div class="pf-reel-window @(hasEmbeds ? "pf-reel-window--scroll" : null)">
                 <div class="pf-reel-track">
                     @foreach (var item in reelsLoop)
                     {
-                        <figure class="pf-reel"><img src="@item.Src" alt="@item.Label" /></figure>
+                        @if ((item.Kind is "instagram" or "tiktok") && !string.IsNullOrWhiteSpace(item.EmbedSrc))
+                        {
+                            <figure class="pf-reel pf-reel--embed pf-reel--@item.Kind">
+                                <iframe src="@item.EmbedSrc"
+                                        title="@item.Label"
+                                        loading="lazy"
+                                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen"
+                                        allowfullscreen
+                                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                            </figure>
+                        }
+                        else if (item.Kind == "video")
+                        {
+                            <figure class="pf-reel pf-reel--video">
+                                <video src="@item.Src" poster="@item.Poster" muted loop playsinline autoplay preload="metadata" aria-label="@item.Label"></video>
+                            </figure>
+                        }
+                        else
+                        {
+                            <figure class="pf-reel"><img src="@item.Src" alt="@item.Label" /></figure>
+                        }
                     }
                 </div>
             </div>
@@ -175,7 +196,7 @@
 
         @if (liveScenes.Length > 0)
         {
-            <div class="pf-design-stage" data-pf-design-stage aria-label="Muestras de Diseño Gráfico">
+            <div class="pf-design-stage" data-pf-design-stage style="--dg-scenes: @liveScenes.Length" aria-label="Muestras de Diseño Gráfico">
                 <div class="pf-design-sticky">
                     <div class="pf-dg-head">
                         <div class="pf-dg-kicker">@t.DisenoKicker</div>
@@ -198,7 +219,7 @@
                                         };
                                         <figure class="pf-dg-card c@(slot)" tabindex="0" role="button"
                                                 aria-label="Abrir @item.Label" data-label="@item.Label">
-                                            <img src="@item.Src" alt="@item.Label" />
+                                            <img src="@item.Src" alt="@item.Label" loading="@(scene.Key == liveScenes[0].Key ? "eager" : "lazy")" />
                                             <figcaption>@item.Label</figcaption>
                                         </figure>
                                     }
