@@ -12,6 +12,7 @@
             {
                 var item = n.Items[i];
                 var itemClass = i == 0 ? "numeros__item reveal" : $"numeros__item reveal d{i}";
+                if (i == 2) itemClass += " numeros__item--mail";
                 <article class="@itemClass">
                     <span class="numeros__icon" aria-hidden="true">
                         <img class="numeros__icon-still" src="@Assets[KpiIcons[i]]" alt="" width="64" height="64" />

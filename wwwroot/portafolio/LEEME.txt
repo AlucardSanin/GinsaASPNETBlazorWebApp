@@ -35,9 +35,10 @@ Enlaces de Instagram o TikTok: edita Reels/reels.json
   ]
 }
 
-Los ítems del JSON salen primero. Luego se agregan solos los MP4/WebM
-(y fotos) de la carpeta que no hayas listado. Enlaces y archivos se
-reproducen en el carrusel (el reproductor oficial de Instagram o TikTok).
+Si solo pones el MP4 en la carpeta, ya aparece. No lo declares también
+en el JSON: el JSON es solo para enlaces de Instagram/TikTok o para
+ponerle título/portada a un archivo. Los ítems del JSON salen primero;
+luego se agregan los MP4/WebM (y fotos) que no hayas listado.
 El reel o vídeo tiene que ser público. En TikTok usa el enlace completo
 (@cuenta/video/123...), no el corto de vm.tiktok.com.
 Si el JSON está mal escrito, igual se muestran los vídeos de la carpeta.

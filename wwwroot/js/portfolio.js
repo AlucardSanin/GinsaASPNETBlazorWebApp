@@ -22,6 +22,18 @@
         function lerp(a, b, t) { return a + (b - a) * t; }
         function mix(a, b, t) { return a.map(function (v, i) { return lerp(v, b[i], t); }); }
 
+        function applyPose(el) {
+            var dx = +el.dataset.dragX || 0;
+            var dy = +el.dataset.dragY || 0;
+            var d = +el.dataset.depth || 0.5;
+            var px = 0, py = 0;
+            if (!reduce && !el.classList.contains("is-dragging") && el.dataset.pinned !== "1") {
+                px = mx * d * 24;
+                py = my * d * 20;
+            }
+            el.style.translate = (px + dx) + "px " + (py + dy) + "px";
+        }
+
         function bgState() {
             if (!sections.length) return states[0];
             var y = window.scrollY + window.innerHeight * 0.52;
@@ -55,11 +67,8 @@
             html.style.setProperty("--bgB", bg[1]);
             html.style.setProperty("--bgC", bg[2]);
             html.style.setProperty("--bgD", bg[3]);
+            abs.forEach(applyPose);
             if (!reduce) {
-                abs.forEach(function (el) {
-                    var d = +el.dataset.depth || 0.5;
-                    el.style.translate = (mx * d * 24) + "px " + (my * d * 20) + "px";
-                });
                 devices.forEach(function (el, i) {
                     var p = sectionProgress(el.closest(".pf-marketing"));
                     el.style.transform =
@@ -93,7 +102,90 @@
             addEventListener("resize", request, { passive: true });
         }
         request();
+        initHeroDrag(root, applyPose, request);
         initDesignStage(reduce);
+    }
+
+    function initHeroDrag(root, applyPose, request) {
+        if (!root || root.dataset.pfDragBound === "1") return;
+        root.dataset.pfDragBound = "1";
+
+        var pieces = Array.prototype.slice.call(root.querySelectorAll("[data-drag]"));
+        if (!pieces.length) return;
+
+        var active = null;
+
+        function onMove(e) {
+            if (!active) return;
+            var dx = e.clientX - active.startX;
+            var dy = e.clientY - active.startY;
+            if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+                active.moved = true;
+                e.preventDefault();
+            }
+            active.el.dataset.dragX = String(active.baseX + dx);
+            active.el.dataset.dragY = String(active.baseY + dy);
+            applyPose(active.el);
+        }
+
+        function onUp(e) {
+            if (!active) return;
+            var el = active.el;
+            var mode = el.getAttribute("data-drag");
+            el.classList.remove("is-dragging");
+            try { el.releasePointerCapture(active.pointerId); } catch (err) { /* ignore */ }
+
+            if (mode === "snap") {
+                el.classList.add("is-returning");
+                el.dataset.dragX = "0";
+                el.dataset.dragY = "0";
+                applyPose(el);
+                window.setTimeout(function () { el.classList.remove("is-returning"); }, 520);
+            } else {
+                el.dataset.pinned = "1";
+            }
+
+            if (!active.moved) {
+                var href = el.getAttribute("data-href");
+                if (href) window.open(href, "_blank", "noopener,noreferrer");
+            }
+
+            active = null;
+            window.removeEventListener("pointermove", onMove);
+            window.removeEventListener("pointerup", onUp);
+            window.removeEventListener("pointercancel", onUp);
+            request();
+        }
+
+        pieces.forEach(function (el) {
+            el.addEventListener("pointerdown", function (e) {
+                if (e.button !== 0) return;
+                e.preventDefault();
+                active = {
+                    el: el,
+                    pointerId: e.pointerId,
+                    startX: e.clientX,
+                    startY: e.clientY,
+                    baseX: +el.dataset.dragX || 0,
+                    baseY: +el.dataset.dragY || 0,
+                    moved: false
+                };
+                el.classList.add("is-dragging");
+                el.classList.remove("is-returning");
+                try { el.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+                window.addEventListener("pointermove", onMove);
+                window.addEventListener("pointerup", onUp);
+                window.addEventListener("pointercancel", onUp);
+            });
+            if (el.getAttribute("data-href")) {
+                el.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        window.open(el.getAttribute("data-href"), "_blank", "noopener,noreferrer");
+                    }
+                });
+            }
+        });
     }
 
     function initDesignStage(reduce) {
@@ -102,91 +194,17 @@
         stage.dataset.bound = "1";
 
         var scenes = Array.prototype.slice.call(stage.querySelectorAll(".pf-dg-scene"));
-        var sticky = stage.querySelector(".pf-design-sticky");
-        var head = stage.querySelector(".pf-dg-head");
-        var name = stage.querySelector("[data-pf-dg-name]");
         if (!scenes.length) return;
 
-        function clamp(v, a, b) {
-            if (a === undefined) a = 0;
-            if (b === undefined) b = 1;
-            return Math.max(a, Math.min(b, v));
-        }
-        function ease(t) { return 1 - Math.pow(1 - t, 3); }
-        function smooth(t) { return t * t * (3 - 2 * t); }
-
-        var palette = [[255, 255, 255], [255, 205, 20], [101, 77, 221], [72, 191, 131], [255, 78, 78]];
-        function mixRgb(a, b, t) {
-            return "rgb(" + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(",") + ")";
-        }
-
-        var last = -1;
-        function setLabel(i) {
-            if (i === last || !name) return;
-            last = i;
-            if (head) head.classList.add("is-changing");
-            setTimeout(function () {
-                name.textContent = scenes[i].dataset.label || "";
-                if (head) head.classList.remove("is-changing");
-            }, 90);
-        }
-
-        function setTypeColor(p) {
-            if (!sticky) return;
-            var seg = p * (palette.length - 1);
-            var i = Math.min(palette.length - 2, Math.floor(seg));
-            var t = seg - i;
-            var c = mixRgb(palette[i], palette[i + 1], t);
-            sticky.style.setProperty("--dg-type", c);
-            sticky.style.setProperty("--dg-caption", c);
-        }
-
-        function mobile() { return window.matchMedia("(max-width: 900px)").matches; }
-
-        var vectorsByScene = {
-            identity: [[-18, 14, -3], [-6, -15, 2], [10, 12, -2], [-14, 18, 2], [7, 14, -1], [18, -12, 3], [12, 8, 2], [-10, -8, -2]],
-            pop: [[-16, 12, -2], [5, -15, 2], [16, 11, 2], [-7, 18, -1], [8, 10, 1], [-12, 6, -2]],
-            packaging: [[-19, 7, -2], [0, -16, 1], [19, 9, 2], [-8, 14, 1], [10, -8, -1]],
-            giga: [[-18, -5, -2], [0, 18, 1], [18, -8, 2], [-6, 10, 1]]
-        };
-
-        var raf = 0;
-        function render() {
-            raf = 0;
-            if (reduce || mobile()) return;
-            var r = stage.getBoundingClientRect();
-            var span = Math.max(1, stage.offsetHeight - innerHeight);
-            var p = clamp(-r.top / span);
-            setTypeColor(p);
-            var raw = p * scenes.length;
-            var active = Math.min(scenes.length - 1, Math.floor(Math.min(raw, scenes.length - 0.0001)));
-            setLabel(active);
-            scenes.forEach(function (scene, i) {
-                var local = clamp(raw - i);
-                var enter = i === 0 ? 1 : smooth(clamp(local / 0.22));
-                var exit = scenes.length === 1 ? 0 : smooth(clamp((local - 0.78) / 0.22));
-                scene.style.opacity = String(clamp(enter * (1 - exit)));
-                scene.style.transform = "translate3d(" + ((1 - enter) * 2.5 - exit * 2.5) + "vw,0,0)";
-                scene.classList.toggle("is-current", i === active);
-                var key = scene.dataset.scene || "";
-                var vecs = vectorsByScene[key] || [];
-                Array.prototype.forEach.call(scene.querySelectorAll(".pf-dg-card"), function (card, j) {
-                    var t = i === 0 ? 1 : ease(clamp((local - (0.02 + j * 0.04)) / 0.18));
-                    var vectors = vecs[j] || [0, 0, 0];
-                    var depth = (j % 2 ? 1 : -1) * Math.sin((p * 4.2) + (j * 0.8)) * 1.2;
-                    card.style.opacity = String(clamp(t * (1 - exit * 0.85)));
-                    card.style.transform =
-                        "translate3d(" + ((1 - t) * vectors[0] + depth) + "px," +
-                        ((1 - t) * vectors[1]) + "px," + j + "px) rotate(" +
-                        ((1 - t) * vectors[2]) + "deg) scale(" + (0.94 + 0.06 * t) + ")";
-                });
+        scenes.forEach(function (scene) {
+            scene.style.opacity = "1";
+            scene.style.transform = "none";
+            scene.classList.add("is-current");
+            Array.prototype.forEach.call(scene.querySelectorAll(".pf-dg-card"), function (card) {
+                card.style.opacity = "1";
+                card.style.transform = "none";
             });
-        }
-
-        function req() { if (!raf) raf = requestAnimationFrame(render); }
-        addEventListener("scroll", req, { passive: true });
-        addEventListener("resize", req, { passive: true });
-        req();
+        });
 
         var lb = document.createElement("div");
         lb.className = "pf-lightbox";

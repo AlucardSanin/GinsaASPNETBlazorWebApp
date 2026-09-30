@@ -1004,8 +1004,8 @@ a {
 }
 
 .servicios__sticker--marketing {
-    top: 0%;
-    width: 92%;
+    top: 2%;
+    width: 76%;
     z-index: 4;
     transform: translateX(-50%) rotate(7deg);
     container-type: inline-size;
@@ -1048,8 +1048,8 @@ a {
 }
 
 .servicios__sticker--social {
-    top: 18%;
-    width: 100%;
+    top: 22%;
+    width: 84%;
     z-index: 4;
     transform: translateX(-50%) rotate(-9deg);
     overflow: visible;
@@ -1064,8 +1064,8 @@ a {
 }
 
 .servicios__sticker--diseno {
-    top: 46%;
-    width: 66%;
+    top: 50%;
+    width: 54%;
     z-index: 4;
     cursor: pointer;
 }
@@ -1276,7 +1276,7 @@ a {
     }
 
     .servicios__sticker--social {
-        width: 100%;
+        width: 88%;
     }
 }
 
@@ -2143,17 +2143,21 @@ a {
     width: 136%;
     height: 136%;
 }
-/* cohete */
-.numeros__item:nth-child(3) .numeros__icon-anim {
-    width: 140%;
-    height: 140%;
+/* sobre: el GIF trae un papel que tapaba la cara; se alinea al PNG */
+.numeros__item--mail .numeros__icon {
+    overflow: hidden;
 }
-/* sobre */
+.numeros__item--mail .numeros__icon-anim {
+    width: 104%;
+    height: 104%;
+    object-position: center 70%;
+}
+/* corazón */
 .numeros__item:nth-child(4) .numeros__icon-anim {
     width: 116%;
     height: 116%;
 }
-/* corazón */
+/* usuario */
 .numeros__item:nth-child(5) .numeros__icon-anim {
     width: 160%;
     height: 160%;

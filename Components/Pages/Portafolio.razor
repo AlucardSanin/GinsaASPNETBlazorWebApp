@@ -9,8 +9,13 @@
     var laptop = g.Marketing.ElementAtOrDefault(0);
     var tablet = g.Marketing.ElementAtOrDefault(1);
     var phone = g.Marketing.ElementAtOrDefault(2);
-    var hasEmbeds = g.Reels.Any(r => r.Kind is "instagram" or "tiktok");
-    var reelsLoop = !hasEmbeds && g.Reels.Count > 0 ? g.Reels.Concat(g.Reels).ToList() : g.Reels;
+    var reelBand = new List<ReelItem>();
+    if (g.Reels.Count > 0)
+    {
+        while (reelBand.Count < 6)
+            reelBand.AddRange(g.Reels);
+    }
+    var reelsLoop = reelBand.Count == 0 ? g.Reels : reelBand.Concat(reelBand).ToList();
 }
 
 <PageTitle>@t.Titulo | Arrieta Agency</PageTitle>
@@ -30,48 +35,49 @@
             <img class="pf-hero__logo" src="@Assets["images/logo-arrieta-agency.svg"]" alt="Arrieta Agency" />
 
             <h1 class="pf-word" aria-label="@t.Titulo">
-                <span class="pf-letter pf-letter--p" tabindex="0" data-depth=".18">
+                <span class="pf-letter pf-letter--p" tabindex="0" data-depth=".18" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/p.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--o1" tabindex="0" data-depth=".28">
+                <span class="pf-letter pf-letter--o1" tabindex="0" data-depth=".28" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/o1.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--r" tabindex="0" data-depth=".22">
+                <span class="pf-letter pf-letter--r" tabindex="0" data-depth=".22" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/r.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--t" tabindex="0" data-depth=".3">
+                <span class="pf-letter pf-letter--t" tabindex="0" data-depth=".3" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/t.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--a" tabindex="0" data-depth=".2">
+                <span class="pf-letter pf-letter--a" tabindex="0" data-depth=".2" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/a.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--f" tabindex="0" data-depth=".32">
+                <span class="pf-letter pf-letter--f" tabindex="0" data-depth=".32" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/f.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--o2" tabindex="0" data-depth=".14">
+                <span class="pf-letter pf-letter--o2" tabindex="0" data-depth=".14" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/o2.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--l" tabindex="0" data-depth=".26">
+                <span class="pf-letter pf-letter--l" tabindex="0" data-depth=".26" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/l.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--i" tabindex="0" data-depth=".18">
+                <span class="pf-letter pf-letter--i" tabindex="0" data-depth=".18" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/i.png"]" alt="" draggable="false" />
                 </span>
-                <span class="pf-letter pf-letter--o3" tabindex="0" data-depth=".34">
+                <span class="pf-letter pf-letter--o3" tabindex="0" data-depth=".34" data-drag="snap">
                     <img src="@Assets["images/portafolio-title/o3.png"]" alt="" draggable="false" />
                 </span>
             </h1>
 
-            <span class="pf-deco pf-deco--diseno" data-depth=".4">
+            <span class="pf-deco pf-deco--diseno" data-depth=".4" data-drag="stay">
                 <img src="@Assets["images/portafolio-title/diseno-grafico.png"]" alt="Diseño gráfico" draggable="false" />
             </span>
-            <span class="pf-deco pf-deco--marketing" data-depth=".24">
+            <span class="pf-deco pf-deco--marketing" data-depth=".24" data-drag="stay">
                 <img src="@Assets["images/portafolio-title/marketing.png"]" alt="Marketing" draggable="false" />
             </span>
-            <a class="pf-deco pf-deco--ig" href="@ig.InstagramUrl" target="_blank" rel="noopener noreferrer" data-depth=".3">
+            <span class="pf-deco pf-deco--ig" tabindex="0" role="link"
+                  data-href="@ig.InstagramUrl" data-depth=".3" data-drag="stay">
                 <img src="@Assets["images/portafolio-title/arrietagency.png"]" alt="@ig.Instagram" draggable="false" />
-            </a>
-            <div class="pf-deco pf-deco--social" data-depth=".22" aria-hidden="true">
+            </span>
+            <div class="pf-deco pf-deco--social" data-depth=".22" aria-hidden="true" data-drag="stay">
                 <img src="@Assets["images/portafolio-title/social.png"]" alt="" draggable="false" />
             </div>
 
@@ -141,7 +147,7 @@
         </div>
         @if (reelsLoop.Count > 0)
         {
-            <div class="pf-reel-window @(hasEmbeds ? "pf-reel-window--scroll" : null)">
+            <div class="pf-reel-window">
                 <div class="pf-reel-track">
                     @foreach (var item in reelsLoop)
                     {

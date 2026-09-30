@@ -162,19 +162,19 @@ body:has(.pf) {
 }
 
 .pf .pf-sticker--marketing {
-    width: min(420px, 92%);
+    width: min(320px, 78%);
     transform: rotate(-1.5deg);
     margin-bottom: 8px;
 }
 
 .pf .pf-sticker--social {
-    width: min(430px, 96%);
+    width: min(330px, 80%);
     transform: rotate(-6deg);
     margin: 0 0 8px -12px;
 }
 
 .pf .pf-sticker--diseno {
-    width: min(240px, 58%);
+    width: min(200px, 48%);
 }
 
 .pf-hero {
@@ -216,9 +216,9 @@ body:has(.pf) {
 
 .pf-word {
     position: relative;
-    width: min(1080px, 80vw);
-    aspect-ratio: 1.32 / 1;
-    margin: 40px auto 0;
+    width: min(820px, 66vw);
+    aspect-ratio: 1.2 / 1;
+    margin: 28px auto 0;
     z-index: 4;
 }
 
@@ -226,10 +226,27 @@ body:has(.pf) {
     position: absolute;
     display: block;
     margin: 0;
-    cursor: pointer;
+    cursor: grab;
     user-select: none;
+    touch-action: none;
     -webkit-tap-highlight-color: transparent;
     animation: pfLetterIn .7s cubic-bezier(.34, 1.45, .64, 1) both;
+}
+
+.pf-letter.is-dragging,
+.pf-deco.is-dragging {
+    cursor: grabbing;
+    z-index: 40;
+}
+
+.pf-letter.is-returning {
+    transition: translate .5s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.pf-letter.is-dragging img,
+.pf-deco.is-dragging img {
+    transform: none;
+    filter: drop-shadow(0 22px 28px rgba(5, 5, 47, .38));
 }
 
 .pf-letter img {
@@ -259,20 +276,20 @@ body:has(.pf) {
     filter: drop-shadow(0 18px 26px rgba(5, 5, 47, .34));
 }
 
-.pf-letter--p  { --spin: -8deg;  left: 0;    top: 1%;  width: 27%; z-index: 3; animation-delay: .04s; }
-.pf-letter--o1 { --spin: 10deg;  left: 17%;  top: -1%; width: 28%; z-index: 4; animation-delay: .1s; }
-.pf-letter--r  { --spin: -6deg;  left: 36%;  top: 3%;  width: 31%; z-index: 5; animation-delay: .16s; }
-.pf-letter--t  { --spin: 7deg;   left: 60%;  top: 0;   width: 25%; z-index: 6; animation-delay: .22s; }
-.pf-letter--a  { --spin: -9deg;  left: 2%;   top: 44%; width: 18%; z-index: 3; animation-delay: .12s; }
-.pf-letter--f  { --spin: 8deg;   left: 14%;  top: 38%; width: 22%; z-index: 5; animation-delay: .18s; }
-.pf-letter--o2 { --spin: -12deg; left: 29%;  top: 42%; width: 25%; z-index: 1; animation-delay: .14s; }
-.pf-letter--l  { --spin: 6deg;   left: 46%;  top: 39%; width: 17%; z-index: 4; animation-delay: .2s; }
-.pf-letter--i  { --spin: -7deg;  left: 58%;  top: 37%; width: 11%; z-index: 3; animation-delay: .24s; }
+.pf-letter--p  { --spin: -8deg;  left: 4%;   top: 4%;  width: 26%; z-index: 3; animation-delay: .04s; }
+.pf-letter--o1 { --spin: 10deg;  left: 20%;  top: 2%;  width: 26%; z-index: 4; animation-delay: .1s; }
+.pf-letter--r  { --spin: -6deg;  left: 38%;  top: 5%;  width: 28%; z-index: 5; animation-delay: .16s; }
+.pf-letter--t  { --spin: 7deg;   left: 58%;  top: 3%;  width: 23%; z-index: 6; animation-delay: .22s; }
+.pf-letter--a  { --spin: -9deg;  left: 6%;   top: 44%; width: 17%; z-index: 3; animation-delay: .12s; }
+.pf-letter--f  { --spin: 8deg;   left: 18%;  top: 39%; width: 20%; z-index: 5; animation-delay: .18s; }
+.pf-letter--o2 { --spin: -12deg; left: 32%;  top: 42%; width: 23%; z-index: 1; animation-delay: .14s; }
+.pf-letter--l  { --spin: 6deg;   left: 48%;  top: 40%; width: 16%; z-index: 4; animation-delay: .2s; }
+.pf-letter--i  { --spin: -7deg;  left: 58%;  top: 38%; width: 10%; z-index: 3; animation-delay: .24s; }
 .pf-letter--o3 {
     --spin: 14deg;
-    left: 63%;
-    top: 30%;
-    width: 27%;
+    left: 62%;
+    top: 32%;
+    width: 25%;
     z-index: 7;
     animation-delay: .3s;
 }
@@ -284,12 +301,14 @@ body:has(.pf) {
 
 .pf-deco {
     position: absolute;
-    z-index: 7;
+    z-index: 12;
     display: block;
     margin: 0;
     line-height: 0;
-    cursor: pointer;
+    cursor: grab;
     user-select: none;
+    touch-action: none;
+    -webkit-user-drag: none;
     animation: pfLetterIn .75s .45s both cubic-bezier(.34, 1.45, .64, 1);
 }
 
@@ -316,30 +335,30 @@ body:has(.pf) {
 
 .pf-deco--diseno {
     --spin: 6deg;
-    top: 10%;
-    right: 4%;
-    width: min(168px, 16vw);
+    top: 12%;
+    right: 6%;
+    width: min(118px, 12vw);
 }
 
 .pf-deco--marketing {
     --spin: -6deg;
-    left: 36%;
-    bottom: 14%;
-    width: min(320px, 34vw);
+    left: 38%;
+    bottom: 16%;
+    width: min(210px, 22vw);
 }
 
 .pf-deco--ig {
     --spin: 8deg;
-    right: 7%;
-    bottom: 13%;
-    width: min(280px, 30vw);
+    right: 8%;
+    bottom: 15%;
+    width: min(190px, 20vw);
 }
 
 .pf-deco--social {
     --spin: -8deg;
-    left: 3.5%;
-    bottom: 9%;
-    width: min(176px, 22vw);
+    left: 5%;
+    bottom: 11%;
+    width: min(120px, 15vw);
 }
 
 .pf-hero__scroll {
@@ -440,6 +459,8 @@ body:has(.pf) {
     margin-left: calc(50% - 50vw);
     overflow: hidden;
     padding: 18px 0 52px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
 .pf-reel-track {
@@ -482,24 +503,6 @@ body:has(.pf) {
     height: 100%;
     border: 0;
     border-radius: 28px;
-}
-
-.pf-reel-window--scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
-}
-
-.pf-reel-window--scroll .pf-reel-track {
-    animation: none;
-    padding-inline: max(20px, 6vw);
-}
-
-.pf-reel-window--scroll .pf-reel {
-    scroll-snap-align: center;
-    flex: 0 0 auto;
 }
 
 .pf-reel-window:hover .pf-reel-track {
@@ -566,26 +569,21 @@ body:has(.pf) {
 }
 
 .pf-design-stage {
-    height: calc(var(--dg-scenes, 1) * 165vh);
-    min-height: 140vh;
+    height: auto;
+    min-height: 0;
     position: relative;
 }
 .pf-design-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    min-height: 620px;
-    overflow: hidden;
+    position: relative;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
     isolation: isolate;
+    padding: 8px 0 96px;
 }
 
 .pf-dg-head {
-    position: absolute;
-    left: clamp(24px, 7vw, 120px);
-    top: clamp(72px, 11vh, 120px);
-    z-index: 50;
-    pointer-events: none;
-    width: min(70vw, 760px);
+    display: none;
 }
 
 .pf-dg-kicker {
@@ -612,36 +610,60 @@ body:has(.pf) {
     transform: translateY(-10px);
 }
 
-.pf-dg-scene {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    opacity: 0;
-    pointer-events: none;
+.pf-dg-scenes {
+    display: grid;
+    gap: 80px;
+    width: min(1320px, 88vw);
+    margin: 0 auto;
 }
 
-.pf-dg-scene:first-child {
+.pf-dg-scene {
+    position: relative;
+    inset: auto;
+    z-index: 5;
     opacity: 1;
     pointer-events: auto;
 }
 
+.pf-dg-scene::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-Caps);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: .95;
+    margin: 0 0 22px;
+}
+
 .pf-dg-scene.is-current { pointer-events: auto; }
 
-.pf-dg-collage { position: absolute; inset: 0; perspective: 1400px; }
+.pf-dg-collage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
 
 .pf-dg-card {
-    position: absolute;
+    position: relative;
     margin: 0;
+    aspect-ratio: 1 / 1;
     border-radius: clamp(18px, 2vw, 30px);
     overflow: hidden;
-    background: rgba(255, 255, 255, .045);
+    background: #fff;
     border: 1px solid rgba(255, 255, 255, .14);
     box-shadow: 0 18px 50px rgba(14, 16, 48, .08);
     cursor: zoom-in;
     z-index: 8;
 }
 
-.pf-dg-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.pf-dg-card img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    padding: 22px;
+    background: #fff;
+}
 
 .pf-dg-card figcaption {
     position: absolute;
@@ -667,38 +689,10 @@ body:has(.pf) {
 
 .pf-dg-card:focus-visible { outline: 3px solid #ffd012; outline-offset: 4px; }
 
-.pf-dg-scene[data-scene="identity"] .pf-dg-card { width: clamp(150px, 17vw, 260px); aspect-ratio: 1 / 1; }
-.pf-dg-scene[data-scene="identity"] .c1 { left: 8%; top: 29%; }
-.pf-dg-scene[data-scene="identity"] .c2 { left: 31%; top: 20%; }
-.pf-dg-scene[data-scene="identity"] .c3 { left: 55%; top: 30%; }
-.pf-dg-scene[data-scene="identity"] .c4 { left: 17%; top: 59%; }
-.pf-dg-scene[data-scene="identity"] .c5 { left: 43%; top: 56%; }
-.pf-dg-scene[data-scene="identity"] .c6 { left: 68%; top: 57%; }
-.pf-dg-scene[data-scene="identity"] .c7 { left: 78%; top: 28%; }
-.pf-dg-scene[data-scene="identity"] .c8 { left: 4%; top: 48%; }
-
-.pf-dg-scene[data-scene="pop"] .pf-dg-card { width: clamp(180px, 20vw, 300px); aspect-ratio: 4 / 5; }
-.pf-dg-scene[data-scene="pop"] .c1 { left: 8%; top: 34%; }
-.pf-dg-scene[data-scene="pop"] .c2 { left: 31%; top: 23%; }
-.pf-dg-scene[data-scene="pop"] .c3 { left: 55%; top: 36%; }
-.pf-dg-scene[data-scene="pop"] .c4 { left: 72%; top: 26%; }
-.pf-dg-scene[data-scene="pop"] .c5 { left: 42%; top: 58%; }
-.pf-dg-scene[data-scene="pop"] .c6 { left: 18%; top: 62%; }
-
-.pf-dg-scene[data-scene="packaging"] .pf-dg-card { width: clamp(190px, 20vw, 300px); aspect-ratio: 4 / 5; }
-.pf-dg-scene[data-scene="packaging"] .c1 { left: 12%; top: 34%; }
-.pf-dg-scene[data-scene="packaging"] .c2 { left: 39%; top: 21%; }
-.pf-dg-scene[data-scene="packaging"] .c3 { left: 67%; top: 35%; }
-.pf-dg-scene[data-scene="packaging"] .c4 { left: 26%; top: 58%; }
-.pf-dg-scene[data-scene="packaging"] .c5 { left: 54%; top: 60%; }
-
-.pf-dg-scene[data-scene="giga"] .pf-dg-card { width: clamp(180px, 19vw, 280px); aspect-ratio: 9 / 16; }
-.pf-dg-scene[data-scene="giga"] .c1 { left: 13%; top: 27%; }
-.pf-dg-scene[data-scene="giga"] .c2 { left: 40%; top: 17%; }
-.pf-dg-scene[data-scene="giga"] .c3 { left: 67%; top: 30%; }
-.pf-dg-scene[data-scene="giga"] .c4 { left: 26%; top: 48%; }
+.pf-dg-scene[data-scene="giga"] .pf-dg-card { aspect-ratio: 9 / 16; }
 
 .pf-dg-decor {
+    display: none;
     position: absolute;
     width: clamp(145px, 15vw, 245px);
     opacity: .7;
@@ -767,10 +761,10 @@ body:has(.pf) {
 @media (max-width: 900px) {
     .pf-hero__logo { top: 16px; width: min(148px, 46vw); }
     .pf-word { width: min(92vw, 560px); margin-top: 72px; }
-    .pf-deco--diseno { top: 8%; right: 2%; width: min(120px, 18vw); }
-    .pf-deco--marketing { left: 30%; bottom: 12%; width: min(240px, 42vw); }
-    .pf-deco--ig { right: 4%; bottom: 11%; width: min(200px, 36vw); }
-    .pf-deco--social { left: 2%; bottom: 8%; width: min(118px, 28vw); }
+    .pf-deco--diseno { top: 8%; right: 2%; width: min(92px, 16vw); }
+    .pf-deco--marketing { left: 32%; bottom: 12%; width: min(160px, 28vw); }
+    .pf-deco--ig { right: 4%; bottom: 11%; width: min(150px, 26vw); }
+    .pf-deco--social { left: 2%; bottom: 8%; width: min(96px, 22vw); }
     .pf-marketing__grid,
     .pf-social__layout,
     .pf-design__intro,

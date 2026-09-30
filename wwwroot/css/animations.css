@@ -152,38 +152,27 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 10px); }
     transform: scale(1.85);
 }
 
-/* Social Media: letras encogen; bird A sale ↑→ y B entra a su sitio (y al revés al salir) */
+/* Social Media: el rayo gira y late; el arco se queda legible */
 .servicios__curve--social {
     transition: transform .4s var(--ease-back);
     transform-origin: 50% 42%;
 }
 .servicios__icon--bird {
-    transition:
-        transform .55s var(--ease-back),
-        opacity .4s ease;
+    transition: transform .5s var(--ease-back);
 }
-/* A en la plaza; B esperando fuera, en la diagonal opuesta (abajo-izquierda) */
 .servicios__icon--bird-a {
     transform: translateX(-50%);
-    opacity: 1;
 }
 .servicios__icon--bird-b {
-    transform: translateX(-50%) translate(-120%, 95%);
-    opacity: 0;
+    display: none;
 }
 .servicios__sticker--social:hover .servicios__curve--social,
 .servicios__sticker--social:focus-within .servicios__curve--social {
-    transform: scale(.86);
+    transform: scale(1.04);
 }
 .servicios__sticker--social:hover .servicios__icon--bird-a,
 .servicios__sticker--social:focus-within .servicios__icon--bird-a {
-    transform: translateX(-50%) translate(120%, -95%);
-    opacity: 0;
-}
-.servicios__sticker--social:hover .servicios__icon--bird-b,
-.servicios__sticker--social:focus-within .servicios__icon--bird-b {
-    transform: translateX(-50%);
-    opacity: 1;
+    transform: translateX(-50%) scale(1.16) rotate(-22deg);
 }
 
 /* Diseño Gráfico: swirl antihorario, fondo rojo horario (misma magnitud → imagen 2) */
